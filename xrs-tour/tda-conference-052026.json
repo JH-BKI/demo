@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.1",
   "webxr": {    
     "vrEnabled": false,
     "arEnabled": false
@@ -8,7 +8,7 @@
     "loadingpathXR": "",
     "backgroundColor": [0.1, 0.1, 0.15],
     "title": "TDA Conference May 2026",
-    "description": "<div class='card w-full shadow-sm'><div class='card-body p-4'><div class='description-content'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><h3>Intructions:</h3><p>Identify all <strong><u>four (4) breaches</u></strong> of privacy.</p><p>You have <strong><u>forty five (45) seconds</u></strong> to complete this activity.</p></div></div></div>",
+    "description": "<div class='card w-full shadow-sm'><div class='card-body p-4'><div class='description-content'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><h3>Instructions:</h3><p>Identify all <strong><u>four (4) breaches</u></strong> of privacy.</p><p>You have <strong><u>forty five (45) seconds</u></strong> to complete this activity.</p></div></div></div>",
     "tracking": {
       "startTimeStamp": null,
       "completedSessions": []      
@@ -18,6 +18,24 @@
     "showSplash": true,
     "showOnboarding": false,
     "ui": {
+      "hotspotLabel2D": {
+        "frameBorderHex": "#00c850e6",
+        "frameBackgroundHex": "#00c850b3",
+        "textColorHex": "#111"
+      },
+      "persistSelectedGlowOutline": {
+        "colorAHex": "#00FFB0",
+        "colorBHex": "#00FFB0",
+        "blurHMin": 1,
+        "blurHMax": 3,
+        "blurVMin": 1,
+        "blurVMax": 3,
+        "pulseEnabled": true,
+        "pulsePeriodSec": 5,
+        "intensity": 1,
+        "materialAlpha": 0.1
+      },
+      "persistSelectedGlowPulseEnabled": false,
       "hud": {
         "leaveSessionButton": false,
         "helpGuideButton": false,
@@ -45,6 +63,7 @@
         "alpha": 0.65,
         "beta": 1.3,
         "radius": 0.0001,
+        "fov": 1.31,
         "target": [0, 0, 0],
         "lowerRadiusLimit": 0,
         "upperRadiusLimit": 0,
@@ -61,6 +80,13 @@
           "visuals": {
             "visualsEnabled": true,
             "persistSelected": true,
+            "persistSelectedGlowOutline": {
+              "pulseEnabled": true,
+              "blurHMin": 0.5,
+              "blurHMax": 2,
+              "blurVMin": 0.5,
+              "blurVMax": 2      
+            },
             "baseColor": [0,0,0],
             "overlayColor": [0, 0,0, 0],
             "outlineColor": [59, 129, 25, 1],
@@ -71,7 +97,7 @@
           },          
           "label": {
             "text":"Private and confidential document on display",
-            "position":"right",
+            "position":"top-right",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -96,6 +122,13 @@
           "visuals": {
             "visualsEnabled": true,
             "persistSelected": true,
+            "persistSelectedGlowOutline": {
+              "pulseEnabled": true,
+              "blurHMin": 0.5,
+              "blurHMax": 2,
+              "blurVMin": 0.5,
+              "blurVMax": 2      
+            },           
             "baseColor": [0,0,0],
             "overlayColor": [0, 0,0, 0],
             "outlineColor": [25, 129, 59, 1],
@@ -106,7 +139,7 @@
           }, 
           "label": {
             "text":"Client contact and financial information on display",
-            "position":"right",
+            "position":"bottom-right",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -141,7 +174,7 @@
           }, 
           "label": {
             "text":"Filing cabinet open and unlocked",
-            "position":"left",
+            "position":"top-left",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -176,7 +209,7 @@
           }, 
           "label": {
             "text":"Secure area left open with key visible",
-            "position":"left",
+            "position":"top-left",
             "showLabel": true,
             "labelVisibility": "selection"
           },
