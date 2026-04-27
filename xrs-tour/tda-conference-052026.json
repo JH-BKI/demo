@@ -71,7 +71,8 @@
         "upperAlphaLimit": 3.9,
         "lowerBetaLimit": 0.8,
         "upperBetaLimit": 1.8,        
-        "allowPanning": false
+        "allowPanning": false,
+        "invertTouchDrag": true
       },
       "hotspots": [          
         {
