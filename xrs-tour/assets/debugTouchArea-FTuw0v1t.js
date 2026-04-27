@@ -1,4 +1,4 @@
-import{d as p,E as v}from"./index-Be-P8-_8.js";let o=null,i=0,r=0,u=0,c=0,h=!1,t=null;const g=2e3,a=5;let m=null,f=!1;function j(){if(h){console.warn("[debugTouchArea.js]: [N/A] - [initDebugTouchArea] - Debug touch area already initialized.");return}o=document.createElement("div"),o.id="debugTouchArea",o.style.cssText=`
+import{d as p,E as v}from"./index-DVOWHGGo.js";let o=null,i=0,r=0,u=0,c=0,h=!1,t=null;const g=2e3,a=5;let m=null,f=!1;function j(){if(h){console.warn("[debugTouchArea.js]: [N/A] - [initDebugTouchArea] - Debug touch area already initialized.");return}o=document.createElement("div"),o.id="debugTouchArea",o.style.cssText=`
         position: fixed;
         top: 0;
         left: 0;

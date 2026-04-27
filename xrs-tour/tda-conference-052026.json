@@ -1,5 +1,5 @@
 {
-  "version": "0.3.2704",
+  "version": "0.5.2704",
   "webxr": {    
     "vrEnabled": false,
     "arEnabled": false
@@ -8,7 +8,7 @@
     "loadingpathXR": "",
     "backgroundColor": [0.1, 0.1, 0.15],
     "title": "TDA Conference May 2026",
-    "description": "<div class='card w-full shadow-sm'><div class='card-body p-4'><div class='description-content'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><h3>Instructions:</h3><p>Identify all <strong><u>four (4) breaches</u></strong> of privacy.</p><p>You have <strong><u>forty five (45) seconds</u></strong> to complete this activity.</p></div></div></div>",
+    "description": "<div class='card w-full shadow-sm'><div class='card-body p-4'><div class='description-content text-center'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><h3>Step 1: – Identify the Breaches<BR>(45 seconds)</h3><p>Your task: <strong><u>Spot all 4 breaches</u></strong></p><p>Consider the <strong><u>immediate risks</u></strong>,<BR>What needs to be <strong><u>secured</u></strong>, <strong><u>Who you would notify</u></strong>, and <strong><u>What you would document</u></strong>.</p></div></div></div>",
     "tracking": {
       "startTimeStamp": null,
       "completedSessions": []      
