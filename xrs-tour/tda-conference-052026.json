@@ -1,5 +1,5 @@
 {
-  "version": "0.5.2704",
+  "version": "0.6.0105",
   "webxr": {    
     "vrEnabled": false,
     "arEnabled": false
@@ -8,7 +8,7 @@
     "loadingpathXR": "",
     "backgroundColor": [0.1, 0.1, 0.15],
     "title": "TDA Conference May 2026",
-    "description": "<div class='card w-full shadow-sm'><div class='card-body p-4'><div class='description-content text-center'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><h3>Step 1: – Identify the Breaches<BR>(45 seconds)</h3><p>Your task: <strong><u>Spot all 4 breaches</u></strong></p><p>Consider the <strong><u>immediate risks</u></strong>,<BR>What needs to be <strong><u>secured</u></strong>, <strong><u>Who you would notify</u></strong>, and <strong><u>What you would document</u></strong>.</p></div></div></div>",
+    "description": "<div class='text-center'><p>This Immersive Learning activity utilises an interactive 360&deg; image capture of a workplace.</p><br><h2>Step 1: – Identify the Breaches<BR>(45 seconds)</h2><h4>Your task: <strong>Spot all 4 breaches</strong>.</h4><p>Consider the <strong>immediate risks</strong>,<BR>What needs to be <strong>secured</strong>, <strong>Who you would notify</strong>, and <strong>What you would document</strong>.</p></div>",
     "tracking": {
       "startTimeStamp": null,
       "completedSessions": []      
@@ -67,10 +67,10 @@
         "target": [0, 0, 0],
         "lowerRadiusLimit": 0,
         "upperRadiusLimit": 0,
-        "lowerAlphaLimit": 0.1,
-        "upperAlphaLimit": 3.9,
-        "lowerBetaLimit": 0.8,
-        "upperBetaLimit": 1.8,        
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.75,
+        "upperBetaLimit": 1.95,        
         "allowPanning": false,
         "invertTouchDrag": true
       },
@@ -98,7 +98,7 @@
           },          
           "label": {
             "text":"Private and confidential document on display",
-            "position":"top-right",
+            "position":"top-center",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -140,7 +140,7 @@
           }, 
           "label": {
             "text":"Client contact and financial information on display",
-            "position":"bottom-right",
+            "position":"center-center",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -175,7 +175,7 @@
           }, 
           "label": {
             "text":"Filing cabinet open and unlocked",
-            "position":"top-left",
+            "position":"top-center",
             "showLabel": true,
             "labelVisibility": "selection"
           },
@@ -210,7 +210,7 @@
           }, 
           "label": {
             "text":"Secure area left open with key visible",
-            "position":"top-left",
+            "position":"top-center",
             "showLabel": true,
             "labelVisibility": "selection"
           },
