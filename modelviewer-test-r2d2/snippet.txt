@@ -1,0 +1,18 @@
+<model-viewer src="r2d2.glb" ar ar-modes="scene-viewer webxr quick-look" camera-controls tone-mapping="aces" poster="poster.webp" shadow-intensity="0" exposure="1" shadow-softness="1" auto-rotate environment-image="spruit_sunrise_1k_HDR.hdr" skybox-image="spruit_sunrise_1k_HDR.hdr">
+    <button class="Hotspot" slot="hotspot-1" data-position="9.452339991388525m 0.645141370388681m -35.3611640777438m" data-normal="0.7644755989439981m 0.2337253855113622m 0.600790731275692m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Beep boop</div>
+    </button><button class="Hotspot" slot="hotspot-2" data-position="9.07576942368334m 1.1509650098146085m -35.496926296640005m" data-normal="-0.2958692271140066m 0.9545568694511493m 0.035813173980841016m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Lightsaber launcher</div>
+    </button><button class="Hotspot" slot="hotspot-4" data-position="9.019143533071993m 0.1329715891369616m -35.90082513283665m" data-normal="2.2204460492503126e-16m -2.220446049250312e-16m -1m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Jet thrusters</div>
+    </button>
+    <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+        View in your space
+    </button>
+    <div id="ar-prompt">
+        <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+    </div>
+</model-viewer>
