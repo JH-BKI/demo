@@ -1,0 +1,982 @@
+{
+  "version": "0.6.2705",
+  "webxr": {    
+    "vrEnabled": false,
+    "arEnabled": false
+  },
+  "general": {
+    "loadingpathXR": "",
+    "backgroundColor": [0.1, 0.1, 0.15],
+    "title": "EV Installation",
+    "description": "<div class='text-center'><p>EV Installation</p></div>",
+    "tracking": {
+      "startTimeStamp": null,
+      "completedSessions": []      
+    },
+    "hotspotTerminology": "hotspot",
+    "attribution": null,
+    "showSplash": false,
+    "showOnboarding": false,
+    "ui": {
+      "hotspotLabel2D": {
+        "frameBorderHex": "#cbd5e180",
+        "frameBackgroundHex": "#ffffffe6",
+        "textColorHex": "#1e293b"
+      },
+      "persistSelectedGlowOutline": {
+        "colorAHex": "#00FFB0",
+        "colorBHex": "#00FFB0",
+        "blurHMin": 1,
+        "blurHMax": 3,
+        "blurVMin": 1,
+        "blurVMax": 3,
+        "pulseEnabled": true,
+        "pulsePeriodSec": 5,
+        "intensity": 1,
+        "materialAlpha": 0.1
+      },
+      "persistSelectedGlowPulseEnabled": false,
+      "hud": {
+        "leaveSessionButton": false,
+        "helpGuideButton": false,
+        "fullscreenToggle": true,
+        "vrToggle": false,
+        "progressDrawer": false,
+        "resetViewButton": true,
+        "footerAlign": "right"
+      }
+    }
+  },
+  "initialScene": "scene-02",
+  "scenes": [
+    {
+      "scene": {
+        "id": "scene-01",
+        "type": "360",
+        "image": "./assets/experiences/ev-installation/scene01/360/ev-installation-scene-01.jpg",
+        "preview": "",
+        "title": "EV Installation",
+        "description": "EV Installation.",
+        "customScript": "",
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -2.8848,
+        "beta": 1.5596,
+        "radius": 0.0001,
+        "fov": 1.3,
+        "target": [0, 0, 0],
+        "lowerRadiusLimit": 0,
+        "upperRadiusLimit": 0,
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.75,
+        "upperBetaLimit": 1.95,        
+        "allowPanning": true,
+        "invertTouchDrag": true
+      },
+      "hotspots": [
+        {
+          "id": "hotspot-01-01_100mm-bolt",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "100mm Bolt",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "100mm Bolt",
+          "description": "100mm Bolt",
+          "position": [-10, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/100mm-bolt.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-02_100mm-hole",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "100mm Hole",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "100mm Hole",
+          "description": "100mm Hole",
+          "position": [-8, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/100mm-hole.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-03_concrete-pad-bottom",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [0, 0, 0, 0],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Concrete Pad Bottom",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "never"
+          },
+          "title": "Concrete Pad Bottom",
+          "description": "Concrete Pad Bottom",
+          "position": [-6, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/concrete-pad-bottom.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-04_concrete-pad-top",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": false,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Concrete Pad Top",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Concrete Pad Top",
+          "description": "Concrete Pad Top",
+          "position": [-4, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/concrete-pad-top.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-05_dc-charger",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Dc Charger",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Dc Charger",
+          "description": "Dc Charger",
+          "position": [-2, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/dc-charger.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-06_drill-map-8-holes",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Drill Map 8 Holes",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Drill Map 8 Holes",
+          "description": "Drill Map 8 Holes",
+          "position": [0, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/drill-map-8-holes.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-07_ground-curb-multiple",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Ground Curb Multiple",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Ground Curb Multiple",
+          "description": "Ground Curb Multiple",
+          "position": [2, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/ground-curb-multiple.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-08_top-ground-insert",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Top Ground Insert",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Top Ground Insert",
+          "description": "Top Ground Insert",
+          "position": [4, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/top-ground-insert.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-09_top-ground-outset",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Top Ground Outset",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Top Ground Outset",
+          "description": "Top Ground Outset",
+          "position": [6, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/top-ground-outset.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-10_underground-crossection",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Underground Crossection",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Underground Crossection",
+          "description": "Underground Crossection",
+          "position": [8, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/underground-crossection.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-11_wires-pole",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": false,
+            "persistSelected": true,
+            "baseColor": [0, 0, 0],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Wires Pole",
+            "position": "top-center",
+            "showLabel": false,
+            "labelVisibility": "selection"
+          },
+          "title": "Wires Pole",
+          "description": "Wires Pole",
+          "position": [10, 0, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [0.1, 0.1, 0.1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/experiences/ev-installation/shared/3D/wires-pole.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          }
+        },
+        {
+          "id": "hotspot-01-nav-scene-02",
+          "type": "navigation",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [1, 0.5373, 0.157],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [0, 0, 0, 0],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 0,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "3D Model Viewer",
+            "position": "top-center",
+            "showLabel": true,
+            "labelVisibility": "always"
+          },
+          "title": "3D Model Viewer",
+          "description": "Open the 3D model viewer scene.",
+          "position": [0, 0.5, 2],
+          "rotation": [0, 0, 0],
+          "alphaValue": 1,
+          "size": [1, 1, 1],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-arrow.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "customProperties": {
+            "targetScene": "scene-02"
+          }
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "scene-02",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
+        "preview": "",
+        "title": "EV Installation — 3D Viewer",
+        "description": "3D model viewer with orbit camera.",
+        "customScript": "ev-installation-3d-viewer",
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -0.2518,
+        "beta": 1.2664,
+        "radius": 3.0563,
+        "fov": 0.9,
+        "target": [-0.13, 0.82, 0.05],
+        "lowerRadiusLimit": 0.5,
+        "upperRadiusLimit": 20,
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.1,
+        "upperBetaLimit": 1.55,
+        "allowPanning": true,
+        "defaultFocusRadius": 2.5,
+        "lerpDurationMs": 1000
+      },
+      "models": [
+        {
+          "id": "dc-charger",
+          "path": "./assets/experiences/ev-installation/shared/3D/DC-Charger-V3_Side-Doors-Openable.glb",
+          "position": [0, -0.1, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hotspot-02-01_dc-charger",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Charger status indicator",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "Charger status indicator",
+          "description": "Charger status indicator shows the status of both the A' and 'B' side charging ports.",
+          "position": [0.307, 1.531, 0.207], 
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.41, 1.52, -0.28],
+            "alpha": -0.8586,
+            "beta": 1.3913,
+            "radius": 0.5301,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-02_placeholder",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Charging Cable",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "Charging Cable",
+          "description": "The Charging connector holder and charging cable. The compatible plug used is 'CCS2'.",
+          "position": [0.24, 0.51, 0.57],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.13, 0.48, 0.29],
+            "alpha": 0.3922,
+            "beta": 1.3970,
+            "radius": 1.0168,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-03_placeholder",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "RFID Chip",
+            "position": "middle-right",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "LCD Panel & RFID Chip",
+          "description": "The LCD touch panel, customer usage instructions and the place to tap your RFID card to enable charging.",
+          "position": [0.350, 1.170, 0.195],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.3, 1.16, 0.07],
+            "alpha": -0.4676,
+            "beta": 1.3845,
+            "radius": 0.3392,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-02-04_placeholder",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Door lock",
+            "position": "middle-left",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "Door lock",
+          "description": "The door lock is used to secure the charger when not in use. It is also used to prevent unauthorized access to the charger.",
+          "position": [-0.028, 0.879, -0.506],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.39, 0.47, 0.03],
+            "alpha": -0.7669,
+            "beta": 1.0399,
+            "radius": 1.2892,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "scene-03",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
+        "preview": "",
+        "title": "EV Installation — 3D Viewer",
+        "description": "3D model viewer with orbit camera.",
+        "customScript": "ev-installation-3d-viewer",
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -0.2518,
+        "beta": 1.2664,
+        "radius": 3.0563,
+        "fov": 0.9,
+        "target": [-0.13, 0.82, 0.05],
+        "lowerRadiusLimit": 0.5,
+        "upperRadiusLimit": 20,
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.1,
+        "upperBetaLimit": 1.55,
+        "allowPanning": true,
+        "defaultFocusRadius": 2.5,
+        "lerpDurationMs": 1000
+      },
+      "models": [
+        {
+          "id": "dc-charger",
+          "path": "./assets/experiences/ev-installation/shared/3D/AC-Charger-V3.glb",
+          "position": [0, -0.1, 0],
+          "rotation": [0, 90, 0],
+          "scale": [1, 1, 1]
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hotspot-03-01_display-controls",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Display & Controls",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "Display & Controls",
+          "description": "The LCD screen shows charging status and session information. LED indicators, the RFID reader, and touch buttons let users authenticate and navigate charger menus.",
+          "position": [0.030, 1.248, -0.250],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.22, 1.06, 0.01],
+            "alpha": -0.2520,
+            "beta": 1.2663,
+            "radius": 0.8051,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-02_radar-sensor",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Radar Sensor",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "Radar Sensor",
+          "description": "The radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
+          "position": [0.201, 1.275, 0.130],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.09, 1.23, 0.03],
+            "alpha": 0.1742,
+            "beta": 1.1135,
+            "radius": 0.7301,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-03_power-connector",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Power Connector",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "Power Connector",
+          "description": "The power connector is where utility or site wiring connects to supply the charger. This is the main electrical feed for AC charging.",
+          "position": [0.006, 0.939, -0.218],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.09, 0.98, -0.33],
+            "alpha": -0.9937,
+            "beta": 1.3344,
+            "radius": 0.3000,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        },
+        {
+          "id": "hotspot-03-04_vehicle-connector",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Vehicle Connector",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "Vehicle Connector",
+          "description": "The vehicle connector is the plug that connects to the EV inlet. On this unit it docks in the holster when not in use.",
+          "position": [0.215, 0.216, -0.322],
+          "alphaValue": 1,
+          "size": [0.12, 0.12, 0.12],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [0.08, 0.36, -0.15],
+            "alpha": -0.8074,
+            "beta": 1.2790,
+            "radius": 0.5850,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          }
+        }
+      ]
+    }
+  ]
+}
+
