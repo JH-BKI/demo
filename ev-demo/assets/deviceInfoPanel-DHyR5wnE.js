@@ -1,4 +1,4 @@
-import{E,h as p,g as w,a as y,b as L,c as h}from"./index-eaMdFM3I.js";let u=!1,D=!1,x=null;function C(n){const t=b=>b??"N/A";let e=`Device Information
+import{E,h as p,g as w,a as y,b as L,c as h}from"./index-CR-CzXJN.js";let u=!1,D=!1,x=null;function C(n){const t=b=>b??"N/A";let e=`Device Information
 `;e+=`==================
 
 `;const a=y?.(),l=t(a?.version);if(e+=`Version: ${l}
