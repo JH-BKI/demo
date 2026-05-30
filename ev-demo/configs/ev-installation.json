@@ -758,7 +758,11 @@
         "customScript": "ev-installation-3d-viewer",
         "tracking": {
           "visited": false
-        }
+        },        
+        "plugins": 
+        [
+          "hotspotNavigator"
+        ]
       },
       "camera": {
         "alpha": -0.2518,
