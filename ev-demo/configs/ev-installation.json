@@ -42,8 +42,7 @@
         "fullscreenToggle": true,
         "vrToggle": false,
         "progressDrawer": false,
-        "resetViewButton": true,
-        "footerAlign": "right"
+        "resetViewButton": true
       }
     }
   },
@@ -58,6 +57,10 @@
         "title": "EV Installation",
         "description": "EV Installation.",
         "customScript": "",
+        "plugins": 
+        [
+          "hotspotNavigator"
+        ],
         "tracking": {
           "visited": false
         }
@@ -512,6 +515,10 @@
         "title": "EV Installation — 3D Viewer",
         "description": "3D model viewer with orbit camera.",
         "customScript": "ev-installation-3d-viewer",
+        "plugins": 
+        [
+          "hotspotNavigator"
+        ],
         "tracking": {
           "visited": false
         }
@@ -557,16 +564,16 @@
             "selectScaleMultiplier": 1
           },
           "label": {
-            "text": "Charger status indicator",
+            "text": "Charger status",
             "position": "middle-right",
             "showLabel":  true,
             "labelVisibility": "hover"
           },
-          "title": "Charger status indicator",
+          "title": "1. Charger status indicator",
           "description": "Charger status indicator shows the status of both the A' and 'B' side charging ports.",
           "position": [0.307, 1.531, 0.207], 
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -611,11 +618,11 @@
             "showLabel":  true,
             "labelVisibility": "hover"
           },
-          "title": "Charging Cable",
+          "title": "2. Charging Cable",
           "description": "The Charging connector holder and charging cable. The compatible plug used is 'CCS2'.",
           "position": [0.24, 0.51, 0.57],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -655,16 +662,16 @@
             "selectScaleMultiplier": 1
           },
           "label": {
-            "text": "RFID Chip",
+            "text": "LCD & RFID",
             "position": "middle-right",
             "showLabel":  true,
             "labelVisibility": "hover"
           },
-          "title": "LCD Panel & RFID Chip",
+          "title": "3. LCD Panel & RFID Chip",
           "description": "The LCD touch panel, customer usage instructions and the place to tap your RFID card to enable charging.",
           "position": [0.350, 1.170, 0.195],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -709,11 +716,11 @@
             "showLabel":  true,
             "labelVisibility": "hover"
           },
-          "title": "Door lock",
+          "title": "4. Door lock",
           "description": "The door lock is used to secure the charger when not in use. It is also used to prevent unauthorized access to the charger.",
           "position": [-0.028, 0.879, -0.506],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -803,7 +810,7 @@
           "description": "The LCD screen shows charging status and session information. LED indicators, the RFID reader, and touch buttons let users authenticate and navigate charger menus.",
           "position": [0.030, 1.248, -0.250],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -852,7 +859,7 @@
           "description": "The radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
           "position": [0.201, 1.275, 0.130],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -901,7 +908,7 @@
           "description": "The power connector is where utility or site wiring connects to supply the charger. This is the main electrical feed for AC charging.",
           "position": [0.006, 0.939, -0.218],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -950,7 +957,7 @@
           "description": "The vehicle connector is the plug that connects to the EV inlet. On this unit it docks in the holster when not in use.",
           "position": [0.215, 0.216, -0.322],
           "alphaValue": 1,
-          "size": [0.12, 0.12, 0.12],
+          "size": [1, 1, 1],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
