@@ -542,7 +542,7 @@
       "models": [
         {
           "id": "dc-charger",
-          "path": "./assets/experiences/ev-installation/shared/3D/DC-Charger-V3_Side-Doors-Openable.glb",
+          "path": "./assets/experiences/ev-installation/shared/3D/dc-charger-v4.glb",
           "position": [0, -0.1, 0],
           "rotation": [0, 90, 0],
           "scale": [1, 1, 1]
