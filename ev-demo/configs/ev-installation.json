@@ -491,7 +491,7 @@
           "position": [0, 0.5, 2],
           "rotation": [0, 0, 0],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-arrow.glb"
@@ -512,8 +512,8 @@
         "type": "3d-viewer",
         "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
         "preview": "",
-        "title": "EV Installation — 3D Viewer",
-        "description": "3D model viewer with orbit camera.",
+        "title": "3D Viewer - DC Fast Charger",
+        "description": "<p><b>FP60 Commercial EV DC Charger 60kW</b></p><details><summary>More details...</summary><p><ul><li>7-inch panel: Displays real-time charging status (time, voltage, etc.).</li><li>Flexible installation: Modular design, indoor/outdoor use, IP54 protection.</li><li>Smart charging: Dual/multiple outputs, load adjustment/sharing for max efficiency.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>User-friendly: Easy setup, app/IC card payment, works with all market EVs.</li></ul></p></details>",
         "customScript": "ev-installation-3d-viewer",
         "plugins": 
         [
@@ -573,7 +573,7 @@
           "description": "Charger status indicator shows the status of both the A' and 'B' side charging ports.",
           "position": [0.307, 1.531, 0.207], 
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -622,7 +622,7 @@
           "description": "The Charging connector holder and charging cable. The compatible plug used is 'CCS2'.",
           "position": [0.24, 0.51, 0.57],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -671,7 +671,7 @@
           "description": "The LCD touch panel, customer usage instructions and the place to tap your RFID card to enable charging.",
           "position": [0.350, 1.170, 0.195],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -711,16 +711,75 @@
             "selectScaleMultiplier": 1
           },
           "label": {
+            "text": "Module slots",
+            "position": "middle-left",
+            "showLabel":  true,
+            "labelVisibility": "hover"
+          },
+          "title": "4. Side panel and module slots",
+          "description": "Open the side panel to the side A and side B module slots. Both side panels of the unit can be opened. Please use the included panel key to unlock.",
+          "position": [-0.234, 1.483, -0.445],
+          "alphaValue": 1,
+          "size": [0.75, 0.75, 0.75],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [-0.1, 1.04, 0.13],
+            "alpha": -1.7619,
+            "beta": 1.0449,
+            "radius": 1.2892,
+            "durationMs": 1000,
+            "lowerRadiusLimit": 0.3,
+            "upperRadiusLimit": 4,
+            "lowerBetaLimit": 0.5,
+            "upperBetaLimit": 1.4
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right"
+          },
+          "animation": {
+            "trigger": "click",
+            "behavior": "dialogLinked",
+            "targets": [
+              {
+                "nodeName": "VentLouvers_R_Lower.002",
+                "file": "./assets/experiences/ev-installation/scene02/animations/door-open-animation.json"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hotspot-02-05_placeholder",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [0, 0.51, 0.81],
+            "overlayColor": [0, 0, 0, 0],
+            "outlineColor": [59, 129, 25, 1],
+            "hoverEmissiveMultiplier": 1,
+            "hoverScaleMultiplier": 1,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
             "text": "Door lock",
             "position": "middle-left",
             "showLabel":  true,
             "labelVisibility": "hover"
           },
-          "title": "4. Door lock",
+          "title": "5. Door lock",
           "description": "The door lock is used to secure the charger when not in use. It is also used to prevent unauthorized access to the charger.",
           "position": [-0.028, 0.879, -0.506],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -753,16 +812,16 @@
         "type": "3d-viewer",
         "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
         "preview": "",
-        "title": "EV Installation — 3D Viewer",
-        "description": "3D model viewer with orbit camera.",
+        "title": "3D Viewer - AC Commercial Charger",
+        "description": "<p><b>T-Power AQ7/22 Home Solar Smart EV Charger</b></p><details><summary>More details...</summary><p><ul><li>Prioritizes renewables with Eco/Eco+/Fast modes.</li><li>App for remote scheduling/tracking.</li><li>4.3-inch LCD, LED indicators, motion display.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>Ethernet/Wi-Fi/4G/Bluetooth, OCPP & safety for sustainable charging.</li></ul></p></details>",
         "customScript": "ev-installation-3d-viewer",
-        "tracking": {
-          "visited": false
-        },        
         "plugins": 
         [
           "hotspotNavigator"
-        ]
+        ],
+        "tracking": {
+          "visited": false
+        }
       },
       "camera": {
         "alpha": -0.2518,
@@ -814,7 +873,7 @@
           "description": "The LCD screen shows charging status and session information. LED indicators, the RFID reader, and touch buttons let users authenticate and navigate charger menus.",
           "position": [0.030, 1.248, -0.250],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -863,7 +922,7 @@
           "description": "The radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
           "position": [0.201, 1.275, 0.130],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -912,7 +971,7 @@
           "description": "The power connector is where utility or site wiring connects to supply the charger. This is the main electrical feed for AC charging.",
           "position": [0.006, 0.939, -0.218],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
@@ -961,7 +1020,7 @@
           "description": "The vehicle connector is the plug that connects to the EV inlet. On this unit it docks in the holster when not in use.",
           "position": [0.215, 0.216, -0.322],
           "alphaValue": 1,
-          "size": [1, 1, 1],
+          "size": [0.75, 0.75, 0.75],
           "marker": {
             "type": "3D",
             "path": "./assets/core/3D/hotspot-marker-disc.glb"
