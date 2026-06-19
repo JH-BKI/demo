@@ -14,9 +14,16 @@
       "completedSessions": []      
     },
     "hotspotTerminology": "hotspot",
-    "attribution": null,
+    "environmentLighting": {
+      "enabled": true,
+      "preset": "outdoor-sunny",
+      "intensity": 0.8,
+      "rotationY": 0
+    },
+    "attribution": [
+      "\"Male Low Poly Human Body\" (https://skfb.ly/6ZNwQ) by 5$toPolyMan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/)"      
+    ],
     "showSplash": false,
-    "showOnboarding": false,
     "ui": {
       "hotspotLabel2D": {
         "frameBorderHex": "#cbd5e180",
@@ -38,7 +45,6 @@
       "persistSelectedGlowPulseEnabled": false,
       "hud": {
         "leaveSessionButton": false,
-        "helpGuideButton": false,
         "fullscreenToggle": true,
         "vrToggle": false,
         "progressDrawer": false,
@@ -47,477 +53,38 @@
     }
   },
   "initialScene": "scene-02",
-  "scenes": [
-    {
-      "scene": {
-        "id": "scene-01",
-        "type": "360",
-        "image": "./assets/experiences/ev-installation/scene01/360/ev-installation-scene-01.jpg",
-        "preview": "",
-        "title": "EV Installation",
-        "description": "EV Installation.",
-        "customScript": "",
-        "plugins": 
-        [
-          "hotspotNavigator"
-        ],
-        "tracking": {
-          "visited": false
-        }
-      },
-      "camera": {
-        "alpha": -2.8848,
-        "beta": 1.5596,
-        "radius": 0.0001,
-        "fov": 1.3,
-        "target": [0, 0, 0],
-        "lowerRadiusLimit": 0,
-        "upperRadiusLimit": 0,
-        "lowerAlphaLimit": -2000,
-        "upperAlphaLimit": 2000,
-        "lowerBetaLimit": 0.75,
-        "upperBetaLimit": 1.95,        
-        "allowPanning": true,
-        "invertTouchDrag": true
-      },
-      "hotspots": [
-        {
-          "id": "hotspot-01-01_100mm-bolt",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "100mm Bolt",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "100mm Bolt",
-          "description": "100mm Bolt",
-          "position": [-10, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/100mm-bolt.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-02_100mm-hole",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "100mm Hole",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "100mm Hole",
-          "description": "100mm Hole",
-          "position": [-8, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/100mm-hole.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-03_concrete-pad-bottom",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [0, 0, 0, 0],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Concrete Pad Bottom",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "never"
-          },
-          "title": "Concrete Pad Bottom",
-          "description": "Concrete Pad Bottom",
-          "position": [-6, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/concrete-pad-bottom.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-04_concrete-pad-top",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": false,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Concrete Pad Top",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Concrete Pad Top",
-          "description": "Concrete Pad Top",
-          "position": [-4, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/concrete-pad-top.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-05_dc-charger",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Dc Charger",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Dc Charger",
-          "description": "Dc Charger",
-          "position": [-2, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/dc-charger.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-06_drill-map-8-holes",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Drill Map 8 Holes",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Drill Map 8 Holes",
-          "description": "Drill Map 8 Holes",
-          "position": [0, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/drill-map-8-holes.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-07_ground-curb-multiple",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Ground Curb Multiple",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Ground Curb Multiple",
-          "description": "Ground Curb Multiple",
-          "position": [2, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/ground-curb-multiple.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-08_top-ground-insert",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Top Ground Insert",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Top Ground Insert",
-          "description": "Top Ground Insert",
-          "position": [4, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/top-ground-insert.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-09_top-ground-outset",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Top Ground Outset",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Top Ground Outset",
-          "description": "Top Ground Outset",
-          "position": [6, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/top-ground-outset.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-10_underground-crossection",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Underground Crossection",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Underground Crossection",
-          "description": "Underground Crossection",
-          "position": [8, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/underground-crossection.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-11_wires-pole",
-          "type": "info",
-          "visuals": {
-            "visualsEnabled": false,
-            "persistSelected": true,
-            "baseColor": [0, 0, 0],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [59, 129, 25, 1],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "Wires Pole",
-            "position": "top-center",
-            "showLabel": false,
-            "labelVisibility": "selection"
-          },
-          "title": "Wires Pole",
-          "description": "Wires Pole",
-          "position": [10, 0, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.1, 0.1, 0.1],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/experiences/ev-installation/shared/3D/wires-pole.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          }
-        },
-        {
-          "id": "hotspot-01-nav-scene-02",
-          "type": "navigation",
-          "visuals": {
-            "visualsEnabled": true,
-            "persistSelected": false,
-            "baseColor": [1, 0.5373, 0.157],
-            "overlayColor": [0, 0, 0, 0],
-            "outlineColor": [0, 0, 0, 0],
-            "hoverEmissiveMultiplier": 1,
-            "hoverScaleMultiplier": 1,
-            "selectEmissiveMultiplier": 0,
-            "selectScaleMultiplier": 1
-          },
-          "label": {
-            "text": "3D Model Viewer",
-            "position": "top-center",
-            "showLabel": true,
-            "labelVisibility": "always"
-          },
-          "title": "3D Model Viewer",
-          "description": "Open the 3D model viewer scene.",
-          "position": [0, 0.5, 2],
-          "rotation": [0, 0, 0],
-          "alphaValue": 1,
-          "size": [0.75, 0.75, 0.75],
-          "marker": {
-            "type": "3D",
-            "path": "./assets/core/3D/hotspot-marker-arrow.glb"
-          },
-          "tracking": {
-            "required": false,
-            "visited": false
-          },
-          "customProperties": {
-            "targetScene": "scene-02"
-          }
-        }
-      ]
-    },
+  "scenes": [  
     {
       "scene": {
         "id": "scene-02",
         "type": "3d-viewer",
-        "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.jpg",
         "preview": "",
         "title": "3D Viewer - DC Fast Charger",
         "description": "<p><b>FP60 Commercial EV DC Charger 60kW</b></p><details><summary>More details...</summary><p><ul><li>7-inch panel: Displays real-time charging status (time, voltage, etc.).</li><li>Flexible installation: Modular design, indoor/outdoor use, IP54 protection.</li><li>Smart charging: Dual/multiple outputs, load adjustment/sharing for max efficiency.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>User-friendly: Easy setup, app/IC card payment, works with all market EVs.</li></ul></p></details>",
         "customScript": "ev-installation-3d-viewer",
         "plugins": 
         [
-          "hotspotNavigator"
+          "hotspotNavigator",
+          { "name": "dimensions", "config": { "showHudButton": true } },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.75,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Select the hotspots to explore the charger components and features.</p>"
+            }
+          }
         ],
         "tracking": {
           "visited": false
@@ -529,7 +96,7 @@
         "radius": 3.0563,
         "fov": 0.9,
         "target": [-0.13, 0.82, 0.05],
-        "lowerRadiusLimit": 0.5,
+        "lowerRadiusLimit": 0.25,
         "upperRadiusLimit": 20,
         "lowerAlphaLimit": -2000,
         "upperAlphaLimit": 2000,
@@ -537,17 +104,452 @@
         "upperBetaLimit": 1.55,
         "allowPanning": true,
         "defaultFocusRadius": 2.5,
-        "lerpDurationMs": 1000
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": false,
+        "idleRotationSpeed": 0.05,
+        "idleRotationWaitTime": 1000,
+        "idleRotationSpinupTime": 100
       },
       "models": [
         {
           "id": "dc-charger",
-          "path": "./assets/experiences/ev-installation/shared/3D/dc-charger-v4.glb",
-          "position": [0, -0.1, 0],
+          "path": "./assets/experiences/ev-installation/scene02/3D/dc-charger-final.glb",
+          "position": [0, 0, 0],
           "rotation": [0, 90, 0],
           "scale": [1, 1, 1]
         }
       ],
+      "referenceModels": [
+        {
+          "id": "human",
+          "model": {
+            "path": "./assets/core/3D/reference/human-reference.glb",
+            "position": [0, 0, -1.8],
+            "rotation": [0, 90, 0],
+            "scale": [1, 1, 1],
+            "materialAlpha": 0.05
+          },
+          "visibleByDefault": false,
+          "cameraView": {
+            "target": [-0.24, 0.84, -1.12],
+            "alpha": -0.3908,
+            "beta": 1.2767,
+            "radius": 3.5371,
+            "durationMs": 1000
+          },
+          "dimensions": {
+            "offset": [0, 0, 0],
+            "layout": {
+              "vertical": "bottom",
+              "horizontal": "right",
+              "depth": "back"
+            },
+            "axes": {
+              "y": {
+                "enabled": true,
+                "length": 1.7,
+                "label": "1.7 m  |  5'7\"",
+                "offset": [
+                  -0.5,
+                  0,
+                  0
+                ],
+                "labelOrientation": "vertical",
+                "labelOffset": [
+                  0,
+                  0,
+                  0.01
+                ],
+                "direction": 1
+              }
+            },
+            "style": {
+              "lineColorHex": "#49dff3",
+              "lineRadius": 0.003,
+              "arrowSize": 0.04,
+              "tickSize": 0.8,
+              "tickStyle": "dashed",
+              "tickAlign": "end",
+              "tickRadius": 0.002,
+              "label": {
+                "frameBackgroundHex": "#ffffffe6",
+                "frameBorderHex": "#cbd5e180",
+                "textColorHex": "#1e293b",
+                "fontSizePx": 64
+              }
+            }
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "charger-overall",
+          "target": {
+            "modelId": "dc-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "back"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.7,
+              "label": "700 mm",
+              "offset": [
+                -0.35,
+                0,
+                0.25
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": true,
+              "length": 1.75,
+              "label": "1750 mm",
+              "offset": [
+                0.7,
+                0,
+                -0.003
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.24,
+              "label": "240 mm",
+              "offset": [
+                -0.5,
+                0,
+                0.12
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 64
+            }
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "charger-status-indicator",
+          "target": {
+            "modelId": "dc-charger",
+            "position": [
+              0.123,
+              1.578,
+              0.068
+            ]
+          },
+          "label": {
+            "text": "Charger status indicator",
+            "lineAnchor": "center-right",
+            "offset": [
+              0.2,
+              -0.1,
+              -0.15
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-01_dc-charger"
+          }
+        },        
+          {
+            "id": "door-lock",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.12,
+                0.923,
+                -0.314
+              ]
+            },
+            "label": {
+              "text": "Door lock",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-05_doorlock"
+            }
+          },
+          {
+            "id": "side-panel-[module-b]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                -0.071,
+                1.195,
+                -0.315
+              ]
+            },
+            "label": {
+              "text": "Side B module",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-04_moduleslots"
+            }
+          },
+          {
+            "id": "side-panel-[module-a]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                -0.072,
+                1.524,
+                -0.315
+              ]
+            },
+            "label": {
+              "text": "Side A module",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-04_moduleslots"
+            }
+          },
+          {
+            "id": "lcd-rfid-[lcd]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.123,
+                1.438,
+                0.061
+              ]
+            },
+            "label": {
+              "text": "LCD touch panel",
+              "lineAnchor": "bottom-right",
+              "offset": [
+                0.01,
+                0,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-03_LCDRFID"
+            }
+          },
+          {
+            "id": "lcd-rfid-[rfid]",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.125,
+                1.34,
+                0.107
+              ]
+            },
+            "label": {
+              "text": "RFID chip",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                -0.05,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-03_LCDRFID"
+            }
+          },
+          {
+            "id": "charging-cable",
+            "target": {
+              "modelId": "dc-charger",
+              "position": [
+                0.057,
+                0.512,
+                0.438
+              ]
+            },
+            "label": {
+              "text": "Charging Cable",
+              "lineAnchor": "center-right",
+              "offset": [
+                0.01,
+                0,
+                -0.15
+              ]
+            },
+            "line": {
+              "colorHex": "#49dff3",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#49dff380",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 48,
+              "borderThicknessPx": 10
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true,
+            "hotspotLink": {
+              "hotspotId": "hotspot-02-02_chargingcable"
+            }
+          }
+        ],
       "hotspots": [
         {
           "id": "hotspot-02-01_dc-charger",
@@ -571,7 +573,7 @@
           },
           "title": "1. Charger status indicator",
           "description": "Charger status indicator shows the status of both the A' and 'B' side charging ports.",
-          "position": [0.307, 1.531, 0.207], 
+          "position": [0.273, 1.531, 0.405], 
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -583,10 +585,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [0.41, 1.52, -0.28],
-            "alpha": -0.8586,
-            "beta": 1.3913,
-            "radius": 0.5301,
+            "target": [0.4, 1.62, 0.23],
+            "alpha": 0.3563,
+            "beta": 1.3840,
+            "radius": 0.3000,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -599,7 +601,7 @@
           }
         },
         {
-          "id": "hotspot-02-02_placeholder",
+          "id": "hotspot-02-02_chargingcable",
           "type": "info",
           "visuals": {
             "visualsEnabled": true,
@@ -620,7 +622,7 @@
           },
           "title": "2. Charging Cable",
           "description": "The Charging connector holder and charging cable. The compatible plug used is 'CCS2'.",
-          "position": [0.24, 0.51, 0.57],
+          "position": [0.223, 0.51, 0.501],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -632,10 +634,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [-0.13, 0.48, 0.29],
-            "alpha": 0.3922,
-            "beta": 1.3970,
-            "radius": 1.0168,
+            "target": [-0.13, 0.4, 0.33],
+            "alpha": 0.3912,
+            "beta": 1.3934,
+            "radius": 1.0166,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -648,7 +650,7 @@
           }
         },
         {
-          "id": "hotspot-02-03_placeholder",
+          "id": "hotspot-02-03_LCDRFID",
           "type": "info",
           "visuals": {
             "visualsEnabled": true,
@@ -669,7 +671,7 @@
           },
           "title": "3. LCD Panel & RFID Chip",
           "description": "The LCD touch panel, customer usage instructions and the place to tap your RFID card to enable charging.",
-          "position": [0.350, 1.170, 0.195],
+          "position": [0.236, 1.352, -0.041],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -681,10 +683,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [0.3, 1.16, 0.07],
-            "alpha": -0.4676,
-            "beta": 1.3845,
-            "radius": 0.3392,
+            "target": [0.24, 1.46, 0.07],
+            "alpha": -0.4600,
+            "beta": 1.4000,
+            "radius": 0.3000,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -697,7 +699,7 @@
           }
         },
         {
-          "id": "hotspot-02-04_placeholder",
+          "id": "hotspot-02-04_moduleslots",
           "type": "info",
           "visuals": {
             "visualsEnabled": true,
@@ -718,7 +720,7 @@
           },
           "title": "4. Side panel and module slots",
           "description": "Open the side panel to the side A and side B module slots. Both side panels of the unit can be opened. Please use the included panel key to unlock.",
-          "position": [-0.234, 1.483, -0.445],
+          "position": [0.212, 1.483, -0.482],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -730,10 +732,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [-0.1, 1.04, 0.13],
-            "alpha": -1.7619,
-            "beta": 1.0449,
-            "radius": 1.2892,
+            "target": [-0.15, 1.21, 0.14],
+            "alpha": -1.2690,
+            "beta": 1.2479,
+            "radius": 1.9999,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -756,7 +758,7 @@
           }
         },
         {
-          "id": "hotspot-02-05_placeholder",
+          "id": "hotspot-02-05_doorlock",
           "type": "info",
           "visuals": {
             "visualsEnabled": true,
@@ -777,7 +779,7 @@
           },
           "title": "5. Door lock",
           "description": "The door lock is used to secure the charger when not in use. It is also used to prevent unauthorized access to the charger.",
-          "position": [-0.028, 0.879, -0.506],
+          "position": [0.241, 1.001, -0.462],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -789,9 +791,9 @@
             "visited": false
           },
           "cameraView": {
-            "target": [-0.39, 0.47, 0.03],
-            "alpha": -0.7669,
-            "beta": 1.0399,
+            "target": [-0.43, 0.54, 0.04],
+            "alpha": -0.4722,
+            "beta": 1.0061,
             "radius": 1.2892,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
@@ -810,14 +812,33 @@
       "scene": {
         "id": "scene-03",
         "type": "3d-viewer",
-        "image": "./assets/experiences/ev-installation/scene02/360/gradient2.jpg",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.jpg",
         "preview": "",
         "title": "3D Viewer - AC Commercial Charger",
         "description": "<p><b>T-Power AQ7/22 Home Solar Smart EV Charger</b></p><details><summary>More details...</summary><p><ul><li>Prioritizes renewables with Eco/Eco+/Fast modes.</li><li>App for remote scheduling/tracking.</li><li>4.3-inch LCD, LED indicators, motion display.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>Ethernet/Wi-Fi/4G/Bluetooth, OCPP & safety for sustainable charging.</li></ul></p></details>",
         "customScript": "ev-installation-3d-viewer",
         "plugins": 
         [
-          "hotspotNavigator"
+          "hotspotNavigator",
+          { "name": "dimensions", "config": { "showHudButton": true } },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.35,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Use annotations and hotspots to learn about the AC charger.</p>"
+            }
+          }
         ],
         "tracking": {
           "visited": false
@@ -841,11 +862,443 @@
       },
       "models": [
         {
-          "id": "dc-charger",
-          "path": "./assets/experiences/ev-installation/shared/3D/AC-Charger-V3.glb",
+          "id": "ac-charger",
+          "path": "./assets/experiences/ev-installation/scene-03/3D/ac-charger-final.glb",
           "position": [0, -0.1, 0],
           "rotation": [0, 90, 0],
           "scale": [1, 1, 1]
+        }
+      ],
+      "referenceModels": [
+        {
+          "id": "human",
+          "model": {
+            "path": "./assets/core/3D/reference/human-reference.glb",
+            "position": [0, -0.1,-1.2],
+            "rotation": [0, 90, 0],
+            "scale": [1, 1, 1],
+            "materialAlpha": 0.05
+          },
+          "visibleByDefault": false,
+          "cameraView": {
+            "target": [-0.29, 0.81, -0.56],
+            "alpha": -0.2588,
+            "beta": 1.4623,
+            "radius": 3.0551,
+            "durationMs": 1000
+          },
+          "dimensions": {
+            "offset": [0, 0, 0],
+            "layout": {
+              "vertical": "bottom",
+              "horizontal": "right",
+              "depth": "back"
+            },
+            "axes": {
+              "y": {
+                "enabled": true,
+                "length": 1.7,
+                "label": "1.7 m  |  5'7\"",
+                "offset": [
+                  0.25,
+                  0,
+                  0
+                ],
+                "labelOrientation": "vertical",
+                "labelOffset": [
+                  0,
+                  0,
+                  0.01
+                ],
+                "direction": 1
+              }
+            },
+            "style": {
+              "lineColorHex": "#49dff3",
+              "lineRadius": 0.003,
+              "arrowSize": 0.04,
+              "tickSize": 0.8,
+              "tickStyle": "dashed",
+              "tickAlign": "end",
+              "tickRadius": 0.002,
+              "label": {
+                "frameBackgroundHex": "#ffffffe6",
+                "frameBorderHex": "#cbd5e180",
+                "textColorHex": "#1e293b",
+                "fontSizePx": 64
+              }
+            }
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "charger-overall",
+          "target": {
+            "modelId": "ac-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.55,
+              "label": "550 mm",
+              "offset": [
+                -0.27,
+                0,
+                0.3
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": true,
+              "length": 1.5,
+              "label": "1500 mm",
+              "offset": [
+                0.4,
+                0,
+                -0.003
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.15,
+                0,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.55,
+              "label": "550 mm",
+              "offset": [
+                -0.3,
+                0,
+                0.27
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "center",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 64
+            }
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "display-controls-[LED indicators]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.225,
+              -0.093
+            ]
+          },
+          "label": {
+            "text": "LED indicators",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[RFID reader]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.238,
+              -0.052
+            ]
+          },
+          "label": {
+            "text": "RFID reader",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[LCD screen]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.249,
+              0.026
+            ]
+          },
+          "label": {
+            "text": "LCD screen",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "display-controls-[Touch buttons]",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.152,
+              0.032
+            ]
+          },
+          "label": {
+            "text": "Touch buttons",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              -0.05,
+              0.01
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-01_display-controls"
+          }
+        },
+        {
+          "id": "radar-sensor",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.103,
+              1.255,
+              0.037
+            ]
+          },
+          "label": {
+            "text": "Radar Sensor",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-02_radar-sensor"
+          }
+        },
+        {
+          "id": "power-connector",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.08,
+              1.046,
+              -0.055
+            ]
+          },
+          "label": {
+            "text": "Power connector",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              -0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-03_power-connector"
+          }
+        },
+        {
+          "id": "vehicle-connector",
+          "target": {
+            "modelId": "ac-charger",
+            "position": [
+              0.094,
+              0.306,
+              -0.122
+            ]
+          },
+          "label": {
+            "text": "Vehicle connector",
+            "lineAnchor": "center",
+            "offset": [
+              0.1,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#49dff3",
+            "radius": 0.002
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffffe6",
+            "frameBorderHex": "#49dff380",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 48,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-03-04_vehicle-connector"
+          }
         }
       ],
       "hotspots": [
@@ -869,9 +1322,9 @@
             "showLabel": true,
             "labelVisibility": "hover"
           },
-          "title": "Display & Controls",
+          "title": "1. Display & Controls",
           "description": "The LCD screen shows charging status and session information. LED indicators, the RFID reader, and touch buttons let users authenticate and navigate charger menus.",
-          "position": [0.030, 1.248, -0.250],
+          "position": [0.146, 1.249, -0.152],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -883,10 +1336,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [-0.22, 1.06, 0.01],
-            "alpha": -0.2520,
-            "beta": 1.2663,
-            "radius": 0.8051,
+            "target": [-0.21, 1.06, 0.05],
+            "alpha": -0.2461,
+            "beta": 1.2626,
+            "radius": 0.8062,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -918,9 +1371,9 @@
             "showLabel": true,
             "labelVisibility": "hover"
           },
-          "title": "Radar Sensor",
-          "description": "The radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
-          "position": [0.201, 1.275, 0.130],
+          "title": "2. Radar Sensor",
+          "description": "Located aboive the LCD screen, the radar sensor detects vehicles or obstacles near the charger. It supports safe operation and can trigger lighting or presence-aware behavior.",
+          "position": [0.119, 1.318, 0.116],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -967,9 +1420,9 @@
             "showLabel": true,
             "labelVisibility": "hover"
           },
-          "title": "Power Connector",
+          "title": "3. Power Connector",
           "description": "The power connector is where utility or site wiring connects to supply the charger. This is the main electrical feed for AC charging.",
-          "position": [0.006, 0.939, -0.218],
+          "position": [0.159, 0.981, -0.164],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -981,7 +1434,7 @@
             "visited": false
           },
           "cameraView": {
-            "target": [0.09, 0.98, -0.33],
+            "target": [0.21, 0.98, -0.25],
             "alpha": -0.9937,
             "beta": 1.3344,
             "radius": 0.3000,
@@ -1011,14 +1464,14 @@
             "selectScaleMultiplier": 1
           },
           "label": {
-            "text": "Vehicle Connector",
+            "text": "4. Vehicle Connector",
             "position": "middle-left",
             "showLabel": true,
             "labelVisibility": "hover"
           },
           "title": "Vehicle Connector",
           "description": "The vehicle connector is the plug that connects to the EV inlet. On this unit it docks in the holster when not in use.",
-          "position": [0.215, 0.216, -0.322],
+          "position": [0.188, 0.216, -0.231],
           "alphaValue": 1,
           "size": [0.75, 0.75, 0.75],
           "marker": {
@@ -1030,10 +1483,10 @@
             "visited": false
           },
           "cameraView": {
-            "target": [0.08, 0.36, -0.15],
-            "alpha": -0.8074,
-            "beta": 1.2790,
-            "radius": 0.5850,
+            "target": [0.11, 0.29, -0.15],
+            "alpha": -0.8091,
+            "beta": 1.2688,
+            "radius": 0.5856,
             "durationMs": 1000,
             "lowerRadiusLimit": 0.3,
             "upperRadiusLimit": 4,
@@ -1045,6 +1498,274 @@
             "position": "right"
           }
         }
+      ]
+    },
+    {
+      "scene": {
+        "id": "scene-05",
+        "type": "3d-viewer",
+        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "3D SImulation - DC Charger Installation",
+        "description": "",
+        "customScript": "ev-installation-step-content",
+        "hud": {
+          "resetViewButton": false
+        },
+        "plugins": 
+        [
+          "chapterStepsSequencer",
+          { "name": "dimensions", "config": { "showHudButton": false } },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Follow the installation steps in the footer. Use orbit, zoom, and pan to inspect the charger as you work.</p>"
+            }
+          }
+        ],
+        "tracking": {
+          "visited": false
+        },
+        "meshHighlightSettings": {
+          "glow": { "enabled": true, "color": "#00ffcc", "blurSize": 1.25 },
+          "overlay": { "enabled": true, "color": "#ff8800", "alpha": 0.5, "xray": false }
+        }
+      },
+      "camera": {
+        "alpha": 0.9991,
+        "beta": 1.5037,
+        "radius": 3.0000,
+        "fov": 0.9,
+        "target": [-0.02, 0.97, -0.06],
+        "lowerRadiusLimit": 0.05,
+        "upperRadiusLimit": 93.5,
+        "lowerAlphaLimit": -2000,
+        "upperAlphaLimit": 2000,
+        "lowerBetaLimit": 0.5,
+        "upperBetaLimit": 1.8,
+        "allowPanning": true,
+        "defaultFocusRadius": 3,
+        "lerpDurationMs": 1000
+      },           
+      "models": [
+        {
+          "id": "dc-charger",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dc-charger-installation-final.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "initial-ground-underneath-plane",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/final_initial-ground-with-lines.glb",
+          "position": [0, -0.18, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "wooden-pallet",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wooden-pallet.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "crate-box",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/crate-box.glb",
+          "position": [0, 0.28, -0.02],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "cabinet-key",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/Cabinet key_compressed.glb",
+          "position": [1, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        }, 
+        {
+          "id": "screw-driver",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/screwdriver-final.glb",
+          "position": [1.5, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "dynabolt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dynabolt.glb",
+          "position": [2, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "hammerdrill",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/HammerDrill_compressed.glb",
+          "position": [2.5, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "m5x12-bolt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/m5x12-bolt-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "m10x60-bolt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/m10x60-bolt-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "m12x100-bolt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/m12x100-bolt-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wrench",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wrench-final.glb",
+          "position": [4.5, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "temp-screwdriver",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/temp-screwdriver.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "temp-drill",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/temp-drill.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "temp-wrench",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/temp-wrench.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        }                               
+      ],
+      "dimensions": [
+        {
+          "id": "dc-charger-overall",
+          "target": {
+            "modelId": "dc-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": false,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "back"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.7,
+              "label": "700 mm",
+              "offset": [
+                -0.35,
+                0,
+                0.25
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "y": {
+              "enabled": true,
+              "length": 1.75,
+              "label": "1750 mm",
+              "offset": [
+                0.75,
+                0,
+                -0.003
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0,
+                0
+              ]
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.24,
+              "label": "240 mm",
+              "offset": [
+                0.5,
+                0,
+                0.12
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0.05,
+                0
+              ]
+            }
+          },
+          "style": {
+            "lineColorHex": "#ffffff",
+            "lineRadius": 0.0025,
+            "arrowSize": 0.04,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#cbd5e180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 64
+            }
+          }
+        }
+      ],
+      "hotspots": [
+
       ]
     }
   ]

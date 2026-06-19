@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "ev-installation",
+  "scene": "scene-02",
+  "autoPlay": true,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "animationFile": "door-open-animation.json",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "VentLouvers_R_Lower.002"
+        }
+      ],
+      "startTime": 1
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 2,
+      "trigger": {
+        "kind": "event",
+        "name": "story:test"
+      },
+      "label": "test waiting"
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "animationFile": "door-close-animation.json",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "VentLouvers_R_Lower.002"
+        }
+      ],
+      "startTime": 2
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 1,
+      "trigger": {
+        "kind": "keypress",
+        "key": "b"
+      },
+      "label": "wait for button"
+    }
+  ]
+}
