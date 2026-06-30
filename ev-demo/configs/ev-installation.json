@@ -1504,7 +1504,7 @@
       "scene": {
         "id": "scene-05",
         "type": "3d-viewer",
-        "image": "./assets/experiences/ev-installation/shared/360/viewer-gradient.jpg",
+        "image": "./assets/experiences/ev-installation/scene-05/360/ev-installation-outside.jpg",
         "preview": "",
         "title": "3D SImulation - DC Charger Installation",
         "description": "",
