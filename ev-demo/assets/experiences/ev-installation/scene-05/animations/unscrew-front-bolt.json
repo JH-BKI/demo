@@ -1,0 +1,44 @@
+{
+  "animations": [
+    {
+      "name": "move-screwdriver",
+      "property": "position",
+      "framePerSecond": 60,
+      "dataType": 1,
+      "loopBehavior": 1,
+      "blendingSpeed": 0.01,
+      "keys": [
+        { "frame": 0, "values": [0, 0, 0, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 60, "values": [0, 0, -0.185, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 120, "values": [0, 0, -0.185, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 180, "values": [0, 0, -0.135, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 240, "values": [0, 0, 0.1, [0, 0, 0], [0, 0, 0]] }
+      ],
+      "ranges": []
+    },
+    {
+      "name": "rotate-screw",
+      "property": "rotation",
+      "framePerSecond": 60,
+      "dataType": 1,
+      "loopBehavior": 1,
+      "blendingSpeed": 0.01,
+      "keys": [
+        { "frame": 0, "values": [0, 0, 0, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 90, "values": [0, 0, 0, [0, 0, 0], [0, 0, 0]] },
+        {
+          "frame": 179.5653079778771,
+          "values": [
+            0,
+            0,
+            0.6438219664046472,
+            [0, 0, 0.009622847650683714],
+            [0, 0, 0.009622847650683714]
+          ]
+        },
+        { "frame": 240, "values": [0, 0, 0, [0, 0, 0], [0, 0, 0]] }
+      ],
+      "ranges": []
+    }
+  ]
+}

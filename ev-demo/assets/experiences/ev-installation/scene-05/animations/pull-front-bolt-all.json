@@ -1,0 +1,17 @@
+{
+  "animations": [
+    {
+      "name": "pull-front-bolt-all",
+      "property": "position",
+      "framePerSecond": 60,
+      "dataType": 1,
+      "loopBehavior": 1,
+      "blendingSpeed": 0.01,
+      "keys": [
+        { "frame": 0, "values": [-0.327, 0.092, 0.124, [0, 0, 0], [0, 0, 0]] },
+        { "frame": 60, "values": [-0.327, 0.092, 0.2, [0, 0, 0], [0, 0, 0]] }
+      ],
+      "ranges": []
+    }
+  ]
+}

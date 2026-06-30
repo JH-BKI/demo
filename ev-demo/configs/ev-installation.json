@@ -16,7 +16,7 @@
     "hotspotTerminology": "hotspot",
     "environmentLighting": {
       "enabled": true,
-      "preset": "outdoor-sunny",
+      "preset": "neutral-studio",
       "intensity": 0.8,
       "rotationY": 0
     },
@@ -1551,7 +1551,7 @@
       "models": [
         {
           "id": "dc-charger",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/dc-charger-installation-final.glb",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/dc-charger-installation-final-alt.glb",
           "position": [0, 0.12, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
@@ -1560,14 +1560,22 @@
         {
           "id": "initial-ground-underneath-plane",
           "path": "./assets/experiences/ev-installation/scene-05/3D/final_initial-ground-with-lines.glb",
-          "position": [0, -0.18, 0],
+          "position": [0, -0.175, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
           "showModelOnLoad": true
         },
         {
+          "id": "initial-ground-underneath-plane-2",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/final_initial-ground-with-lines.glb",
+          "position": [-10.8, -0.175, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": true
+        },        
+        {
           "id": "wooden-pallet",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/wooden-pallet.glb",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wooden-pallet-final.glb",
           "position": [0, 0.12, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
@@ -1575,7 +1583,7 @@
         },
         {
           "id": "crate-box",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/crate-box.glb",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/crate-box-final.glb",
           "position": [0, 0.28, -0.02],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
@@ -1583,7 +1591,7 @@
         },
         {
           "id": "cabinet-key",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/Cabinet key_compressed.glb",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/cabinet-key-final.glb",
           "position": [1, 0, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
@@ -1646,14 +1654,6 @@
           "showModelOnLoad": false
         },
         {
-          "id": "temp-screwdriver",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/temp-screwdriver.glb",
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
-          "scale": [1, 1, 1],
-          "showModelOnLoad": false
-        },
-        {
           "id": "temp-drill",
           "path": "./assets/experiences/ev-installation/scene-05/3D/temp-drill.glb",
           "position": [0, 0, 0],
@@ -1662,10 +1662,42 @@
           "showModelOnLoad": false
         },
         {
-          "id": "temp-wrench",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/temp-wrench.glb",
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
+          "id": "bolt-front-single",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/bolt-front-single.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "bolt-front-all",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/bolt-front-all.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "bolt-left-all",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/bolt-left-all.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "bolt-right-all",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/bolt-right-all.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],          
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "bolt-back-all",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/bolt-back-all.glb",
+          "position": [0, 0.12, 0],
+          "rotation": [0, 0, 0],          
           "scale": [1, 1, 1],
           "showModelOnLoad": false
         }                               

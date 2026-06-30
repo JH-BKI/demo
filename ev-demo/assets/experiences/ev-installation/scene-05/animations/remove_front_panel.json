@@ -1,0 +1,1 @@
+{"animations":[{"name":"remove_front_panel","property":"position","framePerSecond":60,"dataType":1,"loopBehavior":1,"blendingSpeed":0.01,"keys":[{"frame":0,"values":[-0.0011895745992660522,0.055,0.1189,[0,0,0],[0,0,0]]},{"frame":60,"values":[-0.0011895745992660522,0.055,0.35,[0,0,0],[0,0,0]]}],"ranges":[]}]}

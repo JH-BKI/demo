@@ -1,0 +1,23 @@
+{
+    "animations": [
+        {
+            "name": "mesh-hide",
+            "property": "material.alpha",
+            "framePerSecond": 60,
+            "dataType": 0,
+            "loopBehavior": 1,
+            "blendingSpeed": 0.01,
+            "keys": [
+                {
+                    "frame": 0,
+                    "values": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "ranges": []
+        }
+    ]
+}

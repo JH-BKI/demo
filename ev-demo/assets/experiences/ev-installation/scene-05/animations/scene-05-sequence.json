@@ -1,0 +1,2736 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "ev-installation",
+  "scene": "scene-05",
+  "autoPlay": true,
+  "items": [
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 2,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)"
+    },
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "targets": [
+        {
+          "modelId": "dc-charger"
+        }
+      ],
+      "startTime": 3.9,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.01,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.28,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "animationFile": "mesh-fade-in.json",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "dc-charger_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-front-single",
+          "nodeName": "bolt-front-single_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-front-all",
+          "nodeName": "bolt-front-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-left-all",
+          "nodeName": "bolt-left-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-right-all",
+          "nodeName": "bolt-right-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-back-all",
+          "nodeName": "bolt-back-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        }
+      ],
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 0,
+      "notes": "reset back to the view from the json/scene load",
+      "cameraMove": {
+        "durationSeconds": 0.01,
+        "properties": {
+          "alpha": {
+            "from": 0.9991,
+            "to": 0.9991
+          },
+          "beta": {
+            "from": 1.5037,
+            "to": 1.5037
+          },
+          "radius": {
+            "from": 3,
+            "to": 3
+          },
+          "target": {
+            "from": [
+              -0.02,
+              0.97,
+              -0.06
+            ],
+            "to": [
+              -0.02,
+              0.97,
+              -0.06
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "animationFile": "mesh-fade-in.json",
+      "targets": [
+        {
+          "modelId": "wooden-pallet",
+          "nodeName": "wooden-pallet_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 3.4
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "cameraMove": {
+        "durationSeconds": 1,
+        "properties": {
+          "alpha": {
+            "from": 0.9991,
+            "to": 2.07
+          },
+          "beta": {
+            "from": 1.5037,
+            "to": 1.0368
+          },
+          "radius": {
+            "from": 3,
+            "to": 3.4817
+          },
+          "target": {
+            "from": [
+              -0.02,
+              0.97,
+              -0.06
+            ],
+            "to": [
+              -0.07,
+              0.81,
+              0.02
+            ]
+          }
+        }
+      },
+      "startTime": 2
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "animationFile": "ch-02-move-box-top.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_back"
+        }
+      ],
+      "startTime": 5.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-7",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_side_L"
+        }
+      ],
+      "startTime": 6,
+      "animationFile": "ch-02-move-box-top.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-8",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_top"
+        }
+      ],
+      "startTime": 4,
+      "animationFile": "ch-02-move-box-top.json",
+      "notes": "dddasdasd"
+    },
+    {
+      "type": "clip",
+      "id": "clip-9",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_front"
+        }
+      ],
+      "startTime": 4.5,
+      "animationFile": "ch-02-move-box-top.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-10",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_side_R"
+        }
+      ],
+      "startTime": 5,
+      "animationFile": "ch-02-move-box-top.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-11",
+      "animationFile": "mesh-fade-out.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_front"
+        }
+      ],
+      "startTime": 5
+    },
+    {
+      "type": "clip",
+      "id": "clip-12",
+      "animationFile": "mesh-fade-out.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_side_R"
+        }
+      ],
+      "startTime": 5.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-13",
+      "animationFile": "mesh-fade-out.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_back"
+        }
+      ],
+      "startTime": 6
+    },
+    {
+      "type": "clip",
+      "id": "clip-14",
+      "animationFile": "mesh-fade-out.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_side_L"
+        }
+      ],
+      "startTime": 6.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-15",
+      "animationFile": "mesh-fade-out.json",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "box_top"
+        }
+      ],
+      "startTime": 4.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-16",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 23,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 0.5443,
+            "to": 0.223
+          },
+          "beta": {
+            "from": 1.5018,
+            "to": 1.3353
+          },
+          "radius": {
+            "from": 1.0395,
+            "to": 0.75
+          },
+          "target": {
+            "from": [
+              0.25,
+              0.47,
+              -0.23
+            ],
+            "to": [
+              0.23,
+              0.26,
+              -0.01
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-17",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "crate-box_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 7.5,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-18",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "dc-charger_root",
+          "applyToChildren": true
+        },
+        {
+          "modelId": "wooden-pallet",
+          "nodeName": "wooden-pallet_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 7.5,
+      "animationFile": "mesh-show.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-19",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 7.5,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 2.07,
+            "to": 2.4159
+          },
+          "beta": {
+            "from": 1.0368,
+            "to": 1.4246
+          },
+          "radius": {
+            "from": 3.4817,
+            "to": 0.75
+          },
+          "target": {
+            "from": [
+              -0.07,
+              0.81,
+              0.02
+            ],
+            "to": [
+              -0.07,
+              0.35,
+              -0.08
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-20",
+      "animationFile": "mesh-fade-in.json",
+      "targets": [
+        {
+          "modelId": "screw-driver",
+          "nodeName": "screw-driver_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 9
+    },
+    {
+      "type": "clip",
+      "id": "clip-21",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "dc-charger_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-front-single",
+          "nodeName": "bolt-front-single_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-front-all",
+          "nodeName": "bolt-front-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-left-all",
+          "nodeName": "bolt-left-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-right-all",
+          "nodeName": "bolt-right-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        },
+        {
+          "modelId": "bolt-back-all",
+          "nodeName": "bolt-back-all_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        }
+      ],
+      "startTime": 2,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-22",
+      "targets": [
+        {
+          "modelId": "crate-box",
+          "nodeName": "crate-box_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 3.65,
+      "animationFile": "mesh-fade-in.json"
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 0.5,
+      "event": "event:show-step-content",
+      "label": "phase-1-start",
+      "detail": {
+        "contentKey": "phase-1"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 2.5,
+      "event": "event:show-step-content",
+      "label": "show-1",
+      "detail": {
+        "contentKey": "step-1"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 2.1,
+      "event": "event:hide-step-content",
+      "label": "hide-step",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-4",
+      "time": 7.5,
+      "event": "event:hide-step-content",
+      "label": "hide-step",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-5",
+      "time": 17,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-6",
+      "time": 8,
+      "event": "event:show-step-content",
+      "label": "show-2",
+      "detail": {
+        "contentKey": "step-2"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-7",
+      "time": 17.5,
+      "event": "event:show-step-content",
+      "label": "show-3",
+      "detail": {
+        "contentKey": "step-3"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-23",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "wooden-pallet"
+        },
+        {
+          "modelId": "crate-box"
+        },
+        {
+          "modelId": "cabinet-key"
+        },
+        {
+          "modelId": "screw-driver"
+        },
+        {
+          "modelId": "dynabolt"
+        },
+        {
+          "modelId": "hammerdrill"
+        },
+        {
+          "modelId": "m5x12-bolt"
+        },
+        {
+          "modelId": "m10x60-bolt"
+        },
+        {
+          "modelId": "m12x100-bolt"
+        },
+        {
+          "modelId": "wrench"
+        },
+        {
+          "modelId": "temp-drill"
+        },
+        {
+          "modelId": "temp-wrench"
+        },
+        {
+          "modelId": "bolt-front-single"
+        },
+        {
+          "modelId": "bolt-front-all"
+        },
+        {
+          "modelId": "bolt-left-all"
+        },
+        {
+          "modelId": "bolt-right-all"
+        },
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": false,
+          "value": [
+            0,
+            0.12,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": false,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-24",
+      "kind": "highlight",
+      "targets": [
+        {
+          "modelId": "bolt-front-single"
+        }
+      ],
+      "highlight": {
+        "durationSeconds": 3,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "startTime": 9
+    },
+    {
+      "type": "clip",
+      "id": "clip-25",
+      "animationFile": "unscrew-front-bolt.json",
+      "targets": [
+        {
+          "modelId": "screw-driver",
+          "nodeName": "screw-driver_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 9.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-26",
+      "animationFile": "pull-front-bolt.json",
+      "targets": [
+        {
+          "modelId": "bolt-front-single",
+          "nodeName": "bolt-front-single_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 11
+    },
+    {
+      "type": "clip",
+      "id": "clip-27",
+      "targets": [
+        {
+          "modelId": "screw-driver",
+          "nodeName": "screw-driver_root",
+          "applyToChildren": true,
+          "staggerByDistance": true
+        }
+      ],
+      "startTime": 11.8,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-28",
+      "targets": [
+        {
+          "modelId": "bolt-front-all",
+          "nodeName": "bolt-front-all_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 13,
+      "animationFile": "pull-front-bolt-all.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-29",
+      "targets": [
+        {
+          "modelId": "bolt-front-all",
+          "nodeName": "bolt-front-all_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 14.5,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-30",
+      "targets": [
+        {
+          "modelId": "bolt-front-single",
+          "nodeName": "bolt-front-single_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 12,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-31",
+      "targets": [
+        {
+          "modelId": "bolt-front-all"
+        }
+      ],
+      "startTime": 13,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1.5,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-32",
+      "targets": [
+        {
+          "modelId": "bolt-right-all"
+        }
+      ],
+      "startTime": 15.5,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-33",
+      "targets": [
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "startTime": 15,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-34",
+      "targets": [
+        {
+          "modelId": "bolt-left-all"
+        }
+      ],
+      "startTime": 14.5,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-35",
+      "targets": [
+        {
+          "modelId": "bolt-right-all",
+          "nodeName": "bolt-right-all_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 16.5,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-36",
+      "targets": [
+        {
+          "modelId": "bolt-back-all",
+          "nodeName": "bolt-back-all_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 16,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-37",
+      "targets": [
+        {
+          "modelId": "bolt-left-all",
+          "nodeName": "bolt-left-all_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 15.5,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-38",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "screw-driver"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            -0.324,
+            0.371,
+            0.386
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      },
+      "startTime": 7.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-39",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 15,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 2.4159,
+            "to": 0.9546
+          },
+          "beta": {
+            "from": 1.4246,
+            "to": 1.5062
+          },
+          "radius": {
+            "from": 0.75,
+            "to": 1.0395
+          },
+          "target": {
+            "from": [
+              -0.07,
+              0.35,
+              -0.08
+            ],
+            "to": [
+              0.2,
+              0.47,
+              -0.16
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-40",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 17.5,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 0.9546,
+            "to": 0.5443
+          },
+          "beta": {
+            "from": 1.5062,
+            "to": 1.5018
+          },
+          "radius": {
+            "from": 1.0395,
+            "to": 1.0395
+          },
+          "target": {
+            "from": [
+              0.2,
+              0.47,
+              -0.16
+            ],
+            "to": [
+              0.25,
+              0.47,
+              -0.23
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-41",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_73"
+          ]
+        }
+      ],
+      "startTime": 18,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 2,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 2,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-42",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_22"
+          ]
+        }
+      ],
+      "startTime": 20,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 2,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-43",
+      "animationFile": "remove_front_panel.json",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_73"
+        }
+      ],
+      "startTime": 19
+    },
+    {
+      "type": "clip",
+      "id": "clip-44",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_73",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 20,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-45",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_22",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 22,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-46",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_22"
+        }
+      ],
+      "startTime": 21,
+      "animationFile": "remove_left_panel.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-47",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_21"
+          ]
+        }
+      ],
+      "startTime": 21.5,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-48",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_74",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 22.5,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-49",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_21",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 22.5,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-50",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_74"
+          ]
+        }
+      ],
+      "startTime": 21.5,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-51",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "dc-charger_root",
+          "applyToChildren": true
+        },
+        {
+          "modelId": "wooden-pallet",
+          "nodeName": "wooden-pallet_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 17,
+      "animationFile": "mesh-show.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-52",
+      "targets": [
+        {
+          "modelId": "screw-driver"
+        }
+      ],
+      "startTime": 9,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1.5,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.5
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.5,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-53",
+      "targets": [
+        {
+          "modelId": "bolt-left-all"
+        },
+        {
+          "modelId": "bolt-right-all"
+        },
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "startTime": 7.5,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.281,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-54",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "dc-charger"
+        },
+        {
+          "modelId": "bolt-front-single"
+        },
+        {
+          "modelId": "bolt-front-all"
+        },
+        {
+          "modelId": "bolt-left-all"
+        },
+        {
+          "modelId": "bolt-right-all"
+        },
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.12,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-55",
+      "targets": [
+        {
+          "modelId": "bolt-front-single"
+        }
+      ],
+      "startTime": 7.5,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            -0.323,
+            0.189,
+            -0.124
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-56",
+      "targets": [
+        {
+          "modelId": "bolt-front-all"
+        }
+      ],
+      "startTime": 7.5,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0.329,
+            0.189,
+            -0.124
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-8",
+      "time": 25,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-9",
+      "time": 25.5,
+      "event": "event:show-step-content",
+      "label": "show-4",
+      "detail": {
+        "contentKey": "step-4"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-57",
+      "targets": [
+        {
+          "modelId": "bolt-front-single"
+        },
+        {
+          "modelId": "bolt-front-all"
+        },
+        {
+          "modelId": "bolt-left-all"
+        },
+        {
+          "modelId": "bolt-right-all"
+        },
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "startTime": 17,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.281,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-58",
+      "targets": [
+        {
+          "modelId": "bolt-front-single"
+        },
+        {
+          "modelId": "bolt-front-all"
+        },
+        {
+          "modelId": "bolt-left-all"
+        },
+        {
+          "modelId": "bolt-right-all"
+        },
+        {
+          "modelId": "bolt-back-all"
+        }
+      ],
+      "startTime": 16.8,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.281,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-59",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_10",
+            "Mesh_11",
+            "Mesh_12",
+            "Mesh_13",
+            "Mesh_14",
+            "Mesh_15",
+            "Mesh_16",
+            "Mesh_17"
+          ]
+        }
+      ],
+      "startTime": 24,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-60",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeNames": [
+            "Mesh_10",
+            "Mesh_11",
+            "Mesh_12",
+            "Mesh_13",
+            "Mesh_14",
+            "Mesh_15",
+            "Mesh_16",
+            "Mesh_17"
+          ]
+        }
+      ],
+      "startTime": 25,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 4,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.5,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-61",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_21",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 25,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-62",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_22",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 25,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-63",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_73",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 25,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-64",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_74",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 25,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-65",
+      "targets": [
+        {
+          "modelId": "wrench",
+          "nodeName": "wrench_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 26,
+      "animationFile": "mesh-fade-in.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-66",
+      "targets": [
+        {
+          "modelId": "wrench"
+        }
+      ],
+      "startTime": 26,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 1.5,
+        "fade": true,
+        "glow": {
+          "enabled": true,
+          "color": "#ff8800",
+          "blurSize": 0.2,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.1
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff8800",
+          "alpha": 0.2,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 2,
+            "minAlpha": 0.1
+          }
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-67",
+      "targets": [
+        {
+          "modelId": "wrench"
+        }
+      ],
+      "startTime": 25,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-68",
+      "targets": [
+        {
+          "modelId": "wooden-pallet",
+          "nodeName": "wooden-pallet_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 25,
+      "animationFile": "mesh-show.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-69",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_21",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 24.9,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-70",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_22",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 24.9,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-71",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_73",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 24.9,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-72",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_74",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 24.9,
+      "animationFile": "mesh-hide.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-73",
+      "animationFile": "unbolt-pallete-bolts.json",
+      "targets": [
+        {
+          "modelId": "wrench",
+          "nodeName": "wrench_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 26.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-74",
+      "targets": [
+        {
+          "modelId": "wrench",
+          "nodeName": "wrench_root",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 29,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-75",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_10",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 29,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-76",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_11",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 29.2,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-77",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_12",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 29.4,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-78",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_13",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 29.6,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-79",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_14",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 30,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-80",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_15",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 30,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-81",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_16",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 30,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "clip",
+      "id": "clip-82",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "Mesh_17",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 30,
+      "animationFile": "mesh-fade-out.json"
+    },
+    {
+      "type": "emit",
+      "id": "emit-10",
+      "time": 31,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-11",
+      "time": 31.5,
+      "event": "event:show-step-content",
+      "label": "show-6",
+      "detail": {
+        "contentKey": "step-6"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-83",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 31,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 0.223,
+            "to": 0.9938
+          },
+          "beta": {
+            "from": 1.3353,
+            "to": 1.1553
+          },
+          "radius": {
+            "from": 0.75,
+            "to": 1.5005
+          },
+          "target": {
+            "from": [
+              0.23,
+              0.26,
+              -0.01
+            ],
+            "to": [
+              0.06,
+              0.89,
+              -0.23
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-12",
+      "time": 50.3,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "detail": {}
+    },
+    {
+      "type": "clip",
+      "id": "clip-84",
+      "animationFile": "open-front-door.json",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "FrontPanel_mesh"
+        }
+      ],
+      "startTime": 33
+    },
+    {
+      "type": "clip",
+      "id": "clip-85",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 38,
+      "cameraMove": {
+        "durationSeconds": 1.5,
+        "properties": {
+          "alpha": {
+            "from": 0.9938,
+            "to": 0.5175
+          },
+          "beta": {
+            "from": 1.1553,
+            "to": 1.3862
+          },
+          "radius": {
+            "from": 1.5005,
+            "to": 1.2878
+          },
+          "target": {
+            "from": [
+              0.06,
+              0.89,
+              -0.23
+            ],
+            "to": [
+              -0.2,
+              0.97,
+              0.25
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-13",
+      "time": 37,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-14",
+      "time": 38,
+      "event": "event:show-step-content",
+      "label": "show-7",
+      "detail": {
+        "contentKey": "step-7"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-86",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "FrontPanel_mesh",
+          "applyToChildren": true
+        }
+      ],
+      "startTime": 2,
+      "animationFile": "mesh-show.json"
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-3",
+      "clip-5",
+      "clip-19",
+      "clip-39",
+      "clip-40",
+      "clip-16",
+      "clip-83",
+      "clip-85",
+      "clip-84"
+    ],
+    [
+      "clip-2",
+      "clip-8",
+      "clip-1",
+      "clip-52",
+      "clip-53",
+      "clip-66",
+      "clip-67",
+      "clip-74",
+      "clip-86"
+    ],
+    [
+      "clip-15",
+      "clip-21",
+      "clip-11",
+      "clip-12",
+      "clip-13",
+      "clip-14",
+      "clip-4",
+      "clip-22",
+      "clip-23",
+      "clip-17",
+      "clip-51",
+      "clip-68",
+      "clip-24",
+      "clip-41",
+      "clip-65",
+      "clip-73"
+    ],
+    [
+      "clip-9",
+      "clip-20",
+      "clip-25",
+      "clip-38",
+      "clip-43",
+      "clip-44",
+      "clip-57",
+      "clip-61",
+      "clip-58",
+      "clip-70",
+      "clip-75"
+    ],
+    [
+      "clip-10",
+      "clip-26",
+      "clip-28",
+      "clip-30",
+      "clip-42",
+      "clip-37",
+      "clip-34",
+      "clip-18",
+      "clip-62",
+      "clip-71",
+      "clip-76"
+    ],
+    [
+      "clip-6",
+      "clip-31",
+      "clip-45",
+      "clip-46",
+      "clip-29",
+      "clip-55",
+      "clip-63",
+      "clip-69",
+      "clip-64",
+      "clip-77"
+    ],
+    [
+      "clip-7",
+      "clip-33",
+      "clip-36",
+      "clip-27",
+      "clip-56",
+      "clip-50",
+      "clip-48",
+      "clip-72",
+      "clip-78"
+    ],
+    [
+      "clip-32",
+      "clip-35",
+      "clip-59",
+      "clip-60",
+      "clip-47",
+      "clip-49",
+      "clip-79"
+    ],
+    [
+      "clip-80"
+    ],
+    [
+      "clip-82"
+    ],
+    [
+      "clip-81"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "clip-54"
+    ],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "label": "Start: Before you begin...",
+      "color": "#ff004c",
+      "startTime": 0,
+      "endTime": 2
+    },
+    {
+      "id": "chapter-2",
+      "label": "1: Unboxing & Preparation",
+      "color": "#084e14",
+      "startTime": 2,
+      "endTime": 50.3
+    },
+    {
+      "id": "chapter-3",
+      "label": "2: Foundation Fabrication",
+      "color": "#ff8800",
+      "startTime": 50.3,
+      "endTime": 56.3
+    },
+    {
+      "id": "chapter-4",
+      "label": "3: Cable Routing",
+      "color": "#ff007b",
+      "startTime": 56.3,
+      "endTime": 61.3
+    },
+    {
+      "id": "chapter-5",
+      "label": "4: Mounting the Charger",
+      "color": "#bb00ff",
+      "startTime": 61.3,
+      "endTime": 66.3
+    },
+    {
+      "id": "chapter-6",
+      "label": "5: Power Module Installation",
+      "color": "#002aff",
+      "startTime": 66.3,
+      "endTime": 71.3
+    },
+    {
+      "id": "chapter-7",
+      "label": "6: Internal Electrical Setup",
+      "color": "#00ffee",
+      "startTime": 71.3,
+      "endTime": 76.3
+    },
+    {
+      "id": "chapter-8",
+      "label": "7: Power Cable Wiring",
+      "color": "#00ff59",
+      "startTime": 76.3,
+      "endTime": 81.3
+    },
+    {
+      "id": "chapter-9",
+      "label": "8: Sealing & Close-Up",
+      "color": "#ffc800",
+      "startTime": 81.3,
+      "endTime": 86.3
+    },
+    {
+      "id": "chapter-10",
+      "label": "End: Summary",
+      "color": "#ff004c",
+      "startTime": 86.3,
+      "endTime": 91.3
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-1",
+      "label": "step-01",
+      "color": "#003899",
+      "startTime": 2,
+      "endTime": 7.5
+    },
+    {
+      "id": "region-2",
+      "label": "step-02",
+      "color": "#4488ff",
+      "startTime": 7.5,
+      "endTime": 17
+    },
+    {
+      "id": "region-3",
+      "label": "step-03",
+      "color": "#003899",
+      "startTime": 17,
+      "endTime": 25
+    },
+    {
+      "id": "region-4",
+      "label": "step-04",
+      "color": "#4488ff",
+      "startTime": 25,
+      "endTime": 31
+    },
+    {
+      "id": "region-5",
+      "label": "step-05",
+      "color": "#003899",
+      "startTime": 50.3,
+      "endTime": 52.3
+    },
+    {
+      "id": "region-6",
+      "label": "step-06",
+      "color": "#4488ff",
+      "startTime": 37,
+      "endTime": 50.3
+    },
+    {
+      "id": "region-7",
+      "label": "step-07",
+      "color": "#003899",
+      "startTime": 52.3,
+      "endTime": 53.3
+    },
+    {
+      "id": "region-8",
+      "label": "step-08",
+      "color": "#4488ff",
+      "startTime": 53.3,
+      "endTime": 54.3
+    },
+    {
+      "id": "region-9",
+      "label": "step-09",
+      "color": "#003899",
+      "startTime": 54.3,
+      "endTime": 55.3
+    },
+    {
+      "id": "region-10",
+      "label": "step-10",
+      "color": "#4488ff",
+      "startTime": 55.3,
+      "endTime": 56.3
+    },
+    {
+      "id": "region-11",
+      "label": "step-11",
+      "color": "#003899",
+      "startTime": 56.3,
+      "endTime": 57.3
+    },
+    {
+      "id": "region-12",
+      "label": "step-12",
+      "color": "#4488ff",
+      "startTime": 57.3,
+      "endTime": 58.3
+    },
+    {
+      "id": "region-13",
+      "label": "step-13",
+      "color": "#003899",
+      "startTime": 58.3,
+      "endTime": 59.3
+    },
+    {
+      "id": "region-14",
+      "label": "step-14",
+      "color": "#4488ff",
+      "startTime": 59.3,
+      "endTime": 60.3
+    },
+    {
+      "id": "region-15",
+      "label": "step-15",
+      "color": "#003899",
+      "startTime": 60.3,
+      "endTime": 61.3
+    },
+    {
+      "id": "region-16",
+      "label": "step-16",
+      "color": "#4488ff",
+      "startTime": 61.3,
+      "endTime": 62.3
+    },
+    {
+      "id": "region-17",
+      "label": "step-17",
+      "color": "#003899",
+      "startTime": 62.3,
+      "endTime": 63.3
+    },
+    {
+      "id": "region-18",
+      "label": "step-18",
+      "color": "#4488ff",
+      "startTime": 63.3,
+      "endTime": 64.3
+    },
+    {
+      "id": "region-19",
+      "label": "step-19",
+      "color": "#003899",
+      "startTime": 64.3,
+      "endTime": 65.3
+    },
+    {
+      "id": "region-20",
+      "label": "step-20",
+      "color": "#4488ff",
+      "startTime": 65.3,
+      "endTime": 66.3
+    },
+    {
+      "id": "region-21",
+      "label": "step-21",
+      "color": "#003899",
+      "startTime": 66.3,
+      "endTime": 67.3
+    },
+    {
+      "id": "region-22",
+      "label": "step-22",
+      "color": "#4488ff",
+      "startTime": 67.3,
+      "endTime": 68.3
+    },
+    {
+      "id": "region-23",
+      "label": "step-23",
+      "color": "#003899",
+      "startTime": 68.3,
+      "endTime": 69.3
+    },
+    {
+      "id": "region-24",
+      "label": "step-24",
+      "color": "#4488ff",
+      "startTime": 69.3,
+      "endTime": 70.3
+    },
+    {
+      "id": "region-25",
+      "label": "step-25",
+      "color": "#003899",
+      "startTime": 70.3,
+      "endTime": 71.3
+    },
+    {
+      "id": "region-26",
+      "label": "step-26",
+      "color": "#4488ff",
+      "startTime": 71.3,
+      "endTime": 72.3
+    },
+    {
+      "id": "region-27",
+      "label": "step-27",
+      "color": "#003899",
+      "startTime": 72.3,
+      "endTime": 73.3
+    },
+    {
+      "id": "region-28",
+      "label": "step-28",
+      "color": "#4488ff",
+      "startTime": 73.3,
+      "endTime": 74.3
+    },
+    {
+      "id": "region-29",
+      "label": "step-29",
+      "color": "#003899",
+      "startTime": 74.3,
+      "endTime": 75.3
+    },
+    {
+      "id": "region-30",
+      "label": "step-30",
+      "color": "#4488ff",
+      "startTime": 75.3,
+      "endTime": 76.3
+    },
+    {
+      "id": "region-31",
+      "label": "step-31",
+      "color": "#003899",
+      "startTime": 76.3,
+      "endTime": 77.3
+    },
+    {
+      "id": "region-32",
+      "label": "step-32",
+      "color": "#4488ff",
+      "startTime": 77.3,
+      "endTime": 78.3
+    },
+    {
+      "id": "region-33",
+      "label": "step-33",
+      "color": "#003899",
+      "startTime": 78.3,
+      "endTime": 79.3
+    },
+    {
+      "id": "region-34",
+      "label": "step-34",
+      "color": "#4488ff",
+      "startTime": 79.3,
+      "endTime": 80.3
+    },
+    {
+      "id": "region-35",
+      "label": "step-35",
+      "color": "#003899",
+      "startTime": 80.3,
+      "endTime": 81.3
+    },
+    {
+      "id": "region-36",
+      "label": "step-36",
+      "color": "#4488ff",
+      "startTime": 81.3,
+      "endTime": 82.3
+    },
+    {
+      "id": "region-37",
+      "label": "step-37",
+      "color": "#003899",
+      "startTime": 82.3,
+      "endTime": 83.3
+    },
+    {
+      "id": "region-38",
+      "label": "step-38",
+      "color": "#4488ff",
+      "startTime": 83.3,
+      "endTime": 84.3
+    },
+    {
+      "id": "region-39",
+      "label": "step-39",
+      "color": "#003899",
+      "startTime": 84.3,
+      "endTime": 85.3
+    },
+    {
+      "id": "region-40",
+      "label": "step-40",
+      "color": "#4488ff",
+      "startTime": 85.3,
+      "endTime": 86.3
+    },
+    {
+      "id": "region-41",
+      "label": "end-simulation",
+      "color": "#003899",
+      "startTime": 86.3,
+      "endTime": 91.3
+    },
+    {
+      "id": "region-42",
+      "label": "step-05",
+      "color": "#003899",
+      "startTime": 31,
+      "endTime": 37
+    }
+  ]
+}
