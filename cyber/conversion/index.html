@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decimal Conversion Activity</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Screen-reader announcements (quiz feedback, converter results, etc.) -->
+  <div id="sr-announce" class="sr-only" aria-live="polite"></div>
+
+  <main>
+
+    <!-- ================================================================
+         EDITABLE COPY: all static screen text lives in the markup below.
+         Dynamic strings (feedback, results bands, labels) live in the
+         COPY object at the top of js/main.js.
+         ================================================================ -->
+
+    <!-- ========== START SCREEN ========== -->
+    <section class="screen screen-centered" id="screen-start">
+      <h1 tabindex="-1">Decimal Conversion Activity</h1>
+      <p class="intro">
+        Computers don't store numbers the way we write them &mdash; they use
+        binary.
+      </p>
+      <p class="intro">In this activity you'll learn how to convert everyday decimal
+        numbers into 8-bit binary, step by step, then test your skills with a
+        10-question quiz.</p>
+        <!-- <p>Choose a conversion type below to begin.</p> -->
+        <p class="intro">Select the button below to begin the activity.</p>
+      <BR>
+      <div class="start-buttons">
+        <button type="button" class="btn btn-primary btn-big" id="btn-go-binary">
+          <span class="btn-go-bits" aria-hidden="true"><span class="bit-zero">0</span><span class="bit-zero">0</span><span class="bit-one">1</span><span class="bit-zero">0</span><span class="bit-one">1</span><span class="bit-zero">0</span><span class="bit-one">1</span><span class="bit-zero">0</span></span>
+          <span class="btn-go-label">Convert Decimal<br>to Binary</span>
+        </button>
+        <!-- <div class="hex-slot">
+          <!-- Iteration 2: enable this button when hex mode ships 
+          <button type="button" class="btn btn-big" id="btn-go-hex" disabled>
+            Convert Hexadecimal
+          </button>
+          <p class="hex-hint">Coming in a future version</p>
+        </div> -->
+      </div>
+    </section>
+
+    <!-- ========== LEARN / CONVERTER SCREEN ========== -->
+    <section class="screen" id="screen-learn" hidden>
+      <header class="topbar">
+        <h1 tabindex="-1">Convert to Binary</h1>
+        <button type="button" class="btn btn-home" id="btn-home-learn">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3z" fill="currentColor"/></svg>
+          Go home
+        </button>
+      </header>
+
+      <div class="learn-prompt">
+        <label for="learn-input">Enter a number between 0 and 255</label>
+        <span class="prompt-chev" aria-hidden="true">&#8250;</span>
+        <input id="learn-input" type="text" inputmode="numeric"
+               maxlength="3" value="42" autocomplete="off">
+      </div>
+      <p id="learn-msg" class="learn-msg" aria-live="polite"></p>
+
+      <div id="converter-area">
+        <!-- Visual working-out grid: built by js/converter-ui.js.
+             aria-hidden; screen readers use the narration below. -->
+        <div id="converter-root" class="conv-grid"></div>
+        <div id="converter-sum" class="conv-sum" aria-hidden="true"></div>
+      </div>
+
+      <!-- Column-ordered narration of the working, for screen readers -->
+      <div id="converter-narration" class="sr-only"></div>
+
+      <footer class="learn-footer">
+        <button type="button" class="btn" id="btn-help-open">Help</button>
+        <button type="button" class="btn btn-primary" id="btn-begin-quiz">
+          Begin Quiz
+        </button>
+      </footer>
+    </section>
+
+    <!-- ========== QUIZ SCREEN ========== -->
+    <section class="screen" id="screen-quiz" hidden>
+      <header class="topbar">
+        <h1 tabindex="-1">Binary Conversion Quiz</h1>
+        <button type="button" class="btn btn-home" id="btn-home-quiz">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3z" fill="currentColor"/></svg>
+          Go home
+        </button>
+      </header>
+
+      <p class="quiz-subheading" id="quiz-subheading">Question 1 / 10</p>
+
+      <div class="quiz-target-block">
+        <p class="quiz-target-label">Convert to Binary</p>
+        <div class="quiz-target-card" id="quiz-target">0</div>
+      </div>
+
+      <!-- 8 toggle columns: built by js/quiz.js -->
+      <div id="quiz-toggles" class="toggle-grid"></div>
+
+      <!-- Per-column marks + pill + message after Submit -->
+      <div id="quiz-feedback" class="quiz-feedback"></div>
+
+      <footer class="quiz-footer">
+        <div class="quiz-hint-controls">
+          <button type="button" class="btn" id="btn-quiz-hint" aria-pressed="false">
+            Hints
+          </button>
+          <p class="quiz-hint-prompt" id="quiz-hint-prompt" hidden></p>
+        </div>
+        <button type="button" class="btn btn-primary btn-big" id="btn-quiz-submit">
+          Submit
+        </button>
+      </footer>
+    </section>
+
+    <!-- ========== RESULTS SCREEN ========== -->
+    <section class="screen screen-centered" id="screen-results" hidden>
+      <header class="topbar">
+        <h1 tabindex="-1">Binary Conversion Quiz</h1>
+        <button type="button" class="btn btn-home" id="btn-home-results">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3z" fill="currentColor"/></svg>
+          Go home
+        </button>
+      </header>
+
+      <p class="results-sub">Quiz complete</p>
+      <p class="results-score" id="results-score"></p>
+      <p class="results-hints" id="results-hints"></p>
+      <p class="results-band" id="results-band"></p>
+      <p class="results-footer">
+        Select <b>Try Again</b> to answer 10 new questions, or select
+        <b>Home</b> to revisit the converter and refresh your understanding.
+      </p>
+      <button type="button" class="btn btn-primary btn-big" id="btn-try-again">
+        Try Again
+      </button>
+    </section>
+
+  </main>
+
+  <!-- ========== HELP POPUP (overlay on the Learn screen) ========== -->
+  <div id="help-overlay" class="help-overlay" hidden>
+    <div id="help-dialog" class="help-dialog" role="dialog" aria-modal="true"
+         aria-labelledby="help-title">
+      <h2 id="help-title">Convert to Binary</h2>
+      <h3>How the converter works</h3>
+      <p>
+        Binary is how computers store numbers &mdash; using only 1s and 0s.
+        Each position in an 8-bit binary number has a place value: 128, 64,
+        32, 16, 8, 4, 2 and 1, reading left to right.
+      </p>
+      <p>
+        To convert a decimal number to binary, work through the place values
+        from largest to smallest, asking at each one:<BR>
+        <b>&ldquo;Can this place value fit into my remaining number?&rdquo;</b>
+      </p>
+      <ul>
+        <li><b>Yes</b> &rarr; put a <b>1</b> in that position, subtract the
+            place value, and carry the remainder to the next column.</li>
+        <li><b>No</b> &rarr; put a <b>0</b> and move on with the same
+            number.</li>
+      </ul>
+      <p>
+        When you've worked through all 8 positions, the 1s and 0s you've
+        written down are the binary equivalent. You can check your answer by
+        adding up the place values of every position marked 1 &mdash; the
+        total should equal your starting number.
+      </p>
+      <p>
+        <b>Try it out:</b> type any number from 0 to 255 into the box and
+        watch each step of the conversion happen. Change the number and see
+        how the working changes. When you're confident you can follow the
+        method, select <b>Begin Quiz</b> to test yourself &mdash; you'll be
+        given 10 random numbers to convert on your own.
+      </p>
+      <div class="help-footer">
+        <button type="button" class="btn btn-primary" id="btn-help-close">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="noscript-msg">
+      This activity needs JavaScript enabled in your browser to run.
+    </p>
+  </noscript>
+
+  <!-- Classic scripts, fixed order (works over file:// and http) -->
+  <script src="js/conversion.js"></script>
+  <script src="js/converter-ui.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
