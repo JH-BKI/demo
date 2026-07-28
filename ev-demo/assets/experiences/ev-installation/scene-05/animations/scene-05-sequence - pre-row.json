@@ -6,6 +6,17 @@
   "autoPlay": true,
   "items": [
     {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)",
+      "subLane": 1
+    },
+    {
       "type": "clip",
       "id": "clip-1",
       "animationFile": "mesh-fade-in.json",
@@ -202,7 +213,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 8,
+      "startTime": 8.1,
       "cameraMove": {
         "durationSeconds": 2.5,
         "properties": {
@@ -294,7 +305,7 @@
     {
       "type": "emit",
       "id": "emit-2",
-      "time": 2,
+      "time": 2.5,
       "event": "event:show-step-content",
       "label": "show-1",
       "detail": {
@@ -308,7 +319,7 @@
       "event": "event:hide-step-content",
       "label": "hide-step",
       "detail": {},
-      "subLane": 1
+      "subLane": 0
     },
     {
       "type": "emit",
@@ -321,7 +332,7 @@
     {
       "type": "emit",
       "id": "emit-5",
-      "time": 26,
+      "time": 26.1,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {}
@@ -329,18 +340,17 @@
     {
       "type": "emit",
       "id": "emit-6",
-      "time": 8.5,
+      "time": 9,
       "event": "event:show-step-content",
       "label": "show-2",
       "detail": {
         "contentKey": "step-2"
-      },
-      "subLane": 1
+      }
     },
     {
       "type": "emit",
       "id": "emit-7",
-      "time": 26.5,
+      "time": 27,
       "event": "event:show-step-content",
       "label": "show-3",
       "detail": {
@@ -375,7 +385,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": true,
           "pulse": {
             "enabled": false,
@@ -730,7 +740,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -769,7 +779,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -860,7 +870,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -925,7 +935,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -961,7 +971,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -974,7 +984,7 @@
     {
       "type": "emit",
       "id": "emit-8",
-      "time": 32.5,
+      "time": 32.6,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {}
@@ -1019,7 +1029,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -1055,7 +1065,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -1068,7 +1078,7 @@
     {
       "type": "emit",
       "id": "emit-10",
-      "time": 48,
+      "time": 48.1,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {}
@@ -1089,13 +1099,12 @@
       "time": 67.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "detail": {},
-      "subLane": 1
+      "detail": {}
     },
     {
       "type": "emit",
       "id": "emit-13",
-      "time": 60,
+      "time": 60.1,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {}
@@ -1103,13 +1112,12 @@
     {
       "type": "emit",
       "id": "emit-14",
-      "time": 68,
+      "time": 67.8,
       "event": "event:show-step-content",
       "label": "show-7",
       "detail": {
         "contentKey": "step-7"
-      },
-      "subLane": 1
+      }
     },
     {
       "type": "emit",
@@ -1124,11 +1132,21 @@
     {
       "type": "emit",
       "id": "emit-16",
-      "time": 76.1,
+      "time": 76.3,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {},
       "subLane": 0
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 76.2,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)"
     },
     {
       "type": "emit",
@@ -1143,13 +1161,23 @@
     {
       "type": "emit",
       "id": "emit-18",
-      "time": 76.5,
+      "time": 77,
       "event": "event:show-step-content",
       "label": "show-8",
       "detail": {
         "contentKey": "step-8"
       },
       "subLane": 1
+    },
+    {
+      "type": "wait",
+      "id": "gate-3",
+      "time": 89.6,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)"
     },
     {
       "type": "emit",
@@ -4037,9 +4065,9 @@
           "kind": "camera"
         }
       ],
-      "startTime": 26,
+      "startTime": 27,
       "cameraMove": {
-        "durationSeconds": 2,
+        "durationSeconds": 1,
         "properties": {
           "alpha": {
             "from": 0.562,
@@ -4066,8 +4094,7 @@
             ]
           }
         },
-        "setAsResetHome": true,
-        "autoRotate": false
+        "setAsResetHome": true
       }
     },
     {
@@ -4078,7 +4105,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 32.5,
+      "startTime": 32.6,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -4092,7 +4119,7 @@
           },
           "radius": {
             "from": 1.1457,
-            "to": 0.85
+            "to": 0.75
           },
           "target": {
             "from": [
@@ -4107,8 +4134,7 @@
             ]
           }
         },
-        "setAsResetHome": true,
-        "autoRotate": false
+        "setAsResetHome": true
       }
     },
     {
@@ -4119,7 +4145,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 48,
+      "startTime": 48.1,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -4132,7 +4158,7 @@
             "to": 1.1553
           },
           "radius": {
-            "from": 0.85,
+            "from": 0.75,
             "to": 1.1436
           },
           "target": {
@@ -4148,8 +4174,7 @@
             ]
           }
         },
-        "setAsResetHome": true,
-        "autoRotate": false
+        "setAsResetHome": true
       }
     },
     {
@@ -5095,7 +5120,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -5267,7 +5292,7 @@
       "detail": {
         "contentKey": "step-9"
       },
-      "subLane": 1
+      "subLane": 0
     },
     {
       "type": "emit",
@@ -5334,6 +5359,16 @@
         "visible": true
       },
       "subLane": 0
+    },
+    {
+      "type": "wait",
+      "id": "gate-4",
+      "time": 320.1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)"
     },
     {
       "type": "clip",
@@ -6831,7 +6866,7 @@
           }
         }
       ],
-      "startTime": 312,
+      "startTime": 311.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -7865,7 +7900,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 313.5,
+      "startTime": 313,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 2,
@@ -7967,7 +8002,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 315.5,
+      "startTime": 315,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -8053,7 +8088,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 312,
+      "startTime": 311.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -8176,11 +8211,11 @@
     {
       "type": "emit",
       "id": "emit-28",
-      "time": 89.6,
+      "time": 89.7,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "detail": {},
-      "subLane": 1
+      "subLane": 0
     },
     {
       "type": "clip",
@@ -8728,7 +8763,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.25,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": true,
@@ -8746,7 +8781,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 60,
+      "startTime": 60.1,
       "cameraMove": {
         "durationSeconds": 2,
         "properties": {
@@ -8826,16 +8861,16 @@
           "kind": "camera"
         }
       ],
-      "startTime": 312,
+      "startTime": 311.5,
       "cameraMove": {
         "durationSeconds": 2,
         "properties": {
           "alpha": {
-            "from": 1.2852,
+            "from": 1.2677,
             "to": 0.9099
           },
           "beta": {
-            "from": 1.7509,
+            "from": 1.2075,
             "to": 1.2168
           },
           "radius": {
@@ -8867,7 +8902,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 67.5,
+      "startTime": 67.6,
       "cameraMove": {
         "durationSeconds": 2,
         "properties": {
@@ -9863,7 +9898,7 @@
           "value": 0
         }
       },
-      "startTime": 46
+      "startTime": 45.5
     },
     {
       "type": "clip",
@@ -10385,7 +10420,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.2,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -10752,7 +10787,7 @@
           "nodeName": "m10x60-bolt-1"
         }
       ],
-      "startTime": 46,
+      "startTime": 45.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -10855,7 +10890,7 @@
         }
       ],
       "modelMove": {
-        "durationSeconds": 1.5,
+        "durationSeconds": 1,
         "position": {
           "enabled": true,
           "from": [
@@ -10896,9 +10931,9 @@
           ]
         },
         "visibility": {
-          "enabled": true,
+          "enabled": false,
           "from": 1,
-          "to": 0
+          "to": 1
         }
       },
       "startTime": 44.5
@@ -11152,7 +11187,7 @@
       "time": 97.5,
       "event": "dimensionsControl",
       "label": "dim-show-foundation-footprint-XAxis",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "ids": "foundation-footprint-XAxis",
         "visible": true
@@ -11164,7 +11199,7 @@
       "time": 97,
       "event": "dimensionsControl",
       "label": "dim-show-foundation-footprint-YAxis",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "ids": "foundation-footprint-YAxis",
         "visible": true
@@ -13500,7 +13535,7 @@
           "nodeName": "Face panel - front"
         }
       ],
-      "startTime": 31.8,
+      "startTime": 31.9,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -13530,7 +13565,7 @@
         },
         "visibility": {
           "enabled": true,
-          "value": 0
+          "value": 1
         }
       }
     },
@@ -13543,7 +13578,7 @@
           "nodeName": "Face panel - left"
         }
       ],
-      "startTime": 31.8,
+      "startTime": 32,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -13573,7 +13608,7 @@
         },
         "visibility": {
           "enabled": true,
-          "value": 0
+          "value": 1
         }
       }
     },
@@ -13837,7 +13872,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 96.5,
+      "startTime": 96.6,
       "cameraMove": {
         "durationSeconds": 2,
         "properties": {
@@ -13877,7 +13912,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 101.5,
+      "startTime": 101.6,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -13886,7 +13921,7 @@
             "to": 1.9425
           },
           "beta": {
-            "from": 0.6883,
+            "from": 0.8557,
             "to": 1.3302
           },
           "radius": {
@@ -13895,9 +13930,9 @@
           },
           "target": {
             "from": [
-              -0.14,
-              0.34,
-              0.12
+              -0.18,
+              0.28,
+              0.29
             ],
             "to": [
               -0.18,
@@ -13906,8 +13941,7 @@
             ]
           }
         },
-        "setAsResetHome": true,
-        "autoRotate": false
+        "setAsResetHome": true
       }
     },
     {
@@ -13960,7 +13994,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 105.5,
+      "startTime": 105.6,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -13989,8 +14023,7 @@
             ]
           }
         },
-        "setAsResetHome": true,
-        "autoRotate": false
+        "setAsResetHome": true
       }
     },
     {
@@ -15700,16 +15733,16 @@
     {
       "type": "emit",
       "id": "emit-54",
-      "time": 125.1,
+      "time": 125.2,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {}
     },
     {
       "type": "emit",
       "id": "emit-55",
-      "time": 125.5,
+      "time": 126,
       "event": "event:show-step-content",
       "label": "step-14",
       "subLane": 0,
@@ -16417,12 +16450,23 @@
       }
     },
     {
+      "type": "wait",
+      "id": "gate-5",
+      "time": 125.1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)",
+      "subLane": 0
+    },
+    {
       "type": "emit",
       "id": "emit-56",
       "time": 152,
       "event": "event:show-step-content",
       "label": "show-15",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-15"
       }
@@ -16545,7 +16589,7 @@
     {
       "type": "emit",
       "id": "emit-60",
-      "time": 76,
+      "time": 76.3,
       "event": "dimensionsControl",
       "label": "dim-hide-all",
       "subLane": 1,
@@ -17071,7 +17115,7 @@
     },
     {
       "type": "wait",
-      "id": "gate-1",
+      "id": "gate-6",
       "time": 0.2,
       "trigger": {
         "kind": "event",
@@ -18308,138 +18352,6 @@
           }
         },
         {
-          "modelId": "cr2032-battery",
-          "reset": {
-            "position": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "rotation": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "scale": {
-              "enabled": true,
-              "value": [
-                1,
-                1,
-                1
-              ]
-            },
-            "visibility": {
-              "enabled": true,
-              "value": 0
-            }
-          }
-        },
-        {
-          "modelId": "wiring-02",
-          "reset": {
-            "position": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "rotation": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "scale": {
-              "enabled": true,
-              "value": [
-                1,
-                1,
-                1
-              ]
-            },
-            "visibility": {
-              "enabled": true,
-              "value": 0
-            }
-          }
-        },
-        {
-          "modelId": "wiring-03",
-          "reset": {
-            "position": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "rotation": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "scale": {
-              "enabled": true,
-              "value": [
-                1,
-                1,
-                1
-              ]
-            },
-            "visibility": {
-              "enabled": true,
-              "value": 0
-            }
-          }
-        },
-        {
-          "modelId": "wiring-01",
-          "reset": {
-            "position": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "rotation": {
-              "enabled": true,
-              "value": [
-                0,
-                0,
-                0
-              ]
-            },
-            "scale": {
-              "enabled": true,
-              "value": [
-                1,
-                1,
-                1
-              ]
-            },
-            "visibility": {
-              "enabled": true,
-              "value": 0
-            }
-          }
-        },
-        {
           "modelId": "cabinet-key",
           "reset": {
             "position": {
@@ -18794,7 +18706,7 @@
     {
       "type": "emit",
       "id": "emit-63",
-      "time": 320.5,
+      "time": 320,
       "event": "event:show-scene-dialog",
       "label": "show-dialog-end-simulation",
       "detail": {
@@ -18805,10 +18717,10 @@
     {
       "type": "emit",
       "id": "emit-64",
-      "time": 320.7,
+      "time": 319.9,
       "event": "event:hide-scene-dialog",
       "label": "hide-dialog-end-simulation",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {
         "dialogId": "end"
       }
@@ -19158,7 +19070,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20561,7 +20473,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20600,7 +20512,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20639,7 +20551,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20678,7 +20590,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20717,7 +20629,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20756,7 +20668,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20795,7 +20707,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -20857,7 +20769,7 @@
           "nodeName": "hole-2"
         }
       ],
-      "startTime": 143.98,
+      "startTime": 143.99,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -20943,7 +20855,7 @@
           "nodeName": "hole-4"
         }
       ],
-      "startTime": 145.98,
+      "startTime": 145.99,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -20986,7 +20898,7 @@
           "nodeName": "hole-5"
         }
       ],
-      "startTime": 144.48,
+      "startTime": 144.49,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -21029,7 +20941,7 @@
           "nodeName": "hole-6"
         }
       ],
-      "startTime": 144.98,
+      "startTime": 144.99,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -21072,7 +20984,7 @@
           "nodeName": "hole-7"
         }
       ],
-      "startTime": 146.48,
+      "startTime": 146.49,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -21115,7 +21027,7 @@
           "nodeName": "hole-8"
         }
       ],
-      "startTime": 146.98,
+      "startTime": 146.99,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -21564,7 +21476,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -21699,7 +21611,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 151.5,
+      "startTime": 151.55,
       "cameraMove": {
         "durationSeconds": 2,
         "properties": {
@@ -21956,7 +21868,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -21995,7 +21907,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -23059,7 +22971,7 @@
         "overlay": {
           "enabled": true,
           "color": "#009dff",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -25467,7 +25379,7 @@
         "overlay": {
           "enabled": true,
           "color": "#7a7d7f",
-          "alpha": 0.0002,
+          "alpha": 0.0001,
           "xray": true,
           "pulse": {
             "enabled": false,
@@ -25524,7 +25436,7 @@
       "time": 175,
       "event": "event:show-step-content",
       "label": "show-16",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-16"
       }
@@ -26245,9 +26157,9 @@
           "kind": "camera"
         }
       ],
-      "startTime": 174.5,
+      "startTime": 175,
       "cameraMove": {
-        "durationSeconds": 2,
+        "durationSeconds": 1.5,
         "properties": {
           "alpha": {
             "from": 1.9868,
@@ -26588,7 +26500,7 @@
           "nodeName": "hole-1"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27065,7 +26977,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": true,
           "pulse": {
             "enabled": false,
@@ -27212,7 +27124,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.0025,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -27313,7 +27225,7 @@
           "nodeName": "hole-2"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27356,7 +27268,7 @@
           "nodeName": "hole-3"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27399,7 +27311,7 @@
           "nodeName": "hole-4"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27442,7 +27354,7 @@
           "nodeName": "hole-5"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27485,7 +27397,7 @@
           "nodeName": "hole-6"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27528,7 +27440,7 @@
           "nodeName": "hole-7"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27571,7 +27483,7 @@
           "nodeName": "hole-8"
         }
       ],
-      "startTime": 174.48,
+      "startTime": 174.46,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.01,
@@ -27611,7 +27523,7 @@
       "time": 181.5,
       "event": "event:show-step-content",
       "label": "show-17",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-17"
       }
@@ -28390,7 +28302,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 181,
+      "startTime": 181.5,
       "cameraMove": {
         "durationSeconds": 1.5,
         "properties": {
@@ -28429,7 +28341,7 @@
       "time": 188,
       "event": "event:show-step-content",
       "label": "show-18",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-18"
       }
@@ -28665,7 +28577,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 187.5,
+      "startTime": 187.6,
       "cameraMove": {
         "durationSeconds": 2.5,
         "properties": {
@@ -28724,7 +28636,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -29442,7 +29354,7 @@
           "nodeName": "m5x12-bolts"
         }
       ],
-      "startTime": 187.5,
+      "startTime": 187.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -29486,7 +29398,7 @@
           "nodeName": "face plates"
         }
       ],
-      "startTime": 187.5,
+      "startTime": 187.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -29529,7 +29441,7 @@
           "nodeName": "m10x60-bolts"
         }
       ],
-      "startTime": 187.5,
+      "startTime": 187.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -29667,7 +29579,7 @@
       "time": 199.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {}
     },
     {
@@ -30508,20 +30420,20 @@
           "kind": "camera"
         }
       ],
-      "startTime": 199.5,
+      "startTime": 199.6,
       "cameraMove": {
         "durationSeconds": 2.5,
         "properties": {
           "alpha": {
-            "from": 0.1452,
+            "from": 0.1437,
             "to": 0.5487
           },
           "beta": {
-            "from": 1.3863,
+            "from": 1.5671,
             "to": 1.4485
           },
           "radius": {
-            "from": 0.7552,
+            "from": 0.2951,
             "to": 1.1801
           },
           "target": {
@@ -30668,7 +30580,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -31273,7 +31185,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -31430,7 +31342,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -31904,7 +31816,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -32356,7 +32268,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -32395,7 +32307,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": true,
           "pulse": {
             "enabled": false,
@@ -32435,7 +32347,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.5,
+          "alpha": 0.25,
           "xray": true,
           "pulse": {
             "enabled": false,
@@ -32491,7 +32403,7 @@
     {
       "type": "emit",
       "id": "emit-114",
-      "time": 212.1,
+      "time": 212.2,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "subLane": 1,
@@ -32500,7 +32412,7 @@
     {
       "type": "emit",
       "id": "emit-115",
-      "time": 212.5,
+      "time": 213,
       "event": "event:show-step-content",
       "label": "step-20",
       "subLane": 1,
@@ -32518,6 +32430,17 @@
       "detail": {
         "contentKey": "phase-5"
       }
+    },
+    {
+      "type": "wait",
+      "id": "gate-7",
+      "time": 212.1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)",
+      "subLane": 1
     },
     {
       "type": "clip",
@@ -32568,9 +32491,9 @@
           "kind": "camera"
         }
       ],
-      "startTime": 212.1,
+      "startTime": 212.2,
       "cameraMove": {
-        "durationSeconds": 1.4,
+        "durationSeconds": 1,
         "properties": {
           "alpha": {
             "from": 2.5191,
@@ -33793,7 +33716,7 @@
           "nodeName": "face plates"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -33837,7 +33760,7 @@
           "nodeName": "Face panel - back"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -33881,7 +33804,7 @@
           "nodeName": "Face panel - front"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -33925,7 +33848,7 @@
           "nodeName": "Face panel - left"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -33969,7 +33892,7 @@
           "nodeName": "Face panel - right"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34013,7 +33936,7 @@
           "nodeName": "m5x12-bolts"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34057,7 +33980,7 @@
           "nodeName": "m5x12-bolt-back-bolts"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34101,7 +34024,7 @@
           "nodeName": "m5x12-bolt-front-bolts"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34145,7 +34068,7 @@
           "nodeName": "m5x12-bolt-front-single"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34189,7 +34112,7 @@
           "nodeName": "m5x12-bolt-left-bolts"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34233,7 +34156,7 @@
           "nodeName": "m5x12-bolt-right-bolts"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.53,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34278,7 +34201,7 @@
           "nodeName": "right side door hinge"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "reset": {
         "durationSeconds": 0.001,
         "position": {
@@ -34307,7 +34230,7 @@
         },
         "visibility": {
           "enabled": true,
-          "value": 0
+          "value": 1
         }
       }
     },
@@ -34668,7 +34591,7 @@
           "nodeName": "battery module 1"
         }
       ],
-      "startTime": 212,
+      "startTime": 212.01,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -34712,7 +34635,7 @@
           "nodeName": "battery module 2"
         }
       ],
-      "startTime": 212,
+      "startTime": 212.01,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -35088,7 +35011,7 @@
       "time": 220.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {}
     },
     {
@@ -35144,7 +35067,7 @@
           "nodeName": "battery module 2"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -35232,7 +35155,7 @@
           "nodeName": "battery module 1"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -35276,7 +35199,7 @@
           "nodeName": "battery module 1 bolts 1&2"
         }
       ],
-      "startTime": 212,
+      "startTime": 212.01,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -35320,7 +35243,7 @@
           "nodeName": "battery module 2 bolts 3&4"
         }
       ],
-      "startTime": 212,
+      "startTime": 212.01,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36135,7 +36058,7 @@
           "nodeName": "battery module 1"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 220.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36179,7 +36102,7 @@
           "nodeName": "battery module 1 bolts 1&2"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 220.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36223,7 +36146,7 @@
           "nodeName": "battery module 2"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 220.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36267,7 +36190,7 @@
           "nodeName": "battery module 2 bolts 3&4"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 220.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36539,7 +36462,7 @@
             0
           ],
           "to": [
-            0.1,
+            0.2,
             0,
             0
           ]
@@ -36701,7 +36624,7 @@
       "time": 233,
       "event": "event:show-step-content",
       "label": "show-22",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-22"
       }
@@ -36812,7 +36735,7 @@
           "nodeName": "battery module 2 bolts 3&4"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36856,7 +36779,7 @@
           "nodeName": "battery module 1 bolts 1&2"
         }
       ],
-      "startTime": 0.5,
+      "startTime": 0.52,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -36940,9 +36863,9 @@
           "kind": "camera"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 221,
       "cameraMove": {
-        "durationSeconds": 1.5,
+        "durationSeconds": 1,
         "properties": {
           "alpha": {
             "from": 2.2888,
@@ -37827,7 +37750,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 232.5,
+      "startTime": 232.51,
       "cameraMove": {
         "durationSeconds": 0.01,
         "properties": {
@@ -38260,7 +38183,7 @@
           "nodeName": "right side door hinge"
         }
       ],
-      "startTime": 232.5,
+      "startTime": 232.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -38295,9 +38218,20 @@
       }
     },
     {
+      "type": "wait",
+      "id": "gate-8",
+      "time": 240.1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)",
+      "subLane": 1
+    },
+    {
       "type": "emit",
       "id": "emit-121",
-      "time": 240.5,
+      "time": 240,
       "event": "event:show-step-content",
       "label": "phase-6-start",
       "subLane": 0,
@@ -38308,7 +38242,7 @@
     {
       "type": "emit",
       "id": "emit-122",
-      "time": 240.6,
+      "time": 240.2,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "subLane": 1,
@@ -38317,7 +38251,7 @@
     {
       "type": "emit",
       "id": "emit-123",
-      "time": 241,
+      "time": 240.5,
       "event": "event:show-step-content",
       "label": "step-23",
       "subLane": 0,
@@ -38334,7 +38268,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 240.5,
+      "startTime": 240,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -38424,7 +38358,7 @@
           "to": 1
         }
       },
-      "startTime": 242.5
+      "startTime": 242
     },
     {
       "type": "clip",
@@ -38434,7 +38368,7 @@
           "modelId": "cabinet-key"
         }
       ],
-      "startTime": 243,
+      "startTime": 242.5,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -38492,7 +38426,7 @@
           "modelId": "cabinet-key"
         }
       ],
-      "startTime": 243.5,
+      "startTime": 243,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -38551,7 +38485,7 @@
           "nodeName": "heyhole"
         }
       ],
-      "startTime": 243.5,
+      "startTime": 243,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -38609,7 +38543,7 @@
           "modelId": "cabinet-key"
         }
       ],
-      "startTime": 244,
+      "startTime": 243.5,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -38667,7 +38601,7 @@
           "modelId": "cabinet-key"
         }
       ],
-      "startTime": 244.5,
+      "startTime": 244,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -38774,7 +38708,7 @@
           "to": 1
         }
       },
-      "startTime": 245
+      "startTime": 244.5
     },
     {
       "type": "clip",
@@ -38784,7 +38718,7 @@
           "modelId": "cabinet-key"
         }
       ],
-      "startTime": 247,
+      "startTime": 246.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -38831,22 +38765,22 @@
         "durationSeconds": 2,
         "properties": {
           "alpha": {
-            "from": 1.2511,
+            "from": 0.9938,
             "to": 1.2677
           },
           "beta": {
-            "from": 1.3985,
+            "from": 1.1553,
             "to": 1.2075
           },
           "radius": {
-            "from": 0.5794,
+            "from": 1.1436,
             "to": 1.0399
           },
           "target": {
             "from": [
-              -0.03,
-              0.83,
-              -0.06
+              0,
+              0.94,
+              -0.22
             ],
             "to": [
               0.02,
@@ -38868,7 +38802,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 248,
+      "startTime": 247.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -38911,7 +38845,7 @@
           "nodeName": "heyhole"
         }
       ],
-      "startTime": 248,
+      "startTime": 247.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -38998,7 +38932,7 @@
           "nodeName": "right side door hinge"
         }
       ],
-      "startTime": 220.5,
+      "startTime": 220.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -39831,7 +39765,7 @@
           }
         }
       ],
-      "startTime": 240.5,
+      "startTime": 240,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -39916,7 +39850,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 240.5,
+      "startTime": 240,
       "cameraMove": {
         "durationSeconds": 0.01,
         "properties": {
@@ -39946,7 +39880,7 @@
           }
         },
         "setAsResetHome": true,
-        "autoRotate": true
+        "autoRotate": false
       }
     },
     {
@@ -39958,7 +39892,7 @@
           "nodeName": "Front door hinge"
         }
       ],
-      "startTime": 240.7,
+      "startTime": 240.2,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -40020,7 +39954,7 @@
           ]
         }
       ],
-      "startTime": 240.5,
+      "startTime": 240.01,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 0.01,
@@ -40038,7 +39972,7 @@
         "overlay": {
           "enabled": true,
           "color": "#ff8800",
-          "alpha": 0.15,
+          "alpha": 0.75,
           "xray": false,
           "pulse": {
             "enabled": false,
@@ -40056,7 +39990,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 241.2,
+      "startTime": 240.7,
       "cameraMove": {
         "durationSeconds": 1.4,
         "properties": {
@@ -40100,7 +40034,7 @@
           ]
         }
       ],
-      "startTime": 267.5,
+      "startTime": 267,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -40139,7 +40073,7 @@
           ]
         }
       ],
-      "startTime": 257,
+      "startTime": 256.5,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -40224,7 +40158,7 @@
           "to": 0
         }
       },
-      "startTime": 265.5
+      "startTime": 265
     },
     {
       "type": "clip",
@@ -40282,7 +40216,7 @@
           "to": 1
         }
       },
-      "startTime": 257.5
+      "startTime": 257
     },
     {
       "type": "clip",
@@ -40292,7 +40226,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 259.5,
+      "startTime": 259,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1,
@@ -40350,7 +40284,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 260.5,
+      "startTime": 260,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1,
@@ -40408,7 +40342,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 261.5,
+      "startTime": 261,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1,
@@ -40466,7 +40400,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 262.5,
+      "startTime": 262,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1,
@@ -40524,7 +40458,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 263.5,
+      "startTime": 263,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -40582,7 +40516,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 264.5,
+      "startTime": 264,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -40640,7 +40574,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 264,
+      "startTime": 263.5,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 0.5,
@@ -40701,7 +40635,7 @@
           ]
         }
       ],
-      "startTime": 265.5,
+      "startTime": 265,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -40737,7 +40671,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 257.5,
+      "startTime": 257,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 0.5,
@@ -40774,7 +40708,7 @@
           "nodeName": "m6x16 bolts"
         }
       ],
-      "startTime": 267,
+      "startTime": 266.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -40817,7 +40751,7 @@
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 268.5,
+      "startTime": 268,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 2,
@@ -40878,7 +40812,7 @@
           ]
         }
       ],
-      "startTime": 268.5,
+      "startTime": 268,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 2,
@@ -40914,7 +40848,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 246,
+      "startTime": 245.5,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -40950,7 +40884,7 @@
     {
       "type": "emit",
       "id": "emit-124",
-      "time": 254.5,
+      "time": 254,
       "event": "event:show-step-content",
       "label": "show-24",
       "subLane": 1,
@@ -40961,10 +40895,10 @@
     {
       "type": "emit",
       "id": "emit-125",
-      "time": 254,
+      "time": 253.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {}
     },
     {
@@ -40976,7 +40910,7 @@
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 267.5,
+      "startTime": 267,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -41019,7 +40953,7 @@
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 270.5,
+      "startTime": 270,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -41061,7 +40995,7 @@
           "modelId": "screw-driver"
         }
       ],
-      "startTime": 256.5,
+      "startTime": 256,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -41103,12 +41037,12 @@
         "direction": "toBlack",
         "durationSeconds": 0.25
       },
-      "startTime": 274
+      "startTime": 273.5
     },
     {
       "type": "clip",
       "id": "clip-503",
-      "startTime": 274.9,
+      "startTime": 274.4,
       "kind": "screenFade",
       "screenFade": {
         "direction": "fromBlack",
@@ -41123,7 +41057,7 @@
           "modelId": "cr2032-battery"
         }
       ],
-      "startTime": 248.5,
+      "startTime": 248,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 2,
@@ -41181,7 +41115,7 @@
           "modelId": "cr2032-battery"
         }
       ],
-      "startTime": 248.5,
+      "startTime": 248,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -41217,7 +41151,7 @@
           "modelId": "cr2032-battery"
         }
       ],
-      "startTime": 251.5,
+      "startTime": 251,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -41259,7 +41193,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 250.5,
+      "startTime": 250,
       "cameraMove": {
         "durationSeconds": 1,
         "properties": {
@@ -41990,7 +41924,7 @@
           }
         }
       ],
-      "startTime": 254,
+      "startTime": 253.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -42032,7 +41966,7 @@
           "modelId": "cr2032-battery"
         }
       ],
-      "startTime": 251.5,
+      "startTime": 251,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -42068,7 +42002,7 @@
           "modelId": "cr2032-battery"
         }
       ],
-      "startTime": 250.5,
+      "startTime": 250,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1,
@@ -42121,10 +42055,10 @@
     {
       "type": "emit",
       "id": "emit-126",
-      "time": 272.5,
+      "time": 272,
       "event": "event:show-step-content",
       "label": "show-25",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-25"
       }
@@ -42132,7 +42066,7 @@
     {
       "type": "emit",
       "id": "emit-127",
-      "time": 272,
+      "time": 271.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "subLane": 0,
@@ -42148,7 +42082,7 @@
       ],
       "startTime": 272,
       "cameraMove": {
-        "durationSeconds": 2.5,
+        "durationSeconds": 2,
         "properties": {
           "alpha": {
             "from": 1.2677,
@@ -42410,7 +42344,7 @@
             },
             "visibility": {
               "enabled": true,
-              "value": 0
+              "value": 1
             }
           }
         },
@@ -42910,7 +42844,7 @@
           }
         }
       ],
-      "startTime": 272,
+      "startTime": 271.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -42953,7 +42887,7 @@
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 272,
+      "startTime": 271.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -42996,7 +42930,7 @@
           "nodeName": "m6x16 bolts"
         }
       ],
-      "startTime": 272,
+      "startTime": 271.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43038,7 +42972,7 @@
           "modelId": "wiring-01"
         }
       ],
-      "startTime": 274.5,
+      "startTime": 274,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43080,7 +43014,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 274.5,
+      "startTime": 274,
       "cameraMove": {
         "durationSeconds": 0.5,
         "properties": {
@@ -43123,7 +43057,7 @@
           "modelId": "conduit-wiring"
         }
       ],
-      "startTime": 274.5,
+      "startTime": 274,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43166,7 +43100,7 @@
           "nodeName": "blue-N"
         }
       ],
-      "startTime": 274.6,
+      "startTime": 274.1,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43209,7 +43143,7 @@
           "nodeName": "darkgrey-L2"
         }
       ],
-      "startTime": 274.6,
+      "startTime": 274.1,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43252,7 +43186,7 @@
           "nodeName": "green-yellow-PE"
         }
       ],
-      "startTime": 274.6,
+      "startTime": 274.1,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43295,7 +43229,7 @@
           "nodeName": "lightgrey-L3"
         }
       ],
-      "startTime": 274.6,
+      "startTime": 274.1,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43338,7 +43272,7 @@
           "nodeName": "red-L1"
         }
       ],
-      "startTime": 274.6,
+      "startTime": 274.1,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43428,12 +43362,12 @@
           "to": 1
         }
       },
-      "startTime": 275.5
+      "startTime": 275
     },
     {
       "type": "emit",
       "id": "emit-128",
-      "time": 277.5,
+      "time": 277,
       "event": "annotationsControl",
       "label": "annot-show-p6-L1-cable_red",
       "subLane": 0,
@@ -43445,7 +43379,7 @@
     {
       "type": "emit",
       "id": "emit-129",
-      "time": 278.5,
+      "time": 278,
       "event": "annotationsControl",
       "label": "annot-show-p6-L2-cable_dkgrey",
       "subLane": 0,
@@ -43457,7 +43391,7 @@
     {
       "type": "emit",
       "id": "emit-130",
-      "time": 279.5,
+      "time": 279,
       "event": "annotationsControl",
       "label": "annot-show-p6-L3-cable-ltgrey",
       "subLane": 0,
@@ -43469,7 +43403,7 @@
     {
       "type": "emit",
       "id": "emit-131",
-      "time": 280.5,
+      "time": 280,
       "event": "annotationsControl",
       "label": "annot-show-p6-N-cable_blue",
       "subLane": 0,
@@ -43481,7 +43415,7 @@
     {
       "type": "emit",
       "id": "emit-132",
-      "time": 281.5,
+      "time": 281,
       "event": "annotationsControl",
       "label": "annot-show-p3-PE-cable_greenyellow",
       "subLane": 0,
@@ -43493,7 +43427,7 @@
     {
       "type": "emit",
       "id": "emit-133",
-      "time": 285,
+      "time": 284.5,
       "event": "annotationsControl",
       "label": "annot-hide-all",
       "subLane": 0,
@@ -43504,7 +43438,7 @@
     {
       "type": "emit",
       "id": "emit-134",
-      "time": 282.5,
+      "time": 282,
       "event": "annotationsControl",
       "label": "annot-show-p6-dt-50-lugs",
       "subLane": 0,
@@ -43516,7 +43450,7 @@
     {
       "type": "emit",
       "id": "emit-135",
-      "time": 282.5,
+      "time": 282,
       "event": "annotationsControl",
       "label": "annot-show-p6-dt-25-lugs",
       "subLane": 1,
@@ -43533,7 +43467,7 @@
           "modelId": "wiring-02"
         }
       ],
-      "startTime": 285.8,
+      "startTime": 285.3,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -43570,7 +43504,7 @@
     {
       "type": "clip",
       "id": "clip-525",
-      "startTime": 285.5,
+      "startTime": 285,
       "kind": "screenFade",
       "screenFade": {
         "direction": "toBlack",
@@ -43580,7 +43514,7 @@
     {
       "type": "clip",
       "id": "clip-526",
-      "startTime": 286,
+      "startTime": 285.5,
       "kind": "screenFade",
       "screenFade": {
         "direction": "fromBlack",
@@ -44384,7 +44318,7 @@
           }
         }
       ],
-      "startTime": 285.5,
+      "startTime": 285,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44421,7 +44355,7 @@
     {
       "type": "emit",
       "id": "emit-136",
-      "time": 286,
+      "time": 285.5,
       "event": "event:show-step-content",
       "label": "show-26",
       "subLane": 1,
@@ -44432,10 +44366,10 @@
     {
       "type": "emit",
       "id": "emit-137",
-      "time": 285.5,
+      "time": 285,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {}
     },
     {
@@ -44446,7 +44380,7 @@
           "kind": "camera"
         }
       ],
-      "startTime": 285.5,
+      "startTime": 285.3,
       "cameraMove": {
         "durationSeconds": 0.1,
         "properties": {
@@ -44489,7 +44423,7 @@
           "modelId": "conduit-wiring"
         }
       ],
-      "startTime": 285.48,
+      "startTime": 284.98,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44532,7 +44466,7 @@
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 285.5,
+      "startTime": 285,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44575,7 +44509,7 @@
           "nodeName": "m6x16 bolts"
         }
       ],
-      "startTime": 285.5,
+      "startTime": 285,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44617,7 +44551,7 @@
           "modelId": "wiring-03"
         }
       ],
-      "startTime": 291.3,
+      "startTime": 290.8,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44654,7 +44588,7 @@
     {
       "type": "clip",
       "id": "clip-533",
-      "startTime": 291,
+      "startTime": 290.5,
       "kind": "screenFade",
       "screenFade": {
         "direction": "toBlack",
@@ -44664,7 +44598,7 @@
     {
       "type": "clip",
       "id": "clip-534",
-      "startTime": 291.45,
+      "startTime": 290.95,
       "kind": "screenFade",
       "screenFade": {
         "direction": "fromBlack",
@@ -44679,7 +44613,7 @@
           "modelId": "wiring-02"
         }
       ],
-      "startTime": 291.3,
+      "startTime": 290.8,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44716,7 +44650,7 @@
     {
       "type": "emit",
       "id": "emit-138",
-      "time": 291.3,
+      "time": 290.8,
       "event": "annotationsControl",
       "label": "annot-hide-all",
       "subLane": 0,
@@ -44727,7 +44661,7 @@
     {
       "type": "emit",
       "id": "emit-139",
-      "time": 286.5,
+      "time": 286,
       "event": "annotationsControl",
       "label": "annot-show-p6-L1-cable_red_closeup",
       "subLane": 0,
@@ -44739,7 +44673,7 @@
     {
       "type": "emit",
       "id": "emit-140",
-      "time": 287.5,
+      "time": 287,
       "event": "annotationsControl",
       "label": "annot-show-p6-L2-cable_dkgrey_closeup",
       "subLane": 0,
@@ -44751,7 +44685,7 @@
     {
       "type": "emit",
       "id": "emit-141",
-      "time": 288.5,
+      "time": 288,
       "event": "annotationsControl",
       "label": "annot-show-p6-PE-cable_greenyellow_closeup",
       "subLane": 0,
@@ -44763,7 +44697,7 @@
     {
       "type": "emit",
       "id": "emit-142",
-      "time": 292,
+      "time": 291.5,
       "event": "annotationsControl",
       "label": "annot-show-p6-L3-cable-ltgrey_closeup",
       "subLane": 0,
@@ -44775,7 +44709,7 @@
     {
       "type": "emit",
       "id": "emit-143",
-      "time": 293,
+      "time": 292.5,
       "event": "annotationsControl",
       "label": "annot-show-p6-N-cable_blue_closeup",
       "subLane": 0,
@@ -44787,7 +44721,7 @@
     {
       "type": "emit",
       "id": "emit-144",
-      "time": 296.4,
+      "time": 295.9,
       "event": "annotationsControl",
       "label": "annot-hide-all",
       "subLane": 0,
@@ -44798,7 +44732,7 @@
     {
       "type": "emit",
       "id": "emit-145",
-      "time": 297.5,
+      "time": 297,
       "event": "event:show-step-content",
       "label": "show-27",
       "subLane": 1,
@@ -44809,16 +44743,16 @@
     {
       "type": "emit",
       "id": "emit-146",
-      "time": 297,
+      "time": 296.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
-      "subLane": 0,
+      "subLane": 1,
       "detail": {}
     },
     {
       "type": "clip",
       "id": "clip-536",
-      "startTime": 296.5,
+      "startTime": 296,
       "kind": "screenFade",
       "screenFade": {
         "direction": "fromBlack",
@@ -44833,7 +44767,7 @@
           "modelId": "wiring-03"
         }
       ],
-      "startTime": 296.3,
+      "startTime": 295.8,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44875,7 +44809,7 @@
           "modelId": "wiring-02"
         }
       ],
-      "startTime": 296.3,
+      "startTime": 295.8,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -44912,7 +44846,7 @@
     {
       "type": "clip",
       "id": "clip-539",
-      "startTime": 296,
+      "startTime": 295.5,
       "kind": "screenFade",
       "screenFade": {
         "direction": "toBlack",
@@ -44922,194 +44856,6 @@
     {
       "type": "clip",
       "id": "clip-540",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "PC panel"
-        }
-      ],
-      "startTime": 297,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            0.2,
-            0.548
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            180,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            0.014,
-            0.01,
-            0.006
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-541",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "m6x16 bolts"
-        }
-      ],
-      "startTime": 297,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            0.1,
-            0.548
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            -90,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1.446,
-            0.601,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-542",
-      "targets": [
-        {
-          "kind": "camera"
-        }
-      ],
-      "startTime": 296.3,
-      "cameraMove": {
-        "durationSeconds": 0.1,
-        "properties": {
-          "alpha": {
-            "from": 1.5593,
-            "to": 1.2677
-          },
-          "beta": {
-            "from": 1.5531,
-            "to": 1.2075
-          },
-          "radius": {
-            "from": 0.559,
-            "to": 1.0399
-          },
-          "target": {
-            "from": [
-              -0.01,
-              0.47,
-              0.06
-            ],
-            "to": [
-              0.02,
-              0.53,
-              0.02
-            ]
-          }
-        },
-        "setAsResetHome": true,
-        "autoRotate": false
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-543",
-      "targets": [
-        {
-          "kind": "camera"
-        }
-      ],
-      "startTime": 297,
-      "cameraMove": {
-        "durationSeconds": 0.1,
-        "properties": {
-          "alpha": {
-            "from": 1.2677,
-            "to": 1.2677
-          },
-          "beta": {
-            "from": 1.2075,
-            "to": 1.2075
-          },
-          "radius": {
-            "from": 1.0399,
-            "to": 1.0399
-          },
-          "target": {
-            "from": [
-              0.02,
-              0.53,
-              0.02
-            ],
-            "to": [
-              0.02,
-              0.53,
-              0.02
-            ]
-          }
-        },
-        "setAsResetHome": true,
-        "autoRotate": false
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-147",
-      "time": 304.5,
-      "event": "event:show-step-content",
-      "label": "show-28",
-      "subLane": 0,
-      "detail": {
-        "contentKey": "step-28"
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-148",
-      "time": 304.1,
-      "event": "event:hide-step-content",
-      "label": "hide-step-content",
-      "subLane": 1,
-      "detail": {}
-    },
-    {
-      "type": "clip",
-      "id": "clip-544",
       "targets": [
         {
           "modelId": "10x10-cube",
@@ -45904,7 +45650,7 @@
           }
         }
       ],
-      "startTime": 297,
+      "startTime": 296.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -45940,14 +45686,1033 @@
     },
     {
       "type": "clip",
-      "id": "clip-545",
+      "id": "clip-541",
       "targets": [
         {
           "modelId": "dc-charger",
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 297,
+      "startTime": 296.51,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.2,
+            0.548
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            180,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            0.014,
+            0.01,
+            0.006
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-542",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "m6x16 bolts"
+        }
+      ],
+      "startTime": 296.51,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.1,
+            0.548
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            -90,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1.446,
+            0.601,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-543",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 295.8,
+      "cameraMove": {
+        "durationSeconds": 0.1,
+        "properties": {
+          "alpha": {
+            "from": 1.5593,
+            "to": 1.2677
+          },
+          "beta": {
+            "from": 1.5531,
+            "to": 1.2075
+          },
+          "radius": {
+            "from": 0.559,
+            "to": 1.0399
+          },
+          "target": {
+            "from": [
+              -0.01,
+              0.47,
+              0.06
+            ],
+            "to": [
+              0.02,
+              0.53,
+              0.02
+            ]
+          }
+        },
+        "setAsResetHome": true,
+        "autoRotate": false
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-544",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 296.5,
+      "cameraMove": {
+        "durationSeconds": 0.1,
+        "properties": {
+          "alpha": {
+            "from": 1.2677,
+            "to": 1.2677
+          },
+          "beta": {
+            "from": 1.2075,
+            "to": 1.2075
+          },
+          "radius": {
+            "from": 1.0399,
+            "to": 1.0399
+          },
+          "target": {
+            "from": [
+              0.02,
+              0.53,
+              0.02
+            ],
+            "to": [
+              0.02,
+              0.53,
+              0.02
+            ]
+          }
+        },
+        "setAsResetHome": true,
+        "autoRotate": false
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-147",
+      "time": 304,
+      "event": "event:show-step-content",
+      "label": "show-28",
+      "subLane": 1,
+      "detail": {
+        "contentKey": "step-28"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-148",
+      "time": 303.7,
+      "event": "event:hide-step-content",
+      "label": "hide-step-content",
+      "subLane": 1,
+      "detail": {}
+    },
+    {
+      "type": "clip",
+      "id": "clip-545",
+      "targets": [
+        {
+          "modelId": "10x10-cube",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "dc-charger",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.2,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "dc-charger-outline",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "clearance-outline",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "concrete-slab",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                -0.5,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "conduit-pipe",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "conduit-wiring",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "foundation-footprint",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "drilled-ground-holes",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.201,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "env",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "env-cutout",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "wooden-pallet",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "crate-box",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.165,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "cr2032-battery",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0.01,
+                0.857,
+                0.1
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                90,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "wiring-02",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "wiring-03",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "wiring-01",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.467,
+                0.103
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                0.294,
+                0.294,
+                0.294
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "cabinet-key",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0.267,
+                1.088,
+                0.231
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "side-key",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                1,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "screw-driver",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                -0.324,
+                0.256,
+                0.262
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "dynabolts",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.2,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "dynabolts-washers-nuts",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0.2,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 1
+            }
+          }
+        },
+        {
+          "modelId": "hammerdrill",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        },
+        {
+          "modelId": "wrench",
+          "reset": {
+            "position": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "rotation": {
+              "enabled": true,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            "scale": {
+              "enabled": true,
+              "value": [
+                1,
+                1,
+                1
+              ]
+            },
+            "visibility": {
+              "enabled": true,
+              "value": 0
+            }
+          }
+        }
+      ],
+      "startTime": 296.5,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-546",
+      "targets": [
+        {
+          "modelId": "dc-charger",
+          "nodeName": "PC panel"
+        }
+      ],
+      "startTime": 296.5,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -45984,10 +46749,10 @@
     {
       "type": "emit",
       "id": "emit-149",
-      "time": 312.5,
+      "time": 312,
       "event": "event:show-step-content",
       "label": "show-29",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "step-29"
       }
@@ -45995,7 +46760,7 @@
     {
       "type": "emit",
       "id": "emit-150",
-      "time": 312,
+      "time": 311.5,
       "event": "event:hide-step-content",
       "label": "hide-step-content",
       "subLane": 0,
@@ -46003,14 +46768,14 @@
     },
     {
       "type": "clip",
-      "id": "clip-546",
+      "id": "clip-547",
       "targets": [
         {
           "modelId": "dc-charger",
           "nodeName": "PC panel"
         }
       ],
-      "startTime": 298,
+      "startTime": 297.5,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 2,
@@ -46062,14 +46827,14 @@
     },
     {
       "type": "clip",
-      "id": "clip-547",
+      "id": "clip-548",
       "targets": [
         {
           "modelId": "dc-charger",
           "nodeName": "m6x16 bolts"
         }
       ],
-      "startTime": 301,
+      "startTime": 300.5,
       "kind": "model-move",
       "modelMove": {
         "durationSeconds": 1.5,
@@ -46121,7 +46886,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-548",
+      "id": "clip-549",
       "targets": [
         {
           "modelId": "10x10-cube",
@@ -46916,7 +47681,7 @@
           }
         }
       ],
-      "startTime": 304,
+      "startTime": 303.51,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -46952,7 +47717,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-549",
+      "id": "clip-550",
       "targets": [
         {
           "modelId": "dc-charger",
@@ -46961,7 +47726,7 @@
           ]
         }
       ],
-      "startTime": 298,
+      "startTime": 297.5,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1.5,
@@ -46991,7 +47756,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-550",
+      "id": "clip-551",
       "targets": [
         {
           "modelId": "dc-charger",
@@ -47000,7 +47765,7 @@
           ]
         }
       ],
-      "startTime": 301,
+      "startTime": 300.5,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 1,
@@ -47030,15 +47795,15 @@
     },
     {
       "type": "clip",
-      "id": "clip-551",
+      "id": "clip-552",
       "targets": [
         {
           "kind": "camera"
         }
       ],
-      "startTime": 304,
+      "startTime": 303.51,
       "cameraMove": {
-        "durationSeconds": 0.01,
+        "durationSeconds": 0.1,
         "properties": {
           "alpha": {
             "from": 1.2677,
@@ -47066,13 +47831,24 @@
           }
         },
         "setAsResetHome": true,
-        "autoRotate": true
+        "autoRotate": false
       }
+    },
+    {
+      "type": "wait",
+      "id": "gate-9",
+      "time": 303.6,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "wait for next (event:continue-animation)",
+      "subLane": 1
     },
     {
       "type": "emit",
       "id": "emit-151",
-      "time": 304,
+      "time": 303.5,
       "event": "event:show-step-content",
       "label": "phase-7-start",
       "subLane": 0,
@@ -47082,13 +47858,13 @@
     },
     {
       "type": "clip",
-      "id": "clip-552",
+      "id": "clip-553",
       "targets": [
         {
           "kind": "camera"
         }
       ],
-      "startTime": 320.5,
+      "startTime": 320,
       "cameraMove": {
         "durationSeconds": 0.01,
         "properties": {
@@ -47124,7 +47900,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-553",
+      "id": "clip-554",
       "targets": [
         {
           "modelId": "10x10-cube",
@@ -47787,7 +48563,7 @@
           }
         }
       ],
-      "startTime": 320.5,
+      "startTime": 320,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -47823,7 +48599,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-554",
+      "id": "clip-555",
       "kind": "model-move",
       "targets": [
         {
@@ -47877,17 +48653,17 @@
           "to": 1
         }
       },
-      "startTime": 306.5
+      "startTime": 306
     },
     {
       "type": "clip",
-      "id": "clip-555",
+      "id": "clip-556",
       "targets": [
         {
           "modelId": "conduit-pipe"
         }
       ],
-      "startTime": 304.5,
+      "startTime": 304,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 7,
@@ -47917,7 +48693,7 @@
     },
     {
       "type": "clip",
-      "id": "clip-556",
+      "id": "clip-557",
       "kind": "reset",
       "targets": [
         {
@@ -47955,17 +48731,17 @@
           "value": 0
         }
       },
-      "startTime": 304
+      "startTime": 303.51
     },
     {
       "type": "clip",
-      "id": "clip-557",
+      "id": "clip-558",
       "targets": [
         {
           "modelId": "foundation-footprint"
         }
       ],
-      "startTime": 305.5,
+      "startTime": 305,
       "kind": "highlight",
       "highlight": {
         "durationSeconds": 6,
@@ -47995,7 +48771,49 @@
     },
     {
       "type": "clip",
-      "id": "clip-558",
+      "id": "clip-559",
+      "targets": [
+        {
+          "modelId": "conduit-pipe"
+        }
+      ],
+      "startTime": 303.51,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0.238,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            1,
+            0.08,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-560",
       "targets": [
         {
           "modelId": "conduit-pipe"
@@ -48031,61 +48849,19 @@
         },
         "visibility": {
           "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-559",
-      "targets": [
-        {
-          "modelId": "conduit-pipe"
-        }
-      ],
-      "startTime": 304.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            0.238,
-            0
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1,
-            0.08,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
           "value": 1
         }
       }
     },
     {
       "type": "clip",
-      "id": "clip-560",
+      "id": "clip-561",
       "targets": [
         {
           "modelId": "foundation-footprint"
         }
       ],
-      "startTime": 305.5,
+      "startTime": 305,
       "kind": "reset",
       "reset": {
         "durationSeconds": 0.001,
@@ -48118,532 +48894,6 @@
           "value": 1
         }
       }
-    },
-    {
-      "type": "clip",
-      "id": "clip-561",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "PC panel"
-        }
-      ],
-      "startTime": 0.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            -0.1012,
-            0.5484
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            180,
-            180
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            0.0145,
-            0.01,
-            0.006
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-562",
-      "targets": [
-        {
-          "modelId": "cr2032-battery"
-        }
-      ],
-      "startTime": 0.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            0,
-            0
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1,
-            1,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-563",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "m6x16 bolts"
-        }
-      ],
-      "startTime": 0.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            -0.1012,
-            0.5484
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            -90,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1.4461,
-            0.6005,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-564",
-      "kind": "screenFade",
-      "screenFade": {
-        "direction": "toBlack",
-        "durationSeconds": 0.01
-      },
-      "startTime": 0
-    },
-    {
-      "type": "clip",
-      "id": "clip-565",
-      "startTime": 0.8,
-      "kind": "screenFade",
-      "screenFade": {
-        "direction": "fromBlack",
-        "durationSeconds": 0.25
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-566",
-      "targets": [
-        {
-          "kind": "camera"
-        }
-      ],
-      "startTime": 304.5,
-      "cameraMove": {
-        "durationSeconds": 2,
-        "properties": {
-          "alpha": {
-            "from": 1.2677,
-            "to": 1.2852
-          },
-          "beta": {
-            "from": 1.2075,
-            "to": 1.7509
-          },
-          "radius": {
-            "from": 1.0399,
-            "to": 1.0399
-          },
-          "target": {
-            "from": [
-              0.02,
-              0.53,
-              0.02
-            ],
-            "to": [
-              0.02,
-              0.53,
-              0.02
-            ]
-          }
-        },
-        "setAsResetHome": true,
-        "autoRotate": false
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-567",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "m6x16 bolts"
-        }
-      ],
-      "startTime": 302.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            -0.101,
-            0.548
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            -90,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1.446,
-            0.601,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 1
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-568",
-      "targets": [
-        {
-          "modelId": "dc-charger",
-          "nodeName": "PC panel"
-        }
-      ],
-      "startTime": 300,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            -0.101,
-            0.548
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            180,
-            180
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            0.014,
-            0.01,
-            0.006
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 1
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-569",
-      "targets": [
-        {
-          "modelId": "conduit-wiring"
-        }
-      ],
-      "startTime": 240.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0,
-            0,
-            0
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            0,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1,
-            1,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 1
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-570",
-      "targets": [
-        {
-          "modelId": "cr2032-battery"
-        }
-      ],
-      "startTime": 240.5,
-      "kind": "highlight",
-      "highlight": {
-        "durationSeconds": 0.01,
-        "fade": false,
-        "glow": {
-          "enabled": false,
-          "color": "#ff8800",
-          "blurSize": 0.2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 1,
-            "minBlurSize": 0.1
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#ff8800",
-          "alpha": 1,
-          "xray": false,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minAlpha": 0.1
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-571",
-      "targets": [
-        {
-          "modelId": "cr2032-battery"
-        }
-      ],
-      "startTime": 240.5,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0.01,
-            0.857,
-            0.1
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            90,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1,
-            1,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 1
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-572",
-      "targets": [
-        {
-          "modelId": "cr2032-battery"
-        }
-      ],
-      "startTime": 241,
-      "kind": "reset",
-      "reset": {
-        "durationSeconds": 0.001,
-        "position": {
-          "enabled": true,
-          "value": [
-            0.01,
-            0.857,
-            0.1
-          ]
-        },
-        "rotation": {
-          "enabled": true,
-          "value": [
-            90,
-            0,
-            0
-          ]
-        },
-        "scale": {
-          "enabled": true,
-          "value": [
-            1,
-            1,
-            1
-          ]
-        },
-        "visibility": {
-          "enabled": true,
-          "value": 0
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-573",
-      "targets": [
-        {
-          "modelId": "conduit-pipe"
-        },
-        {
-          "modelId": "conduit-wiring"
-        }
-      ],
-      "startTime": 240.5,
-      "kind": "highlight",
-      "highlight": {
-        "durationSeconds": 0.01,
-        "fade": false,
-        "glow": {
-          "enabled": false,
-          "color": "#ff8800",
-          "blurSize": 0.2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 1,
-            "minBlurSize": 0.1
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#ff8800",
-          "alpha": 0.1,
-          "xray": true,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minAlpha": 0.1
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-574",
-      "targets": [
-        {
-          "kind": "camera"
-        }
-      ],
-      "startTime": 212,
-      "cameraMove": {
-        "durationSeconds": 0.01,
-        "properties": {
-          "alpha": {
-            "from": 2.5191,
-            "to": 2.5191
-          },
-          "beta": {
-            "from": 1.3139,
-            "to": 1.3139
-          },
-          "radius": {
-            "from": 2.0383,
-            "to": 2.0383
-          },
-          "target": {
-            "from": [
-              -0.01,
-              1.39,
-              -0.22
-            ],
-            "to": [
-              -0.01,
-              1.39,
-              -0.22
-            ]
-          }
-        },
-        "setAsResetHome": true,
-        "autoRotate": true
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-152",
-      "time": 320.5,
-      "event": "event:hide-step-content",
-      "label": "hide-step-content",
-      "subLane": 0,
-      "detail": {}
     }
   ],
   "rowOrder": [
@@ -48694,6 +48944,7 @@
       "clip-446",
       "clip-426",
       "clip-427",
+      "clip-428",
       "clip-483",
       "clip-469",
       "clip-498",
@@ -48701,12 +48952,10 @@
       "clip-511",
       "clip-516",
       "clip-528",
-      "clip-542",
       "clip-543",
-      "clip-551",
-      "clip-566",
+      "clip-544",
       "clip-552",
-      "clip-574"
+      "clip-553"
     ],
     [
       "clip-6",
@@ -48736,6 +48985,8 @@
       "clip-98",
       "clip-102",
       "clip-137",
+      "clip-138",
+      "clip-139",
       "clip-140",
       "clip-131",
       "clip-148",
@@ -48782,21 +49033,22 @@
       "clip-474",
       "clip-476",
       "clip-493",
-      "clip-550",
+      "clip-551",
       "clip-482",
       "clip-497",
-      "clip-549",
+      "clip-550",
       "clip-494",
       "clip-508",
       "clip-512",
       "clip-527",
-      "clip-544",
-      "clip-548",
+      "clip-540",
+      "clip-545",
+      "clip-549",
+      "clip-523",
       "clip-502",
       "clip-515",
       "clip-503",
-      "clip-553",
-      "clip-428"
+      "clip-554"
     ],
     [
       "clip-13",
@@ -48829,6 +49081,7 @@
       "clip-159",
       "clip-164",
       "clip-82",
+      "clip-170",
       "clip-173",
       "clip-184",
       "clip-180",
@@ -48891,17 +49144,11 @@
       "clip-529",
       "clip-539",
       "clip-537",
-      "clip-540",
-      "clip-546",
+      "clip-541",
       "clip-547",
+      "clip-548",
       "clip-80",
-      "clip-555",
-      "clip-458",
-      "clip-138",
-      "clip-558",
-      "clip-567",
-      "clip-568",
-      "clip-523"
+      "clip-556"
     ],
     [
       "clip-7",
@@ -48940,6 +49187,7 @@
       "clip-160",
       "clip-1",
       "clip-120",
+      "clip-171",
       "clip-174",
       "clip-185",
       "clip-192",
@@ -48966,6 +49214,7 @@
       "clip-436",
       "clip-434",
       "clip-472",
+      "clip-480",
       "clip-484",
       "clip-495",
       "clip-489",
@@ -48982,13 +49231,10 @@
       "clip-517",
       "clip-535",
       "clip-538",
-      "clip-541",
-      "clip-557",
+      "clip-542",
+      "clip-558",
       "clip-559",
-      "clip-170",
-      "clip-139",
-      "clip-556",
-      "clip-569"
+      "clip-560"
     ],
     [
       "clip-22",
@@ -49047,12 +49293,9 @@
       "clip-461",
       "clip-514",
       "clip-518",
-      "clip-554",
-      "clip-560",
-      "clip-423",
-      "clip-171",
-      "clip-545",
-      "clip-480"
+      "clip-555",
+      "clip-557",
+      "clip-561"
     ],
     [
       "clip-25",
@@ -49088,14 +49331,14 @@
       "clip-413",
       "clip-431",
       "clip-420",
+      "clip-423",
       "clip-470",
       "clip-464",
       "clip-465",
       "clip-466",
       "clip-519",
       "clip-530",
-      "clip-421",
-      "clip-570"
+      "clip-546"
     ],
     [
       "clip-27",
@@ -49114,14 +49357,12 @@
       "clip-361",
       "clip-365",
       "clip-371",
+      "clip-421",
       "clip-422",
       "clip-425",
       "clip-432",
       "clip-520",
-      "clip-531",
-      "clip-394",
-      "clip-571",
-      "clip-572"
+      "clip-531"
     ],
     [
       "clip-26",
@@ -49141,10 +49382,9 @@
       "clip-373",
       "clip-374",
       "clip-379",
+      "clip-394",
       "clip-441",
-      "clip-521",
-      "clip-395",
-      "clip-573"
+      "clip-521"
     ],
     [
       "clip-11",
@@ -49157,9 +49397,9 @@
       "clip-319",
       "clip-375",
       "clip-383",
+      "clip-395",
       "clip-442",
-      "clip-522",
-      "clip-396"
+      "clip-522"
     ],
     [
       "clip-5",
@@ -49185,8 +49425,8 @@
       "clip-320",
       "clip-310",
       "clip-385",
-      "clip-397",
-      "clip-564"
+      "clip-396",
+      "clip-458"
     ],
     [
       "clip-12",
@@ -49197,7 +49437,7 @@
       "clip-281",
       "clip-293",
       "clip-386",
-      "clip-398"
+      "clip-397"
     ],
     [
       "clip-214",
@@ -49217,7 +49457,7 @@
       "clip-284",
       "clip-294",
       "clip-387",
-      "clip-399"
+      "clip-398"
     ],
     [
       "clip-258",
@@ -49226,49 +49466,42 @@
       "clip-285",
       "clip-295",
       "clip-388",
-      "clip-400"
+      "clip-399"
     ],
     [
       "clip-296",
       "clip-384",
-      "clip-401"
+      "clip-400"
     ],
     [
       "clip-297",
       "clip-389",
-      "clip-402"
+      "clip-401"
     ],
     [
       "clip-390",
-      "clip-403"
+      "clip-402"
     ],
     [
       "clip-391",
-      "clip-404"
+      "clip-403"
     ],
     [
       "clip-392",
-      "clip-443"
+      "clip-404"
     ],
     [
       "clip-393",
+      "clip-443"
+    ],
+    [
       "clip-444"
     ],
     [
       "clip-405"
     ],
-    [
-      "clip-561"
-    ],
-    [
-      "clip-563"
-    ],
-    [
-      "clip-562"
-    ],
-    [
-      "clip-565"
-    ]
+    [],
+    []
   ],
   "chapters": [
     {
@@ -49311,28 +49544,28 @@
       "label": "5: Power Module Installation",
       "color": "#bb00ff",
       "startTime": 212,
-      "endTime": 240.5
+      "endTime": 240
     },
     {
       "id": "chapter-7",
       "label": "6: Internal Setup & Wiring",
       "color": "#002aff",
-      "startTime": 240.5,
-      "endTime": 304
+      "startTime": 240,
+      "endTime": 303.5
     },
     {
       "id": "chapter-8",
       "label": "7: Sealing & Finishing up",
       "color": "#00ffee",
-      "startTime": 304,
-      "endTime": 320.5
+      "startTime": 303.5,
+      "endTime": 320
     },
     {
       "id": "chapter-9",
       "label": "End: Summary",
       "color": "#ffc800",
-      "startTime": 320.5,
-      "endTime": 321
+      "startTime": 320,
+      "endTime": 320.5
     }
   ],
   "regions": [
@@ -49488,56 +49721,56 @@
       "label": "step-22",
       "color": "#003899",
       "startTime": 232.5,
-      "endTime": 240.5
+      "endTime": 240
     },
     {
       "id": "region-23",
       "label": "step-23",
       "color": "#4488ff",
-      "startTime": 240.5,
-      "endTime": 254
+      "startTime": 240,
+      "endTime": 253.5
     },
     {
       "id": "region-24",
       "label": "step-24",
       "color": "#003899",
-      "startTime": 254,
-      "endTime": 272
+      "startTime": 253.5,
+      "endTime": 271.5
     },
     {
       "id": "region-25",
       "label": "step-25",
       "color": "#4488ff",
-      "startTime": 272,
-      "endTime": 285.5
+      "startTime": 271.5,
+      "endTime": 285
     },
     {
       "id": "region-26",
       "label": "step-26",
       "color": "#003899",
-      "startTime": 285.5,
-      "endTime": 297
+      "startTime": 285,
+      "endTime": 296.5
     },
     {
       "id": "region-27",
       "label": "step-27",
       "color": "#4488ff",
-      "startTime": 297,
-      "endTime": 304
+      "startTime": 296.5,
+      "endTime": 303.5
     },
     {
       "id": "region-28",
       "label": "step-28",
       "color": "#003899",
-      "startTime": 304,
-      "endTime": 312
+      "startTime": 303.5,
+      "endTime": 311.5
     },
     {
       "id": "region-29",
       "label": "step-29",
       "color": "#4488ff",
-      "startTime": 312,
-      "endTime": 320.5
+      "startTime": 311.5,
+      "endTime": 320
     }
   ]
 }

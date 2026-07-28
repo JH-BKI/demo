@@ -58,10 +58,25 @@
         "preview": "",
         "title": "3D Viewer - DC Fast Charger",
         "description": "<p><b>FP60 Commercial EV DC Charger 60kW</b></p><details><summary>More details...</summary><p><ul><li>7-inch panel: Displays real-time charging status (time, voltage, etc.).</li><li>Flexible installation: Modular design, indoor/outdoor use, IP54 protection.</li><li>Smart charging: Dual/multiple outputs, load adjustment/sharing for max efficiency.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>User-friendly: Easy setup, app/IC card payment, works with all market EVs.</li></ul></p></details>",
-        "customScript": "ev-installation-3d-viewer",
+        "customScript": "generic-3d-viewer",
+        "sceneNote": {
+          "title": "Disclaimer",
+          "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
+          "side": "right",
+          "openOnEnter": true
+        },
         "plugins": 
         [
           "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
           "hotspotNavigator",
           { "name": "dimensions", "config": { "showHudButton": true } },
           {
@@ -94,11 +109,11 @@
       "camera": {
         "alpha": -0.2518,
         "beta": 1.2664,
-        "radius": 3.0563,
+        "radius": 3.13,
         "fov": 0.9,
         "target": [0, 0.82, 0],
         "lowerRadiusLimit": 0.6,
-        "upperRadiusLimit": 3.5,
+        "upperRadiusLimit": 4,
         "lowerAlphaLimit": -12,
         "upperAlphaLimit": 12,
         "lowerBetaLimit": 0.2,
@@ -144,7 +159,7 @@
             "target": [-0.24, 0.84, -1.12],
             "alpha": -0.3908,
             "beta": 1.2767,
-            "radius": 3.5371,
+            "radius": 3.5,
             "durationMs": 1000,
             "lowerAlphaLimit": -3,
             "upperAlphaLimit": 3,
@@ -817,10 +832,25 @@
         "preview": "",
         "title": "3D Viewer - AC Commercial Charger",
         "description": "<p><b>T-Power AQ7/22 Home Solar Smart EV Charger</b></p><details><summary>More details...</summary><p><ul><li>Prioritizes renewables with Eco/Eco+/Fast modes.</li><li>App for remote scheduling/tracking.</li><li>4.3-inch LCD, LED indicators, motion display.</li><li>Connectivity: Data functions, OCPP compatibility, user authentication support.</li><li>Ethernet/Wi-Fi/4G/Bluetooth, OCPP & safety for sustainable charging.</li></ul></p></details>",
-        "customScript": "ev-installation-3d-viewer",
-        "plugins": 
+        "customScript": "generic-3d-viewer",
+        "sceneNote": {
+          "title": "Disclaimer",
+          "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
+          "side": "right",
+          "openOnEnter": true
+        },
+        "plugins":
         [
           "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
           "hotspotNavigator",
           { "name": "dimensions", "config": { "showHudButton": true } },
           {
@@ -853,11 +883,11 @@
       "camera": {
         "alpha": -0.2518,
         "beta": 1.2664,
-        "radius": 1.8852,
+        "radius": 1.9,
         "fov": 0.9,
         "target": [0, 0.62, 0],
         "lowerRadiusLimit": 0.5,
-        "upperRadiusLimit": 20,
+        "upperRadiusLimit": 4,
         "lowerAlphaLimit": -2000,
         "upperAlphaLimit": 2000,
         "lowerBetaLimit": 0.1,
@@ -1518,11 +1548,20 @@
         "plugins": 
         [
           "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
           {
             "name": "chapterStepsSequencer",
             "config": {
               "autoPlayOnLoad": true,
-              "autoPlayChapterWait": true,
+              "autoPlayChapterWait": false,
               "autoPlayRegionWait": true,
               "autoPlayWait": false
             }
@@ -1533,7 +1572,7 @@
             "name": "help",
             "config": {
               "showHudButton": true,
-              "scene-help-content": "<p>Follow the installation steps in the footer. Use orbit, zoom, and pan to inspect the charger as you work.</p>"
+              "scene-help-content": "<p>Use the player buttons to control the simulation and the top-left menu to jump to any step. Use orbit, zoom, and pan to inspect the charger as this simulation guides you through the installationprocess.</p>"
             }
           }
         ],
@@ -1556,13 +1595,13 @@
         "fov": 0.9,
         "target": [-0.02, 0.97, -0.06],
         "lowerRadiusLimit": 0.05,
-        "upperRadiusLimit": 93.5,
+        "upperRadiusLimit": 3,
         "lowerAlphaLimit": -20,
         "upperAlphaLimit": 20,
         "lowerBetaLimit": 0.5,
         "upperBetaLimit": 1.8,
         "allowPanning": true,
-        "panningDistanceLimit": 0.2,
+        "panningDistanceLimit": 0.6,
         "defaultFocusRadius": 3,
         "lerpDurationMs": 1000,
         "useAutoRotationBehavior": true,
@@ -1677,13 +1716,61 @@
           "showModelOnLoad": false
         },
         {
+          "id": "cr2032-battery",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/cr2032-battery-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-01-alt",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-01-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-02",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-02-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-03",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-03-final.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "wiring-01",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-01-final-alt.glb",
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },                
+        {
           "id": "cabinet-key",
           "path": "./assets/experiences/ev-installation/scene-05/3D/cabinet-key-final.glb",
           "position": [1, 0, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],
           "showModelOnLoad": false
-        }, 
+        },        
+        {
+          "id": "side-key",
+          "path": "./assets/experiences/ev-installation/scene-05/3D/side-key-final.glb",
+          "position": [1, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "showModelOnLoad": false
+        },          
         {
           "id": "screw-driver",
           "path": "./assets/experiences/ev-installation/scene-05/3D/screwdriver-final.glb",
@@ -4039,7 +4126,437 @@
             "labelOrientation": "vertical",
             "visibleByDefault": false,
             "renderOnTop": true
-          }
+          },
+          {
+            "id": "p6-L1-cable_red",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                0.016,
+                0.331,
+                0.115
+              ]
+            },
+            "label": {
+              "text": "L1 cable (red/brown)",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#e7572f",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#e9593180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 14,
+              "borderThicknessPx": 5
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L2-cable_dkgrey",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.012,
+                0.331,
+                0.117
+              ]
+            },
+            "label": {
+              "text": "L2 cable (dark grey)",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.085,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#616161",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#1e293b80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-N-cable_blue",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.071,
+                0.33,
+                0.113
+              ]
+            },
+            "label": {
+              "text": "N cable (blue)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.05,
+                -0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#2563eb",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#2563eb80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p3-PE-cable_greenyellow",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.199,
+                0.323,
+                0.111
+              ]
+            },
+            "label": {
+              "text": "PE cable (green/yellow)",
+              "lineAnchor": "center",
+              "offset": [
+                -0.1,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#16a34a",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#16a34a80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L3-cable-ltgrey",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.04,
+                0.33,
+                0.114
+              ]
+            },
+            "label": {
+              "text": "L3 cable (grey)",
+              "lineAnchor": "center",
+              "offset": [
+                0.025,
+                -0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ababab",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#64748b80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-dt-50-lugs",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.072,
+                0.364,
+                0.107
+              ]
+            },
+            "label": {
+              "text": "DT-50 lugs",
+              "lineAnchor": "center",
+              "offset": [
+                -0.025,
+                0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ff8800",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ff880080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-dt-25-lugs",
+            "target": {
+              "modelId": "conduit-wiring",
+              "position": [
+                -0.202,
+                0.345,
+                0.105
+              ]
+            },
+            "label": {
+              "text": "DT-25 lugs",
+              "lineAnchor": "center",
+              "offset": [
+                -0.025,
+                0.075,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ff8800",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#ff880080",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L1-cable_red_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                0.01,
+                0.438,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L1 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.025,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#e7572f",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#e9593180",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 5
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L2-cable_dkgrey_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                -0.013,
+                0.442,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L2 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#616161",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#1e293b80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-PE-cable_greenyellow_closeup",
+            "target": {
+              "modelId": "wiring-02",
+              "position": [
+                -0.101,
+                0.426,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "PE terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0,
+                0.05,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#16a34a",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#16a34a80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-L3-cable-ltgrey_closeup",
+            "target": {
+              "modelId": "wiring-03",
+              "position": [
+                -0.036,
+                0.449,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "L3 terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.075,
+                -0.02,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#ffffff",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#64748b80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          },
+          {
+            "id": "p6-N-cable_blue_closeup",
+            "target": {
+              "modelId": "wiring-03",
+              "position": [
+                -0.066,
+                0.449,
+                0.195
+              ]
+            },
+            "label": {
+              "text": "N terminal",
+              "lineAnchor": "center",
+              "offset": [
+                0.05,
+                0.035,
+                0
+              ]
+            },
+            "line": {
+              "colorHex": "#2563eb",
+              "radius": 0.001
+            },
+            "style": {
+              "frameBackgroundHex": "#ffffff",
+              "frameBorderHex": "#2563eb80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 12,
+              "borderThicknessPx": 8
+            },
+            "billboard": true,
+            "doubleSidedLabels": true,
+            "labelOrientation": "vertical",
+            "visibleByDefault": false,
+            "renderOnTop": true
+          }                                                                                                         
       ],
       "hotspots": [
 
