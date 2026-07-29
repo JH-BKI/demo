@@ -62,7 +62,7 @@
         "sceneNote": {
           "title": "Disclaimer",
           "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
-          "side": "right",
+          "side": "left",
           "openOnEnter": true
         },
         "plugins": 
@@ -836,7 +836,7 @@
         "sceneNote": {
           "title": "Disclaimer",
           "body": "<p>Please make sure to seek out and read the current official user and installation guides for your relevant EV charger model before attempting operation in a real world setting. The manufacturer of this product and/or courseware are not liable for any damages or injuries resulting from the use of this product and/or courseware.</p><p>Always consult with a licensed contractor/electrician or trained installation expert when operating these products.</p><BR><p><i>Company logo and selected brand assets © 2026 T-Power Pty Ltd. Used with permission.</i></p>",
-          "side": "right",
+          "side": "left",
           "openOnEnter": true
         },
         "plugins":
@@ -1544,7 +1544,7 @@
         "preview": "",
         "title": "3D SImulation - DC Charger Installation",
         "description": "",
-        "customScript": "ev-installation-step-content",
+        "customScript": "./assets/experiences/ev-installation/scene-05/scripts/ev-installation-step-content.js",
         "plugins": 
         [
           "resetView",
@@ -1718,14 +1718,6 @@
         {
           "id": "cr2032-battery",
           "path": "./assets/experiences/ev-installation/scene-05/3D/cr2032-battery-final.glb",
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
-          "scale": [1, 1, 1],
-          "showModelOnLoad": false
-        },
-        {
-          "id": "wiring-01-alt",
-          "path": "./assets/experiences/ev-installation/scene-05/3D/wiring-01-final.glb",
           "position": [0, 0, 0],
           "rotation": [0, 0, 0],
           "scale": [1, 1, 1],

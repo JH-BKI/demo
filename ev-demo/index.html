@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="/demo/ev-demo/assets/core/ui/favicon.png">
+    <link rel="icon" type="image/png" href="./assets/core/ui/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="xrs-dataset" content="ev-installation">
+    <!-- <meta name="xrs-dataset" content="[data-set-here]">
+    <meta name="xrs-initialscene" content="[scene-here]"> -->
 
     <title>eIE</title>
-  <script type="module" crossorigin src="/demo/ev-demo/assets/index-BvAFeWR_.js"></script>
-  <link rel="stylesheet" crossorigin href="/demo/ev-demo/assets/index-A4tc75bU.css">
+  <script type="module" crossorigin src="./assets/index-D84JDEVq.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Ce3y8mIj.css">
 </head>
 <body>
     <div id="uiContainer" class="w-full h-full top-0 left-0 fixed flex flex-col items-center">
@@ -32,7 +33,15 @@
             <div id="uiContainer-footer" class="navbar w-full">
                 <div id="uiContainer-footer-start" class="navbar-start"></div>
                 <div id="uiContainer-footer-center" class="navbar-center flex flex-col items-center gap-2"></div>
-                <div id="uiContainer-footer-end" class="navbar-end gap-2"></div>
+                <div id="uiContainer-footer-end" class="navbar-end gap-2">
+                    <!-- Phone speed dial / desktop row: actions mount via uiManager.mountFooterEndAction -->
+                    <div id="footer-end-fab" class="fab footer-end-fab footer-end--inline" aria-label="Footer actions">
+                        <div tabindex="0" role="button" class="btn btn-primary btn-lg h-10 max-w-10 footer-end-fab-trigger" aria-label="More actions"></div>
+                        <div class="fab-close">
+                            <span class="btn btn-error btn-lg h-10 max-w-10 pointer-events-none" aria-hidden="true">✕</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         
     
