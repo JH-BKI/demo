@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="./assets/core/ui/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="xrs-dataset" content="[data-set-here]">
+    <meta name="xrs-initialscene" content="[scene-here]"> -->
+
+    <title>eIE</title>
+    <!-- <style>html { filter: url("#pixelate") }</style> -->
+  <script type="module" crossorigin src="./assets/index-BgBdVcTi.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-NGaxL6Qw.css">
+</head>
+<body>
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0" height="0">
+        <defs>
+          <filter id="pixelate" x="0" y="0">
+            <feFlood x="2" y="2" height="1" width="1"/> 
+            <feComposite width="5" height="5"/>
+            <feTile result="a"/>
+            <feComposite in="SourceGraphic" in2="a" 
+                         operator="in"/>
+            <feMorphology operator="dilate"
+                          radius="2.5"/>
+          </filter>
+        </defs>
+      </svg>   -->
+    <div id="uiContainer" class="w-full h-full top-0 left-0 fixed flex flex-col items-center">
+            <div id="uiContainer-header" class="navbar w-full">
+                <div id="uiContainer-header-start" class="navbar-start"></div>
+                <div id="uiContainer-header-center" class="navbar-center"></div>
+                <div id="uiContainer-header-end" class="navbar-end"></div>
+            </div>
+
+            <div id="uiContainer-center" class="flex-1 flex flex-col w-full items-center justify-center">
+                
+                <div id="loadingScreen">
+                    <span class="loading loading-spinner loading-xl"></span>
+                    <div class="loading-text m-4">Loading...</div>
+                    <div class="loading-progress m-2" aria-live="polite"></div>
+                    <progress id="loadingProgressBar" class="progress progress-success w-40 mt-1" value="0" max="100" aria-label="Loading progress"></progress>
+                </div>
+                        
+            </div>
+
+            <div id="uiContainer-footer" class="navbar w-full">
+                <div id="uiContainer-footer-start" class="navbar-start"></div>
+                <div id="uiContainer-footer-center" class="navbar-center flex flex-col items-center gap-2"></div>
+                <div id="uiContainer-footer-end" class="navbar-end gap-2">
+                    <!-- Phone speed dial / desktop row: actions mount via uiManager.mountFooterEndAction -->
+                    <div id="footer-end-fab" class="fab footer-end-fab footer-end--inline" aria-label="Footer actions">
+                        <div tabindex="0" role="button" class="btn btn-primary btn-lg h-10 max-w-10 footer-end-fab-trigger" aria-label="More actions"></div>
+                        <div class="fab-close">
+                            <span class="btn btn-error btn-lg h-10 max-w-10 pointer-events-none" aria-hidden="true">✕</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    <canvas id="renderCanvas"></canvas>
+</body>
+</html> 
+
+    

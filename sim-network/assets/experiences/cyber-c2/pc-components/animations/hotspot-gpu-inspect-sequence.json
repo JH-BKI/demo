@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "pc-components",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "kind": "model-move",
+      "startTime": 0.5,
+      "targets": [
+        {
+          "modelId": "pc-gpu"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 1,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0.41,
+            0.071,
+            0.071
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "model-move",
+      "startTime": 1.5,
+      "targets": [
+        {
+          "modelId": "pc-gpu-ghost"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": false,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 0,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "cameraMove": {
+        "durationSeconds": 2,
+        "properties": {
+          "alpha": {
+            "from": 0.3171,
+            "to": 0.7014
+          },
+          "beta": {
+            "from": 1.3112,
+            "to": 1.2946
+          },
+          "radius": {
+            "from": 0.9187,
+            "to": 0.34
+          },
+          "target": {
+            "from": [
+              0,
+              0.25,
+              0
+            ],
+            "to": [
+              0.4,
+              0.25,
+              0
+            ]
+          }
+        },
+        "setAsResetHome": true,
+        "autoRotate": false
+      },
+      "startTime": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 1,
+      "event": "annotationsControl",
+      "label": "show-anno-hs-03-anno-01-fan",
+      "detail": {
+        "ids": "hs-03-anno-01-fan",
+        "visible": true
+      },
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 1.5,
+      "event": "annotationsControl",
+      "label": "show-anno-hs-03-anno-02-pcie",
+      "subLane": 0,
+      "detail": {
+        "ids": "hs-03-anno-02-pcie",
+        "visible": true
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 2,
+      "event": "annotationsControl",
+      "label": "show-anno-hs-03-anno-03-outputs",
+      "subLane": 0,
+      "detail": {
+        "ids": "hs-03-anno-03-outputs",
+        "visible": true
+      }
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-3"
+    ],
+    [
+      "clip-1"
+    ],
+    [
+      "clip-2"
+    ],
+    [],
+    []
+  ],
+  "chapters": [],
+  "regions": []
+}

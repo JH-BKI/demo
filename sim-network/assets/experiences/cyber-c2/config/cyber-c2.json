@@ -1,0 +1,3117 @@
+{
+  "version": "0.6.2705",
+  "webxr": {
+    "vrEnabled": false,
+    "arEnabled": false
+  },
+  "general": {
+    "loadingpathXR": "",
+    "backgroundColor": [
+      0.1,
+      0.1,
+      0.15
+    ],
+    "title": "Cybersecurity Cluster 2",
+    "description": "<div class='text-center'><p>Cybersecurity Cluster 2</p></div>",
+    "tracking": {
+      "startTimeStamp": null,
+      "completedSessions": []
+    },
+    "hotspotTerminology": "hotspot",
+    "environmentLighting": {
+      "enabled": true,
+      "preset": "neutral-studio",
+      "intensity": 0.8,
+      "rotationY": 0
+    },
+    "showSplash": false,
+    "ui": {
+      "hotspotLabel2D": {
+        "frameBorderHex": "#cbd5e180",
+        "frameBackgroundHex": "#ffffffe6",
+        "textColorHex": "#1e293b"
+      },
+      "persistSelectedGlowOutline": {
+        "colorAHex": "#00FFB0",
+        "colorBHex": "#00FFB0",
+        "blurHMin": 1,
+        "blurHMax": 3,
+        "blurVMin": 1,
+        "blurVMax": 3,
+        "pulseEnabled": true,
+        "pulsePeriodSec": 5,
+        "intensity": 1,
+        "materialAlpha": 0.1
+      },
+      "persistSelectedGlowPulseEnabled": false,
+      "hud": {
+        "leaveSessionButton": false,
+        "fullscreenToggle": true,
+        "vrToggle": false,
+        "progressDrawer": false
+      }
+    }
+  },
+  "initialScene": "router-anatomy",
+  "scenes": [
+    {
+      "scene": {
+        "id": "pc-components",
+        "type": "3d-viewer",
+        "image": "./assets/core/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "PC Components",
+        "description": "<p>Explore desktop PC components in 3D.</p>",
+        "customScript": "generic-3d-viewer",
+        "plugins": [
+          "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
+          "hotspotNavigator",
+          {
+            "name": "dimensions",
+            "config": {
+              "showHudButton": true
+            }
+          },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.75,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Select the hotspots to explore the PC components.</p>"
+            }
+          }
+        ],
+        "attribution": [
+          "\"Corsair 4000D  PC case\" (https://skfb.ly/oFS8V) by SzaBa is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).",
+          "\"RTX 3080ti Graphics Card 3d Model\" (https://skfb.ly/puWUC) by Arham Abdullah is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).",
+          "\"MotherBoard + Components\" (https://skfb.ly/6RDsX) by Daniel Cardona is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).",
+          "Company logo and selected brand assets © CORSAIR",
+          "Company logo and selected brand assets © ASUSTeK COMPUTER INC",
+          "Company logo and selected brand assets © NVIDIA Corporation",
+          "Company logo and selected brand assets © Samsung. All rights reserved",
+          "Company logo and selected brand assets © Trident &  G.SKILL International Enterprise Co., Ltd. All rights reserved",
+          "Company logo and selected brand assets © Intel Corporation"
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": 0.3171,
+        "beta": 1.3112,
+        "radius": 0.9187,
+        "fov": 0.9,
+        "target": [
+          0,
+          0.25,
+          0
+        ],
+        "lowerRadiusLimit": 0.05,
+        "upperRadiusLimit": 10,
+        "lowerAlphaLimit": -12,
+        "upperAlphaLimit": 12,
+        "lowerBetaLimit": 0.2,
+        "upperBetaLimit": 1.75,
+        "allowPanning": true,
+        "panningDistanceLimit": 0.5,
+        "defaultFocusRadius": 1,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": false,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.0125,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "cubey",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/10x10-cube.glb",
+          "position": [
+            0.4,
+            0.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "showModelOnLoad": false
+        },
+        {
+          "id": "pc-case",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/case_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "pc-cpu",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/cpu_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "pc-gpu",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/gpu_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "pc-m2",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/m2_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "pc-motherboard",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/motherboard_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.5,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-psu",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/psu_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true
+        },
+        {
+          "id": "pc-ram",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ram_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.5,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-cpu-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_cpu_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-gpu-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_gpu_final-alt2.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-m2-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_m2_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-motherboard-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_motherboard_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-psu-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_psu_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        },
+        {
+          "id": "pc-ram-ghost",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/ghost_ram_final.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": false,
+          "emissiveGlow": {
+            "enabled": true,
+            "intensity": 0.35,
+            "nodeNames": []
+          }
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hotspot-01-pc-case",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "PC Case",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "1. PC Case",
+          "description": "<p>A PC case directs airflow across high-heat components to optimize cooling. It provides structural support to prevent heavy components from sagging and uses standoffs to prevent electrical short circuits. Cases also protect hardware from dust, liquid, and static, dampen fan noise, safely enclose spinning parts, and provide front-panel ports and internal cable routing.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://www.corsair.com/ww/en/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-case-black-cc-9011200-ww'>Corsair 4000D ATX Case</a>.</p>",
+          "position": [
+            0.15,
+            0.233,
+            0.213
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0.01,
+              0.24,
+              0
+            ],
+            "alpha": -0.4739,
+            "beta": 0.8038,
+            "radius": 0.9187,
+            "durationMs": 1000
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-02-psu",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "PSU",
+            "position": "middle-left",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "2. PSU",
+          "description": "<p><strong>Power Supply Unit (PSU)</strong></p><p>The PSU converts mains AC power into low-voltage DC power required by internal components. It: Supplies power to the motherboard, CPU, storage and peripherals Includes voltage regulation and protection features Unstable or poor-quality power supplies can damage hardware, cause unexpected shutdowns and increase the likelihood of data loss.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://www.corsair.com/us/en/p/psu/cp-9020180-na/rmx-series-rm850x-850-watt-80-plus-gold-certified-fully-modular-psu-cp-9020180-na?srsltid=AfmBOoqNLmWFjoRBdqbOhLu-KWbVGNMla0NG6YNXOrvP59ZKb8G-9oy7'>Corsair MR850x PSU</a>.</p>",
+          "position": [
+            0.15,
+            0.075,
+            0
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "animationSequence": {
+            "open": "hotspot-psu-inspect-sequence.json",
+            "close": "hotspot-psu-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-03-gpu",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "GPU",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "3. GPU",
+          "description": "<p><strong>Graphical Processing Unit (GPU)</strong></p><p>A specialised processor designed to perform many calculations simultaneously, making it ideal for rendering graphics, processing video, and now, AI. The GPU frees the CPU to focus on general-purpose processing and enables smooth performance in applications like games, 3D modelling, and virtual reality.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://www.nvidia.com/en-au/geforce/graphics-cards/30-series/rtx-3080-3080ti/'>nVidia GEFORCE RTX 3080ti GPU</a>.</p>",
+          "position": [
+            0.027,
+            0.179,
+            0.097
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0,
+              0.82,
+              0
+            ],
+            "alpha": -0.25,
+            "beta": 1.27,
+            "radius": 2.5,
+            "durationMs": 1000
+          },
+          "animationSequence": {
+            "open": "hotspot-gpu-inspect-sequence.json",
+            "close": "hotspot-gpu-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-04-storage",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Storage",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "4. Storage devices",
+          "description": "<p>Storage devices provide long-term, non-volatile data storage. Common types include: <ul><li>Hard Disk Drives (HDDs) – magnetic storage with moving parts. </li><li>Solid State Drives (SSDs) – faster, more durable semiconductor storage. </li><li>M.2 Drives – ultra-compact, high-speed SSDs that connect directly to the motherboard.</li><li>Removable media (USB drives, external disks).</li></ul> Storage devices often contain sensitive operating system files, credentials, logs and user data. If not encrypted or securely managed, they present a significant security risk.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://www.samsung.com/au/memory-storage/nvme-ssd/970-evo-nvme-m-2-ssd-2tb-mz-v7e2t0bw/'>Samsung 970 Evo M.2 SSD 2TB</a>.</p>",
+          "position": [
+            0.017,
+            0.241,
+            -0.07
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0,
+              0.82,
+              0
+            ],
+            "alpha": -0.25,
+            "beta": 1.27,
+            "radius": 2.5,
+            "durationMs": 1000
+          },
+          "animationSequence": {
+            "open": "hotspot-m2-inspect-sequence.json",
+            "close": "hotspot-m2-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-05-ram",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "RAM",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "5. RAM",
+          "description": "<p><strong>Random Access Memory (RAM)</strong></p><p>RAM is the computer’s short-term working memory. It: Temporarily stores data and programs currently in use Allows the CPU to access information quickly Is volatile, meaning its contents are lost when power is removed Insufficient RAM can slow system performance and increase system errors, while faulty RAM can cause crashes that disrupt secure operations.</p><p>This 3D model is based on <a target='_blank' rel='noopener noreferrer' href='https://www.gskill.com/product/165/374/1640164988/F5-5200J3636C16GX2-TZ5RK-F5-5200J3636C16GA2-TZ5RK'>Trident RGB RAM</a>.</p>",
+          "position": [
+            -0.032,
+            0.343,
+            0.041
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0,
+              0.82,
+              0
+            ],
+            "alpha": -0.25,
+            "beta": 1.27,
+            "radius": 2.5,
+            "durationMs": 1000
+          },
+          "animationSequence": {
+            "open": "hotspot-ram-inspect-sequence.json",
+            "close": "hotspot-ram-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-06-cpu",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "CPU",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "6. CPU",
+          "description": "<p><strong>Central Processing Unit (CPU)</strong></p><p>The CPU is the “brain” of the computer. It: Interprets and executes instructions from software and the operating system Performs calculations and logical operations Coordinates the activity of other hardware components Modern CPUs are installed into a socket on the motherboard and rely on cooling systems (heatsinks and fans) to prevent overheating. Poor cooling or sustained overheating can cause system instability and hardware failure — which can indirectly increase cyber security risk through crashes or data corruption.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://www.intel.com/content/www/us/en/products/sku/186604/intel-core-i79700k-processor-12m-cache-up-to-4-90-ghz/specifications.html'>intel I7-9700k CPU</a>.</p>",
+          "position": [
+            -0.032,
+            0.402,
+            -0.083
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0.17,
+              0.38,
+              -0.1
+            ],
+            "alpha": -0.0555,
+            "beta": 1.4501,
+            "radius": 0.05,
+            "durationMs": 1000
+          },
+          "animationSequence": {
+            "open": "hotspot-cpu-inspect-sequence.json",
+            "close": "hotspot-cpu-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-07-motherboard",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              59,
+              129,
+              25,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Motherboard",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "7. Motherboard",
+          "description": "<p>The motherboard is the backbone of the computer. It: Connects all internal components using electrical pathways (buses) Hosts the CPU, RAM, chipset, storage connectors and expansion slots Contains firmware such as BIOS or UEFI that starts the system A compromised or misconfigured motherboard firmware can undermine all other security controls.</p><p>This 3D model is based on the <a target='_blank' rel='noopener noreferrer' href='https://rog.asus.com/motherboards/rog-strix/rog-strix-z370-e-gaming-model/'>ASUS ROG STRIX Z370-E motherboard</a>.</p>",
+          "position": [
+            -0.005,
+            0.344,
+            -0.157
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "cameraView": {
+            "target": [
+              0,
+              0.82,
+              0
+            ],
+            "alpha": -0.25,
+            "beta": 1.27,
+            "radius": 2.5,
+            "durationMs": 1000
+          },
+          "animationSequence": {
+            "open": "hotspot-motherboard-inspect-sequence.json",
+            "close": "hotspot-motherboard-close-sequence.json"
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "hs-01-pc-case",
+          "target": {
+            "modelId": "dc-charger"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 0.23,
+              "label": "(W) 23 cm",
+              "offset": [
+                0.115,
+                0,
+                -0.243
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0,
+                -0.1
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": true,
+              "length": 0.466,
+              "label": "(H) 46 cm ",
+              "offset": [
+                0.115,
+                0,
+                -0.233
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                -0.05,
+                0.233,
+                -0.05
+              ],
+              "direction": 1
+            },
+            "z": {
+              "enabled": true,
+              "length": 0.453,
+              "label": "(L) 45.3 cm",
+              "offset": [
+                0.115,
+                0,
+                0.227
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "style": {
+            "lineColorHex": "#00e1ff",
+            "lineRadius": 0.002,
+            "arrowSize": 0.02,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#00e1ff80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 24
+            },
+            "showTicks": "none"
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "hs-01-anno-01-glass",
+          "target": {
+            "modelId": "pc-case",
+            "position": [
+              0.115,
+              0.407,
+              -0.059
+            ]
+          },
+          "label": {
+            "text": "Tempered glass window",
+            "lineAnchor": "auto",
+            "offset": [
+              0,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 24,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-pc-case"
+          }
+        },
+        {
+          "id": "hs-01-anno-02-panel-io",
+          "target": {
+            "modelId": "pc-case",
+            "position": [
+              0.001,
+              0.466,
+              0.163
+            ]
+          },
+          "label": {
+            "text": "Power & I/O panel ",
+            "lineAnchor": "auto",
+            "offset": [
+              0,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 24,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-pc-case"
+          }
+        },
+        {
+          "id": "hs-01-anno-03-fans",
+          "target": {
+            "modelId": "pc-case",
+            "position": [
+              0.017,
+              0.319,
+              0.194
+            ]
+          },
+          "label": {
+            "text": "Cooling fans",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              -0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 24,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-pc-case"
+          }
+        },
+        {
+          "id": "hs-01-anno-04-fans",
+          "target": {
+            "modelId": "pc-case",
+            "position": [
+              0.051,
+              0.362,
+              -0.221
+            ]
+          },
+          "label": {
+            "text": "Cooling fans",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.05,
+              0.05,
+              -0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 24,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-pc-case"
+          }
+        },
+        {
+          "id": "hs-02-anno-01-connectors",
+          "target": {
+            "modelId": "pc-psu",
+            "position": [
+              0.441,
+              0.269,
+              0.09
+            ]
+          },
+          "label": {
+            "text": "Cable connectors",
+            "lineAnchor": "auto",
+            "offset": [
+              0.025,
+              0.05,
+              0.025
+            ]
+          },
+          "line": {
+            "colorHex": "#7300ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#7300ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-02-anno-02-fan",
+          "target": {
+            "modelId": "pc-psu",
+            "position": [
+              0.348,
+              0.288,
+              -0.02
+            ]
+          },
+          "label": {
+            "text": "Fan",
+            "lineAnchor": "auto",
+            "offset": [
+              0,
+              0.03,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#7300ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#7300ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-02-anno-03-power",
+          "target": {
+            "modelId": "pc-psu",
+            "position": [
+              0.444,
+              0.266,
+              -0.09
+            ]
+          },
+          "label": {
+            "text": "Switch & inlet",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.025,
+              0.03,
+              -0.025
+            ]
+          },
+          "line": {
+            "colorHex": "#7300ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#7300ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-05-anno-01-heatspreader",
+          "target": {
+            "modelId": "pc-ram",
+            "position": [
+              0.416,
+              0.281,
+              -0.043
+            ]
+          },
+          "label": {
+            "text": "Heat spreader",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.025,
+              0.05,
+              0.025
+            ]
+          },
+          "line": {
+            "colorHex": "#00d5ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00d5ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-05-anno-02-pins",
+          "target": {
+            "modelId": "pc-ram",
+            "position": [
+              0.416,
+              0.281,
+              0.09
+            ]
+          },
+          "label": {
+            "text": "Contact pins",
+            "lineAnchor": "auto",
+            "offset": [
+              0.025,
+              0.025,
+              0.025
+            ]
+          },
+          "line": {
+            "colorHex": "#00d5ff",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00d5ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-07-anno-01-cpu-socket",
+          "target": {
+            "modelId": "pc-motherboard",
+            "position": [
+              0.317,
+              0.233,
+              0.007
+            ]
+          },
+          "label": {
+            "text": "CPU socket",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ff2d95",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff2d95",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-07-anno-04-rear-io",
+          "target": {
+            "modelId": "pc-motherboard",
+            "position": [
+              0.323,
+              0.264,
+              -0.123
+            ]
+          },
+          "label": {
+            "text": "Rear I/O",
+            "lineAnchor": "auto",
+            "offset": [
+              0.025,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ff2d95",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff2d95",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-07-anno-03-pcie-slots",
+          "target": {
+            "modelId": "pc-motherboard",
+            "position": [
+              0.494,
+              0.234,
+              0.001
+            ]
+          },
+          "label": {
+            "text": "PCIe slots",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ff2d95",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff2d95",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-07-anno-02-ram-slots",
+          "target": {
+            "modelId": "pc-motherboard",
+            "position": [
+              0.39,
+              0.233,
+              0.065
+            ]
+          },
+          "label": {
+            "text": "RAM slots",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ff2d95",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff2d95",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-06-anno-02-pads",
+          "target": {
+            "modelId": "pc-cpu",
+            "position": [
+              0.396,
+              0.252,
+              -0.012
+            ]
+          },
+          "label": {
+            "text": "Contact pads",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.05,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ffcc00",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ffcc00",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-06-anno-01-heatspreader",
+          "target": {
+            "modelId": "pc-cpu",
+            "position": [
+              0.4,
+              0.238,
+              -0.001
+            ]
+          },
+          "label": {
+            "text": "Heat spreader",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              -0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#ffcc00",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ffcc00",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-04-anno-01-connector",
+          "target": {
+            "modelId": "pc-m2",
+            "position": [
+              0.394,
+              0.249,
+              0.04
+            ]
+          },
+          "label": {
+            "text": "M.2 connector",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.025,
+              0.025,
+              0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#ff1744",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff1744",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-04-anno-02-nand",
+          "target": {
+            "modelId": "pc-m2",
+            "position": [
+              0.407,
+              0.25,
+              -0.031
+            ]
+          },
+          "label": {
+            "text": "NAND flash chips",
+            "lineAnchor": "auto",
+            "offset": [
+              0.025,
+              -0.025,
+              -0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#ff1744",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#ff1744",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-03-anno-03-outputs",
+          "target": {
+            "modelId": "pc-gpu",
+            "position": [
+              0.393,
+              0.244,
+              -0.13
+            ]
+          },
+          "label": {
+            "text": "Display outputs",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              -0.025,
+              -0.05
+            ]
+          },
+          "line": {
+            "colorHex": "#00c853",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00c853",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-03-anno-02-pcie",
+          "target": {
+            "modelId": "pc-gpu",
+            "position": [
+              0.35,
+              0.263,
+              -0.054
+            ]
+          },
+          "label": {
+            "text": "PCIe connector",
+            "lineAnchor": "auto",
+            "offset": [
+              0,
+              0.05,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00c853",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00c853",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "hs-03-anno-01-fan",
+          "target": {
+            "modelId": "pc-gpu",
+            "position": [
+              0.432,
+              0.262,
+              0.104
+            ]
+          },
+          "label": {
+            "text": "Cooling fan",
+            "lineAnchor": "auto",
+            "offset": [
+              0.05,
+              0.025,
+              0.025
+            ]
+          },
+          "line": {
+            "colorHex": "#00c853",
+            "radius": 0.001
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00c853",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 14,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "horizontal",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "router-anatomy",
+        "type": "3d-viewer",
+        "image": "./assets/core/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "Router Anatomy",
+        "description": "<p><b>Explore the Cisco C8500-12X router in 3D.</b></p><details><summary>More details...</summary><p>The Cisco Catalyst C8500-12X is a high-performance enterprise edge router designed to provide secure WAN connectivity, SD-WAN, cloud networking, and advanced routing services for medium to large organisations.</p><p>It features twelve 1/10 Gigabit Ethernet (SFP+) ports and delivers high-throughput performance for services such as VPN, encryption, firewalling, and traffic segmentation.</p></details>",
+        "customScript": "generic-3d-viewer",
+        "plugins": [
+          "resetView",
+          "zoomIndicator",
+          {
+            "name": "onboardingRotateHint",
+            "config": {
+              "delayMs": 1500,
+              "durationMs": 5000,
+              "enableCameraSway": true
+            }
+          },
+          "hotspotNavigator",
+          {
+            "name": "dimensions",
+            "config": {
+              "showHudButton": true
+            }
+          },
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 0.12,
+                "minFactor": 0.75,
+                "maxFactor": 5
+              }
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Select Outside / Inside to explore the router.</p>"
+            }
+          }
+        ],
+        "attribution": [
+          "\"C8500-12X\" (https://skfb.ly/oDHWG) by Cisco IBNG media is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).",
+          "Company logo and selected brand assets © 2026 Cisco Systems, Inc."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": 1.9216,
+        "beta": 1.135,
+        "radius": 3.5,
+        "fov": 0.9,
+        "target": [
+          0,
+          0.25,
+          0
+        ],
+        "lowerRadiusLimit": 0.1,
+        "upperRadiusLimit": 5,
+        "lowerAlphaLimit": -12,
+        "upperAlphaLimit": 12,
+        "lowerBetaLimit": 0.2,
+        "upperBetaLimit": 1.75,
+        "allowPanning": true,
+        "panningDistanceLimit": 0.5,
+        "defaultFocusRadius": 1,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": false,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.0125,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "c8500-12x",
+          "path": "./assets/experiences/cyber-c2/router-anatomy/3D/c8500-12x-final.glb",
+          "position": [
+            -0.05,
+            0,
+            1.245
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "showModelOnLoad": true,
+          "playEmbeddedAnimations": false
+        },
+        {
+          "id": "cubey",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/10x10-cube.glb",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.05,
+            10,
+            0.05
+          ],
+          "showModelOnLoad": false
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "hotspot-01-outside",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              0,
+              0.882,
+              1,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Outside area",
+            "position": "middle-leftu",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "1. Outside",
+          "description": "<p>Explore the outside of the router.</p>",
+          "position": [
+            1.3,
+            0.4,
+            0
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          }
+        },
+        {
+          "id": "hotspot-02-inside",
+          "type": "info",
+          "visuals": {
+            "visualsEnabled": true,
+            "persistSelected": false,
+            "baseColor": [
+              0,
+              0.51,
+              0.81
+            ],
+            "overlayColor": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "outlineColor": [
+              0,
+              0.882,
+              1,
+              1
+            ],
+            "hoverEmissiveMultiplier": 1.5,
+            "hoverScaleMultiplier": 1.2,
+            "selectEmissiveMultiplier": 1.25,
+            "selectScaleMultiplier": 1
+          },
+          "label": {
+            "text": "Inside area",
+            "position": "middle-right",
+            "showLabel": true,
+            "labelVisibility": "hover"
+          },
+          "title": "2. Inside",
+          "description": "<p>Explore the inside of the router.</p>",
+          "position": [
+            -1.3,
+            0.4,
+            0
+          ],
+          "alphaValue": 1,
+          "size": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "marker": {
+            "type": "3D",
+            "path": "./assets/core/3D/hotspot-marker-disc.glb"
+          },
+          "tracking": {
+            "required": false,
+            "visited": false
+          },
+          "dialog": {
+            "nonBlocking": true,
+            "position": "right",
+            "collapsible": true
+          },
+          "animationSequence": {
+            "open": "hotspot-router-inspect-sequence.json",
+            "close": "hotspot-router-close-sequence.json"
+          }
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "dimensionSet",
+          "target": {
+            "modelId": "c8500-12x"
+          },
+          "anchor": {
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "billboardLabels": true,
+          "doubleSidedLabels": true,
+          "visibleByDefault": false,
+          "renderOnTop": true,
+          "layout": {
+            "vertical": "bottom",
+            "horizontal": "left",
+            "depth": "front"
+          },
+          "axes": {
+            "x": {
+              "enabled": true,
+              "length": 2.31,
+              "label": "(W) 44.45 cm",
+              "offset": [
+                1.197,
+                -0.12,
+                0.025
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0,
+                0,
+                0.1
+              ],
+              "direction": -1
+            },
+            "y": {
+              "enabled": true,
+              "length": 0.26,
+              "label": "(H) 4.39 cm",
+              "offset": [
+                1.197,
+                -0.12,
+                0.025
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                -0.05,
+                0.233,
+                -0.05
+              ],
+              "direction": 1
+            },
+            "z": {
+              "enabled": true,
+              "length": 2.46,
+              "label": "(L) 46.89 cm",
+              "offset": [
+                1.228,
+                -0.12,
+                -0.015
+              ],
+              "labelOrientation": "vertical",
+              "labelOffset": [
+                0.1,
+                0,
+                0
+              ],
+              "direction": -1
+            }
+          },
+          "style": {
+            "lineColorHex": "#00e1ff",
+            "lineRadius": 0.002,
+            "arrowSize": 0.02,
+            "tickSize": 0.1,
+            "tickStyle": "dashed",
+            "tickAlign": "end",
+            "tickRadius": 0.002,
+            "label": {
+              "frameBackgroundHex": "#ffffffe6",
+              "frameBorderHex": "#00e1ff80",
+              "textColorHex": "#1e293b",
+              "fontSizePx": 32
+            },
+            "showTicks": "none"
+          }
+        }
+      ],
+      "annotations": [
+        {
+          "id": "hs-01-anno-01",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              1.129,
+              0.1,
+              1.226
+            ]
+          },
+          "label": {
+            "text": "RFID Tag",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-01-anno-02",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.8,
+              0.064,
+              1.208
+            ]
+          },
+          "label": {
+            "text": "RJ45 / Micro USB Console",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-01-anno-03",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.574,
+              0.109,
+              1.208
+            ]
+          },
+          "label": {
+            "text": "Management Ethernet",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -0.1,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-01-anno-04",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.587,
+              -0.109,
+              1.208
+            ]
+          },
+          "label": {
+            "text": "USB 3.0 Interfaces",
+            "lineAnchor": "top-center",
+            "offset": [
+              0,
+              -0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-01-anno-05",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              -0.778,
+              0.087,
+              1.208
+            ]
+          },
+          "label": {
+            "text": "Bay 0: 12xSFP+ | 12x1/10G",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-01-anno-06",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              -1.133,
+              0.028,
+              1.208
+            ]
+          },
+          "label": {
+            "text": "Label Tray",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.2,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-02-anno-08",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.831,
+              0.088,
+              -1.235
+            ]
+          },
+          "label": {
+            "text": "Redundant Power Supply",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-01-outside"
+          }
+        },
+        {
+          "id": "hs-02-anno-07",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              -0.5,
+              0.086,
+              -1.024
+            ]
+          },
+          "label": {
+            "text": "Chassis Fan Assembly",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-inside"
+          }
+        },
+        {
+          "id": "hs-02-anno-09",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.984,
+              0.129,
+              -0.524
+            ]
+          },
+          "label": {
+            "text": "Redundant Power Supply",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-inside"
+          }
+        },
+        {
+          "id": "hs-02-anno-10",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.607,
+              0.129,
+              0.286
+            ]
+          },
+          "label": {
+            "text": "Redundant Power Supply",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              0,
+              0.1,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-inside"
+          }
+        },
+        {
+          "id": "hs-02-anno-11",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              0.273,
+              -0.061,
+              -0.26
+            ]
+          },
+          "label": {
+            "text": "DRAM Memory",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.25,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-inside"
+          }
+        },
+        {
+          "id": "hs-02-anno-12",
+          "target": {
+            "modelId": "c8500-12x",
+            "position": [
+              -0.626,
+              0.012,
+              -0.008
+            ]
+          },
+          "label": {
+            "text": "3rd Gen Quantum Flow Processor",
+            "lineAnchor": "center",
+            "offset": [
+              0,
+              0.15,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00e1ff",
+            "radius": 0.0025
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00e1ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 32,
+            "borderThicknessPx": 10
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false,
+          "hotspotLink": {
+            "hotspotId": "hotspot-02-inside"
+          }
+        }
+      ]
+    },
+    {
+      "scene": {
+        "id": "sim-network",
+        "type": "3d-viewer",
+        "image": "./assets/core/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "Sim Network",
+        "description": "<p>Build and test a network — tutorial practice map, then office level. Maps are listed in layouts-index.json stages.</p>",
+        "customCss": "./assets/experiences/cyber-c2/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/cyber-c2/sim-network/scripts/sim-network.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    { "path": "./assets/experiences/cyber-c2/sim-network/fonts/IBMPlexMono-Regular.woff2", "weight": 400 }
+                  ]
+                }
+              ]
+            }
+          ]
+        },        
+        "plugins": [
+          "resetView",
+          "audioVolume",
+          "zoomIndicator",
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 1.65,
+                "minFactor": 1,
+                "maxFactor": 3
+              }
+            }
+          },
+          "hudControl",
+          {
+            "name": "sequenceLabelOverlay",
+            "config": {
+              "position": "top-left",
+              "showChapterLabel": true,
+              "showRegionLabel": true
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the left palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Cupboard.</li><li>If the test fails, press <strong>Try again</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+            }
+          }
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits).",
+          "Placeholder attribution — Shared environment assets © placeholder."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -1.5625,
+        "beta": 1.1516,
+        "radius": 12,
+        "fov": 0.9,
+        "target": [3, 0.5, 3.5],
+        "lowerRadiusLimit": 2,
+        "upperRadiusLimit": 16,
+        "lowerAlphaLimit": -22,
+        "upperAlphaLimit": 22,
+        "lowerBetaLimit": 0.4734,
+        "upperBetaLimit": 1.3556,
+        "allowPanning": true,
+        "panningDistanceLimit": 10,
+        "defaultFocusRadius": 7.6,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": false,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.0125,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "cubey",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/10x10-cube.glb",
+          "position": [
+            0.0,
+            0.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "showModelOnLoad": true
+        }        
+      ],
+      "audio": [
+        {
+          "id": "music-loop-hauntedcastle",
+          "path": "./assets/experiences/cyber-c2/sim-network/audio/music-loop_hauntedcastle.mp3",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.1,
+          "autoplay": true,
+          "maxInstances": 1
+        },
+        {
+          "id": "ui-click",
+          "path": "./assets/experiences/cyber-c2/sim-network/audio/ui-click_4.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.5,
+          "maxInstances": 8
+        },
+        {
+          "id": "ui-click-wrong",
+          "path": "./assets/experiences/cyber-c2/sim-network/audio/ui-click_wrongerror.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.5,
+          "maxInstances": 8
+        },
+        {
+          "id": "dialog",
+          "path": "./assets/experiences/cyber-c2/sim-network/audio/random.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.4,
+          "maxInstances": 2
+        }
+      ],
+      "referenceModels": [],
+      "dimensions": [],
+      "annotations": 
+      [
+        {
+          "id": "tut01-anno-01-comms",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.493,
+              2.1,
+              6.69
+            ]
+          },
+          "label": {
+            "text": "Comms Cupboard",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -0.5,
+              0.75,
+              0.5
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-02-pc1",
+          "target": {
+            "modelId": "desktop-pc_0_1_L5",
+            "position": [
+              0.512,
+              1.345,
+              1.449
+            ]
+          },
+          "label": {
+            "text": "Desktop PC #1",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-03-counter",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "Drop modem/router here",
+            "lineAnchor": "auto",
+            "offset": [
+              -1,
+              1.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-08-pc2",
+          "target": {
+            "modelId": "desktop-pc_0_4_L5",
+            "position": [
+              0.521,
+              1.345,
+              4.4
+            ]
+          },
+          "label": {
+            "text": "Desktop PC #2",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-04-start-cable",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.475,
+              0.721,
+              6.485
+            ]
+          },
+          "label": {
+            "text": "Start click/drag here",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -1,
+              1.5,
+              1
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-05-end-cable",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "End click/drag here",
+            "lineAnchor": "center-right",
+            "offset": [
+              -1.5,
+              0,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-06-start-cable-pc",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "Start click/drag here",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -1,
+              1.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-07-end-cable-pc",
+          "target": {
+            "modelId": "desktop-pc_0_1_L5",
+            "position": [
+              0.512,
+              1.345,
+              1.449
+            ]
+          },
+          "label": {
+            "text": "End click/drag here",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.499,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-00-outside",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.566,
+              0.46,
+              8.285
+            ]
+          },
+          "label": {
+            "text": "Outside connection",
+            "lineAnchor": "auto",
+            "offset": [
+              1,
+              2.25,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        }
+      ],
+      "hotspots": []
+    }
+  ]
+}

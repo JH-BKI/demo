@@ -1,0 +1,626 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "pc-components",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "kind": "model-move",
+      "startTime": 0.5,
+      "targets": [
+        {
+          "modelId": "pc-ram"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 2,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0.453,
+            -0.095,
+            0.01
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "model-move",
+      "startTime": 1.5,
+      "targets": [
+        {
+          "modelId": "pc-ram-ghost"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": false,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 0,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "cameraMove": {
+        "durationSeconds": 2,
+        "properties": {
+          "alpha": {
+            "from": 0.3171,
+            "to": 0.7014
+          },
+          "beta": {
+            "from": 1.3112,
+            "to": 1.2946
+          },
+          "radius": {
+            "from": 0.9187,
+            "to": 0.34
+          },
+          "target": {
+            "from": [
+              0,
+              0.25,
+              0
+            ],
+            "to": [
+              0.4,
+              0.25,
+              0
+            ]
+          }
+        },
+        "setAsResetHome": true,
+        "autoRotate": false
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 1"
+        }
+      ],
+      "startTime": 3,
+      "kind": "model-move",
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            -0.01
+          ],
+          "to": [
+            0,
+            0,
+            -0.1
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            -90,
+            0
+          ],
+          "to": [
+            0,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "to": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 2"
+        }
+      ],
+      "startTime": 3.5,
+      "kind": "model-move",
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            -0.035
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            -90,
+            0
+          ],
+          "to": [
+            30,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "to": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 3"
+        }
+      ],
+      "startTime": 4,
+      "kind": "model-move",
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0.01
+          ],
+          "to": [
+            0,
+            0,
+            0.035
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            -90,
+            0
+          ],
+          "to": [
+            60,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "to": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-7",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 4"
+        }
+      ],
+      "startTime": 3.5,
+      "kind": "model-move",
+      "modelMove": {
+        "durationSeconds": 0.5,
+        "position": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0.019
+          ],
+          "to": [
+            0,
+            0,
+            0.1
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            -11.2185,
+            0
+          ],
+          "to": [
+            11.2185,
+            0,
+            90
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "to": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 1,
+          "to": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-8",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 2"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-9",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 1"
+        }
+      ],
+      "startTime": 0,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            -0.01
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-10",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 3"
+        }
+      ],
+      "startTime": 0,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0.01
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            -90,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-11",
+      "targets": [
+        {
+          "modelId": "pc-ram",
+          "nodeName": "RAM 4"
+        }
+      ],
+      "startTime": 0,
+      "kind": "reset",
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": true,
+          "value": [
+            0,
+            0,
+            0.019
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [
+            0,
+            -11.2185,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [
+            0.033,
+            0.033,
+            0.033
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 4,
+      "event": "annotationsControl",
+      "label": "show-anno-hs-05-anno-01-heatspreader",
+      "detail": {
+        "ids": "hs-05-anno-01-heatspreader",
+        "visible": true
+      },
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 4.5,
+      "event": "annotationsControl",
+      "label": "show-anno-hs-05-anno-02-pins",
+      "subLane": 1,
+      "detail": {
+        "ids": "hs-05-anno-02-pins",
+        "visible": true
+      }
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-3"
+    ],
+    [
+      "clip-1",
+      "clip-4"
+    ],
+    [
+      "clip-2",
+      "clip-5",
+      "clip-9"
+    ],
+    [
+      "clip-6",
+      "clip-8"
+    ],
+    [
+      "clip-7",
+      "clip-10"
+    ],
+    [
+      "clip-11"
+    ],
+    []
+  ],
+  "chapters": [],
+  "regions": []
+}

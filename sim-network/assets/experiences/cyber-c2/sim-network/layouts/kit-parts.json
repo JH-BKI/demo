@@ -1,0 +1,459 @@
+﻿{
+  "id": "sim-network-kit",
+  "parts": [
+    {
+      "id": "1m-bookshelf",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/1m-bookshelf_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "access-point",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/access-point_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "connectable",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Access Point",
+        "<p>This wireless access point connects devices to the network over Wi-Fi.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wired",
+      "maxCables": 1
+    },
+    {
+      "id": "comms-cupboard",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/comms-cupboard_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "START",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Comms Cupboard",
+        "<p>Open the comms cupboard to access the network cables.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wired",
+      "maxCables": 1
+    },
+    {
+      "id": "dark-green-floor-1",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/dark-green-floor-1_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "floor",
+      "group": "environment"
+    },
+    {
+      "id": "dark-green-floor-2",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/dark-green-floor-2_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "floor",
+      "group": "environment"
+    },
+    {
+      "id": "desktop-pc",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/desktop-pc_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Desktop PC",
+        "<p>This desktop computer is a wired endpoint on the office network.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wired",
+      "maxCables": 1
+    },
+    {
+      "id": "front-desk",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/front-desk_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "inside-1m-wall",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/inside-1m-wall_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "inside-corner-section",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/inside-corner-section_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "inside-doorway",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/inside-doorway_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "laptop",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/laptop-final_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Laptop",
+        "<p>This laptop is a portable device that can join the office network.</p>"
+      ],
+      "droppable": false,
+      "linkType": "both",
+      "maxCables": 1
+    },
+    {
+      "id": "light-green-floor-1",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/light-green-floor-1_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "floor",
+      "group": "environment"
+    },
+    {
+      "id": "light-green-floor-2",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/light-green-floor-2_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "floor",
+      "group": "environment"
+    },
+    {
+      "id": "main-inside-wall-corner-section",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/main-inside-wall-corner-section_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "main-wall-1m-corner-section",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/main-wall-1m-corner-section_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "main-wall-1m-section",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/main-wall-1m-section_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "main-wall-1m-window-section",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/main-wall-1m-window-section_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "main-wall-1m-window-section-middle",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/main-wall-1m-window-section-middle_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "wall",
+      "group": "environment"
+    },
+    {
+      "id": "nas",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/nas_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "NAS",
+        "<p>This network-attached storage unit stores and shares files on the network.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wired",
+      "maxCables": 1
+    },
+    {
+      "id": "office-chair",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/office-chair_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "office-counter",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/office-counter-1m_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "droppableYOffset": 0.75,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "office-table",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/office-table_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "droppableYOffset": 0.75,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "pot-plant-1",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/pot-plant-1_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "poster-company-logo-large",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/poster-company-logo-large_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "printer",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/printer_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Printer",
+        "<p>This network printer lets users print documents from connected devices.</p>"
+      ],
+      "droppable": false,
+      "linkType": "both",
+      "maxCables": 1
+    },
+    {
+      "id": "router",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/router_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "connectable",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Router",
+        "<p>This router links the office network to the wider internet.</p>"
+      ],
+      "droppable": true,
+      "linkType": "wired",
+      "maxCables": 4
+    },
+    {
+      "id": "small-partition",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/small-partition_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "staff-desk",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/environment/staff-desk_final-optimized.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "droppableYOffset": 0.75,
+      "kind": "furniture",
+      "group": "environment"
+    },
+    {
+      "id": "switch",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/switch_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "connectable",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Switch",
+        "<p>This network switch connects wired devices so they can talk to each other.</p>"
+      ],
+      "droppable": true,
+      "linkType": "wired",
+      "maxCables": 8
+    },
+    {
+      "id": "tablet",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/tablet_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Tablet",
+        "<p>This tablet is a mobile device that can connect to the office network.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wifi",
+      "maxCables": 1
+    },
+    {
+      "id": "tv",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/tv_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "device",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "TV",
+        "<p>This display can show content shared over the office network.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wired",
+      "maxCables": 1
+    },
+    {
+      "id": "wifi-extender",
+      "path": "./assets/experiences/cyber-c2/sim-network/3D/component/wifi-extender_final.glb",
+      "footprint": [
+        1,
+        1
+      ],
+      "yOffset": 0,
+      "kind": "connectable",
+      "group": "components",
+      "interactable": true,
+      "showConnectionStatus": true,
+      "interactableMessage": [
+        "Wi-Fi Extender",
+        "<p>This Wi-Fi extender boosts wireless coverage in weaker areas of the office.</p>"
+      ],
+      "droppable": false,
+      "linkType": "wifi",
+      "maxCables": 1
+    }
+  ]
+}

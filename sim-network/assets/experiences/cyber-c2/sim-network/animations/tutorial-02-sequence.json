@@ -1,0 +1,894 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "sim-network",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "cameraMove": {
+        "durationSeconds": 2,
+        "properties": {
+          "alpha": {
+            "from": -1.8052,
+            "to": -2.2
+          },
+          "beta": {
+            "from": 1.012,
+            "to": 0.85
+          },
+          "radius": {
+            "from": 14,
+            "to": 10
+          },
+          "target": {
+            "from": [
+              6,
+              0.5,
+              6
+            ],
+            "to": [
+              6,
+              0.5,
+              6
+            ]
+          }
+        },
+        "autoRotate": false
+      },
+      "startTime": 53,
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ]
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "model-move",
+      "targets": [
+        {
+          "modelId": "comms-cupboard_11_11_L5",
+          "nodeName": "comms-cupboard_11_11_L5_root"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 2,
+        "position": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1.35,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": false,
+          "from": 1,
+          "to": 1
+        }
+      },
+      "startTime": 57.3
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "kind": "model-move",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_0_L5",
+          "nodeName": "desktop-pc_0_0_L5_root"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 2,
+        "position": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1.25,
+            1.25,
+            1.25
+          ]
+        },
+        "visibility": {
+          "enabled": false,
+          "from": 1,
+          "to": 1
+        }
+      },
+      "startTime": 55.3
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 54.1,
+      "event": "annotationsControl",
+      "label": "show-tut01-anno-01-comms",
+      "detail": {
+        "ids": "tut01-anno-01-comms",
+        "visible": true
+      },
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 43,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-look-comms-cupboard-back",
+      "detail": {
+        "goalId": "look-comms-cupboard-back"
+      },
+      "subLane": 1
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 43,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for look at comms cupboard",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 59.7,
+      "event": "annotationsControl",
+      "label": "show-tut01-anno-02-pc1",
+      "subLane": 0,
+      "detail": {
+        "ids": "tut01-anno-02-pc1",
+        "visible": true
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-4",
+      "time": 62.7,
+      "event": "annotationsControl",
+      "label": "show-tut01-anno-03-counter",
+      "subLane": 0,
+      "detail": {
+        "ids": "tut01-anno-03-counter",
+        "visible": true
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-5",
+      "time": 59.2,
+      "event": "annotationsControl",
+      "label": "show-tut01-anno-00-outside",
+      "subLane": 1,
+      "detail": {
+        "ids": "tut01-anno-00-outside",
+        "visible": true
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-6",
+      "time": 2,
+      "event": "event:show-step-content",
+      "label": "show-step-1",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "step-1"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-7",
+      "time": 44.9,
+      "event": "event:show-step-content",
+      "label": "show-step-2",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "step-2"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-8",
+      "time": 46.9,
+      "event": "event:show-step-content",
+      "label": "show-step-3",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "step-3"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-9",
+      "time": 45,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-drop-router-5-2",
+      "subLane": 1,
+      "detail": {
+        "goalId": "drop-router-5-2"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 45,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for router drop",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-10",
+      "time": 49,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-cable-router-5-2-pc-0-1",
+      "subLane": 1,
+      "detail": {
+        "goalId": "cable-router-5-2-pc-0-1"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-3",
+      "time": 49,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for cable router to PC",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-11",
+      "time": 47,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-cable-comms-5-6-router-5-2",
+      "subLane": 1,
+      "detail": {
+        "goalId": "cable-comms-5-6-router-5-2"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-4",
+      "time": 47,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for cable cupboard to router",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-12",
+      "time": 57.2,
+      "event": "hudControl",
+      "label": "ping UI",
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"wifi-extender\"]"
+      },
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-13",
+      "time": 56.7,
+      "event": "hudControl",
+      "label": "hide UI",
+      "detail": {
+        "action": "hide",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"wifi-extender\"]",
+        "durationMs": 250
+      },
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-14",
+      "time": 61.2,
+      "event": "hudControl",
+      "label": "show UI",
+      "subLane": 1,
+      "detail": {
+        "action": "show",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"wifi-extender\"]",
+        "durationMs": 250
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-15",
+      "time": 64.2,
+      "event": "hudControl",
+      "label": "hide ping",
+      "detail": {
+        "action": "hidePing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"wifi-extender\"]"
+      },
+      "subLane": 1
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "startTime": 49,
+      "cameraMove": {
+        "durationSeconds": 2,
+        "properties": {
+          "alpha": {
+            "from": -2.2,
+            "to": -1.8052
+          },
+          "beta": {
+            "from": 0.85,
+            "to": 1.012
+          },
+          "radius": {
+            "from": 10,
+            "to": 14
+          },
+          "target": {
+            "from": [
+              6,
+              0.5,
+              6
+            ],
+            "to": [
+              6,
+              0.5,
+              6
+            ]
+          }
+        },
+        "autoRotate": false
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-16",
+      "time": 12.3,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-network-test-try-again",
+      "subLane": 1,
+      "detail": {
+        "goalId": "network-test-try-again"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-5",
+      "time": 11,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for network test Try again",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-17",
+      "time": 22,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-look-reset-home",
+      "subLane": 1,
+      "detail": {
+        "goalId": "look-reset-home"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-6",
+      "time": 22,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for look at reset home",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-18",
+      "time": 16,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-dblclick-cell-3-3",
+      "subLane": 1,
+      "detail": {
+        "goalId": "dblclick-cell-3-3"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-7",
+      "time": 16,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for double-click cell 3,3",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-19",
+      "time": 48.9,
+      "event": "event:show-step-content",
+      "label": "show-step-4",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "step-4"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "kind": "highlight",
+      "targets": [
+        {
+          "modelId": "dark-green-floor-1_5_6_L1"
+        }
+      ],
+      "highlight": {
+        "durationSeconds": 8,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#83d2ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "startTime": 14,
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "targets": [
+        {
+          "modelId": "light-green-floor-1_5_5_L1"
+        }
+      ],
+      "startTime": 15,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 7,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#83d2ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-7",
+      "targets": [
+        {
+          "modelId": "dark-green-floor-1_5_4_L1"
+        }
+      ],
+      "startTime": 16,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 6,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#83d2ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-8",
+      "targets": [
+        {
+          "modelId": "light-green-floor-1_5_3_L1"
+        }
+      ],
+      "startTime": 17,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 5,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#83d2ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-9",
+      "targets": [
+        {
+          "modelId": "dark-green-floor-1_5_2_L1"
+        }
+      ],
+      "startTime": 18,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 4,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#83d2ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-10",
+      "targets": [
+        {
+          "modelId": "dark-green-floor-1_5_2_L1"
+        }
+      ],
+      "startTime": 22,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 4,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#a600ff",
+          "alpha": 0.45,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-11",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "desktop-pc_2_6_L5"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.001,
+        "position": {
+          "enabled": false,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rotation": {
+          "enabled": false,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": false,
+          "value": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 0
+        }
+      },
+      "startTime": 12.3,
+      "disabled": true
+    },
+    {
+      "type": "clip",
+      "id": "clip-12",
+      "targets": [
+        {
+          "modelId": "light-green-floor-1_3_3_L1"
+        }
+      ],
+      "startTime": 16,
+      "kind": "highlight",
+      "highlight": {
+        "durationSeconds": 6,
+        "fade": true,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#00ff7b",
+          "alpha": 0.5,
+          "xray": false,
+          "pulse": {
+            "enabled": true,
+            "intervalSeconds": 0.75,
+            "minAlpha": 0
+          }
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-4",
+      "clip-5"
+    ],
+    [
+      "clip-1",
+      "clip-6"
+    ],
+    [
+      "clip-3",
+      "clip-2",
+      "clip-7"
+    ],
+    [
+      "clip-8"
+    ],
+    [
+      "clip-9"
+    ],
+    [
+      "clip-10",
+      "clip-12"
+    ],
+    [],
+    [
+      "clip-11"
+    ]
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "label": "Tutorial 1 - 1",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 31
+    },
+    {
+      "id": "chapter-2",
+      "label": "chapter 2",
+      "color": "#24f5cb",
+      "startTime": 31,
+      "endTime": 65.9
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-1",
+      "label": "Connect this network",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 9
+    },
+    {
+      "id": "region-2",
+      "label": "Test your connection!",
+      "color": "#4a90d9",
+      "startTime": 9,
+      "endTime": 27.2
+    },
+    {
+      "id": "region-3",
+      "label": "end 3",
+      "color": "#4a90d9",
+      "startTime": 27.2,
+      "endTime": 29.2
+    },
+    {
+      "id": "region-4",
+      "label": "start 02 -01",
+      "color": "#4a90d9",
+      "startTime": 29.2,
+      "endTime": 30.2
+    },
+    {
+      "id": "region-5",
+      "label": "it's working?",
+      "color": "#4a90d9",
+      "startTime": 30.2,
+      "endTime": 31
+    },
+    {
+      "id": "region-6",
+      "label": "i guess so! - 02 -03",
+      "color": "#4a90d9",
+      "startTime": 31,
+      "endTime": 65.9
+    }
+  ]
+}

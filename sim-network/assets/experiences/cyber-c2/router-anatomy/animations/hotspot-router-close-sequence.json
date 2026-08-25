@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "router-anatomy",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "kind": "model-move",
+      "targets": [
+        {
+          "modelId": "c8500-12x",
+          "nodeName": "Ramones_01:TopLid3"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 2,
+        "position": {
+          "enabled": true,
+          "from": [
+            0.038,
+            1.036,
+            -1.291
+          ],
+          "to": [
+            -0.038,
+            0.026,
+            -1.291
+          ]
+        },
+        "rotation": {
+          "enabled": true,
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [
+            1,
+            1,
+            1
+          ],
+          "to": [
+            1,
+            1,
+            1
+          ]
+        },
+        "visibility": {
+          "enabled": true,
+          "from": 0,
+          "to": 1
+        }
+      },
+      "startTime": 0
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-1"
+    ],
+    []
+  ],
+  "chapters": [],
+  "regions": []
+}
