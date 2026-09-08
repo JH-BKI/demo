@@ -1,0 +1,72 @@
+{
+  "difficulties": [
+    {
+      "id": "level-01",
+      "title": "LEVEL 01",
+      "subtitle": "LAN NETWORK",
+      "sortOrder": 1,
+      "maps": [
+        {
+          "id": "1-1-tutorial-01",
+          "kind": "tutorial",
+          "title": "Level: 1-1",
+          "url": "./assets/experiences/sim-network/layouts/1-1-tutorial.json",
+          "sequenceFileName": "tutorial-01-sequence.json"
+        },
+        {
+          "id": "1-2-tutorial-02",
+          "kind": "tutorial",
+          "title": "Level: 1-2",
+          "url": "./assets/experiences/sim-network/layouts/1-2-tutorial.json",
+          "sequenceFileName": "tutorial-02-sequence.json"
+        },
+        {
+          "id": "1-3-level-03",
+          "kind": "level",
+          "title": "Level: 1-3",
+          "url": "./assets/experiences/sim-network/layouts/1-3-level.json"
+        }
+      ]
+    },
+    {
+      "id": "med",
+      "title": "WIFI NETWORK",
+      "sortOrder": 2,
+      "maps": [
+        {
+          "id": "2-1-tutorial-04",
+          "kind": "tutorial",
+          "title": "Level: 2-1",
+          "url": "./assets/experiences/sim-network/layouts/2-1-tutorial.json",
+          "sequenceFileName": "tutorial-04-sequence.json"
+        },
+        {
+          "id": "2-2-tutorial-05",
+          "kind": "tutorial",
+          "title": "Level: 2-2",
+          "url": "./assets/experiences/sim-network/layouts/2-2-tutorial.json",
+          "sequenceFileName": "tutorial-05-sequence.json"
+        },
+        {
+          "id": "2-3-level-06",
+          "kind": "level",
+          "title": "Level: 2-3",
+          "url": "./assets/experiences/sim-network/layouts/2-3-level.json"
+        }        
+      ]
+    },
+    {
+      "id": "hard",
+    "title": "HYBRID NETWORK",
+      "sortOrder": 3,
+      "maps": [
+        {
+          "id": "3-1-level-07",
+          "kind": "level",
+          "title": "Level: 3-1",
+          "url": "./assets/experiences/sim-network/layouts/3-1-level.json"
+        }        
+      ]
+    }
+  ]
+}

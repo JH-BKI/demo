@@ -1,0 +1,585 @@
+{
+  "version": "0.6.2705",
+  "webxr": {
+    "vrEnabled": false,
+    "arEnabled": false
+  },
+  "general": {
+    "loadingpathXR": "",
+    "backgroundColor": [
+      0.1,
+      0.1,
+      0.15
+    ],
+    "title": "Cybersecurity Cluster 2",
+    "description": "<div class='text-center'><p>Cybersecurity Cluster 2</p></div>",
+    "tracking": {
+      "startTimeStamp": null,
+      "completedSessions": []
+    },
+    "hotspotTerminology": "hotspot",
+    "environmentLighting": {
+      "enabled": true,
+      "preset": "neutral-studio",
+      "intensity": 0.8,
+      "rotationY": 0
+    },
+    "showSplash": false,
+    "ui": {
+      "hotspotLabel2D": {
+        "frameBorderHex": "#cbd5e180",
+        "frameBackgroundHex": "#ffffffe6",
+        "textColorHex": "#1e293b"
+      },
+      "persistSelectedGlowOutline": {
+        "colorAHex": "#00FFB0",
+        "colorBHex": "#00FFB0",
+        "blurHMin": 1,
+        "blurHMax": 3,
+        "blurVMin": 1,
+        "blurVMax": 3,
+        "pulseEnabled": true,
+        "pulsePeriodSec": 5,
+        "intensity": 1,
+        "materialAlpha": 0.1
+      },
+      "persistSelectedGlowPulseEnabled": false,
+      "hud": {
+        "leaveSessionButton": false,
+        "fullscreenToggle": true,
+        "vrToggle": false,
+        "progressDrawer": false
+      }
+    }
+  },
+  "initialScene": "sim-network",
+  "scenes": [
+    {
+      "scene": {
+        "id": "sim-network-instructions",
+        "type": "2d",
+        "title": "Sim Network — Instructions",
+        "description": "<p>How to play Sim Network.</p>",
+        "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/sim-network/scripts/sim-network-instructions.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    {
+                      "path": "./assets/experiences/sim-network/fonts/IBMPlexMono-Regular.woff2",
+                      "weight": 400
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "plugins": [
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>Read the instructions, then press Continue to enter Sim Network.</p>"
+            }
+          }
+        ],
+        "tracking": {
+          "visited": false
+        }
+      }
+    },
+    {
+      "scene": {
+        "id": "sim-network",
+        "type": "3d-viewer",
+        "image": "./assets/core/360/viewer-gradient.jpg",
+        "preview": "",
+        "title": "Sim Network",
+        "description": "<p>Build and test a network — pick a difficulty track, complete maps to unlock the next. Maps are listed in layouts-index.json difficulties[].</p>",
+        "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/sim-network/scripts/sim-network.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    {
+                      "path": "./assets/experiences/sim-network/fonts/IBMPlexMono-Regular.woff2",
+                      "weight": 400
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "plugins": [
+          "resetView",
+          "audioVolume",
+          "zoomIndicator",
+          {
+            "name": "annotations",
+            "config": {
+              "labelScreenScale": {
+                "enabled": true,
+                "planeHeightM": 1.65,
+                "minFactor": 1,
+                "maxFactor": 3
+              }
+            }
+          },
+          "hudControl",
+          {
+            "name": "sequenceLabelOverlay",
+            "config": {
+              "position": "top-left",
+              "showChapterLabel": true,
+              "showRegionLabel": true
+            }
+          },
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the left palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Cupboard.</li><li>If the test fails, press <strong>Try again</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+            }
+          }
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits).",
+          "Placeholder attribution — Shared environment assets © placeholder."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "camera": {
+        "alpha": -1.5625,
+        "beta": 1.1516,
+        "radius": 12,
+        "fov": 0.9,
+        "target": [
+          3,
+          0.5,
+          3.5
+        ],
+        "lowerRadiusLimit": 2,
+        "upperRadiusLimit": 16,
+        "lowerAlphaLimit": -22,
+        "upperAlphaLimit": 22,
+        "lowerBetaLimit": 0.4734,
+        "upperBetaLimit": 1.3556,
+        "allowPanning": true,
+        "panningDistanceLimit": 10,
+        "defaultFocusRadius": 7.6,
+        "lerpDurationMs": 1000,
+        "useAutoRotationBehavior": false,
+        "useAutoRotationBehaviorAtResetOnly": true,
+        "idleRotationSpeed": 0.0125,
+        "idleRotationWaitTime": 3000,
+        "idleRotationSpinupTime": 2000
+      },
+      "models": [
+        {
+          "id": "cubey",
+          "path": "./assets/experiences/cyber-c2/pc-components/3D/10x10-cube.glb",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "showModelOnLoad": true
+        }
+      ],
+      "audio": [
+        {
+          "id": "music-loop-hauntedcastle",
+          "path": "./assets/experiences/sim-network/audio/music-loop_hauntedcastle.mp3",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.1,
+          "autoplay": true,
+          "maxInstances": 1
+        },
+        {
+          "id": "ui-click",
+          "path": "./assets/experiences/sim-network/audio/ui-click_4.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.5,
+          "maxInstances": 8
+        },
+        {
+          "id": "ui-click-wrong",
+          "path": "./assets/experiences/sim-network/audio/ui-click_wrongerror.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.5,
+          "maxInstances": 8
+        },
+        {
+          "id": "dialog",
+          "path": "./assets/experiences/sim-network/audio/random.wav",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 0.4,
+          "maxInstances": 2
+        }
+      ],
+      "referenceModels": [],
+      "dimensions": [],
+      "annotations": [
+        {
+          "id": "tut01-anno-01-comms",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.493,
+              2.1,
+              6.69
+            ]
+          },
+          "label": {
+            "text": "Comms Cupboard",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -0.5,
+              0.75,
+              0.5
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-02-pc1",
+          "target": {
+            "modelId": "desktop-pc_0_1_L5",
+            "position": [
+              0.512,
+              1.345,
+              1.449
+            ]
+          },
+          "label": {
+            "text": "Desktop PC #1",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-03-counter",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "Drop modem/router here",
+            "lineAnchor": "auto",
+            "offset": [
+              -1,
+              1.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-08-pc2",
+          "target": {
+            "modelId": "desktop-pc_0_4_L5",
+            "position": [
+              0.521,
+              1.345,
+              4.4
+            ]
+          },
+          "label": {
+            "text": "Desktop PC #2",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#9900ff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#9900ff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-04-start-cable",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.475,
+              0.721,
+              6.485
+            ]
+          },
+          "label": {
+            "text": "Start click/drag here",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -1,
+              1.5,
+              1
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-05-end-cable",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "End click/drag here",
+            "lineAnchor": "center-right",
+            "offset": [
+              -1.5,
+              0,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-06-start-cable-pc",
+          "target": {
+            "modelId": "office-counter_5_1_L3",
+            "position": [
+              5.441,
+              0.734,
+              1.492
+            ]
+          },
+          "label": {
+            "text": "Start click/drag here",
+            "lineAnchor": "bottom-center",
+            "offset": [
+              -1,
+              1.5,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-07-end-cable-pc",
+          "target": {
+            "modelId": "desktop-pc_0_1_L5",
+            "position": [
+              0.512,
+              1.345,
+              1.449
+            ]
+          },
+          "label": {
+            "text": "End click/drag here",
+            "lineAnchor": "auto",
+            "offset": [
+              -0.5,
+              0.499,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        },
+        {
+          "id": "tut01-anno-00-outside",
+          "target": {
+            "modelId": "comms-cupboard_5_6_L5",
+            "position": [
+              5.566,
+              0.46,
+              8.285
+            ]
+          },
+          "label": {
+            "text": "Outside connection",
+            "lineAnchor": "auto",
+            "offset": [
+              1,
+              2.25,
+              0
+            ]
+          },
+          "line": {
+            "colorHex": "#00bfff",
+            "radius": 0.01
+          },
+          "style": {
+            "frameBackgroundHex": "#ffffff",
+            "frameBorderHex": "#00bfff",
+            "textColorHex": "#1e293b",
+            "fontSizePx": 18,
+            "borderThicknessPx": 4
+          },
+          "billboard": true,
+          "doubleSidedLabels": true,
+          "labelOrientation": "vertical",
+          "visibleByDefault": false,
+          "renderOnTop": false
+        }
+      ],
+      "hotspots": []
+    }
+  ]
+}
