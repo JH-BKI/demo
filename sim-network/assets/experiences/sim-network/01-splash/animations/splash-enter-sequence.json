@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "sim-network",
+  "scene": "01-splash",
+  "autoPlay": true,
+  "items": [
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 0.1,
+      "label": "Splash gate — any click or key",
+      "trigger": {
+        "kind": "event",
+        "name": "sim-network:splash-gate-continue"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "kind": "html",
+      "startTime": 0,
+      "html": {
+        "selector": "#sim-network-splash-overlay [data-splash-gate]",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "is-visible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "html",
+      "startTime": 0.3,
+      "html": {
+        "selector": "#sim-network-splash-overlay [data-splash-gate]",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "is-gone",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "kind": "html",
+      "startTime": 0.5,
+      "html": {
+        "selector": "#sim-network-splash-overlay [data-splash-main]",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "is-ready",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "kind": "html",
+      "startTime": 0.6,
+      "html": {
+        "selector": "#sim-network-splash-overlay [data-splash-main]",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "is-visible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "kind": "html",
+      "startTime": 1,
+      "html": {
+        "selector": "#sim-network-splash-overlay [data-splash-logo]",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "is-visible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "startTime": 0.5,
+      "kind": "html",
+      "html": {
+        "selector": "#sim-network-splash-overlay .sim-network-splash__hero",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "sim-network-splash__hero--pan",
+        "classAction": "add"
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "label": "01-splash scene timeline",
+      "color": "#ff8800",
+      "startTime": 0,
+      "endTime": 1.5
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-1",
+      "label": "splash screen",
+      "color": "#4488ff",
+      "startTime": 0,
+      "endTime": 0.3
+    },
+    {
+      "id": "region-2",
+      "label": "title screen",
+      "color": "#4488ff",
+      "startTime": 0.3,
+      "endTime": 1.5
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-1",
+      "clip-4"
+    ],
+    [
+      "clip-2"
+    ],
+    [
+      "clip-6"
+    ],
+    [
+      "clip-3"
+    ],
+    [
+      "clip-5"
+    ]
+  ]
+}

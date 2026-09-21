@@ -118,6 +118,21 @@ function getHost() {
 }
 
 /**
+ * Play a scene/global clip via audioControl. Missing clips warn once in audioManager.
+ * @param {string} clipId
+ */
+function playSfx(clipId) {
+    const host = getHost();
+    if (typeof host.dispatchAppEvent !== 'function' || !host.EVENTS?.AUDIO_CONTROL) {
+        return;
+    }
+    host.dispatchAppEvent(host.EVENTS.AUDIO_CONTROL, {
+        action: 'play',
+        clipId,
+    });
+}
+
+/**
  * @param {object} partDef
  * @returns {string}
  */
@@ -310,9 +325,6 @@ async function ensureBlockedGhost(scene) {
             };
 
             blockedGhost = { wrap, dispose };
-            console.log(
-                `[partDrop.js]: [N/A] - [ensureBlockedGhost] - noDropIconPath has a value of ${NO_DROP_ICON_PATH}.`
-            ); //This is logged when the blocked-cell no-icon ghost is ready.
             return blockedGhost;
         } catch (error) {
             console.warn(
@@ -331,13 +343,12 @@ function disposeBlockedGhost() {
     blockedGhost?.dispose();
     blockedGhost = null;
     blockedGhostLoadPromise = null;
+    // Master lives in the session asset cupboard — never dispose it here (poisons cache).
     if (noDropIconContainer) {
-        try {
-            noDropIconContainer.dispose?.();
-        } catch (error) {
-            console.warn(
-                `[partDrop.js]: [N/A] - [disposeBlockedGhost] - containerDisposeError has a value of ${error?.message || error}.`
-            ); //This is logged when the no-drop icon AssetContainer fails to dispose.
+        const pathKey = noDropIconContainer._xrsRegistryPathKey;
+        const host = globalThis[HOST_KEY];
+        if (pathKey && typeof host?.releaseAssetContainer === 'function') {
+            host.releaseAssetContainer(pathKey);
         }
         noDropIconContainer = null;
     }
@@ -723,9 +734,6 @@ function clearDropSelection() {
     syncDroppableButtonSelection(null);
     unlockSimNetworkCamera();
     // Invisible pick ground kept for legacy / overlays; cell resolve uses floor-plane math.
-    console.log(
-        `[partDrop.js]: [N/A] - [clearDropSelection] - selectedPartId has a value of null.`
-    ); //This is logged when drop mode ends after place, cancel, or dispose.
 }
 
 /**
@@ -784,9 +792,6 @@ export function setDroppableButtonsEnabled(enabled) {
         btn.disabled = !on;
         btn.setAttribute('aria-disabled', on ? 'false' : 'true');
     }
-    console.log(
-        `[partDrop.js]: [N/A] - [setDroppableButtonsEnabled] - enabled has a value of ${on}.`
-    ); //This is logged when Test locks or unlocks droppable palette buttons.
 }
 
 /**
@@ -827,9 +832,6 @@ function selectDroppable(partId) {
         });
     }
 
-    console.log(
-        `[partDrop.js]: [N/A] - [selectDroppable] - selectedPartId has a value of ${partId}.`
-    ); //This is logged when the player chooses a droppable from the left palette.
     lockSimNetworkCamera();
 
     if (partId === 'router') {
@@ -849,16 +851,18 @@ function tryPlaceAtCell(cell) {
     }
 
     if (!isCellDropAllowed(cell.x, cell.z)) {
+        playSfx('no-drop');
         console.log(
-            `[partDrop.js]: [N/A] - [tryPlaceAtCell] - blockedByCellCondition has a value of ${cell.x},${cell.z}.`
-        ); //This is logged when a drop is blocked by map cellConditions allowDrop:false.
+            `[partDrop.js]: [N/A] - [tryPlaceAtCell] - noDropReason has a value of not-allowed, cell has a value of ${cell.x},${cell.z}.`
+        ); //This is logged when a drop tool click is rejected on a blocked cell (red X).
         return;
     }
 
     if (isCellOccupied(cell.x, cell.z, DROP_LAYER)) {
+        playSfx('no-drop');
         console.log(
-            `[partDrop.js]: [N/A] - [tryPlaceAtCell] - blockedOccupiedCell has a value of ${cell.x},${cell.z},L${DROP_LAYER}.`
-        ); //This is logged when a drop is blocked by layer-5 occupancy.
+            `[partDrop.js]: [N/A] - [tryPlaceAtCell] - noDropReason has a value of occupied, cell has a value of ${cell.x},${cell.z}.`
+        ); //This is logged when a drop tool click is rejected because the cell already has a droppable.
         return;
     }
 
@@ -893,6 +897,7 @@ function tryPlaceAtCell(cell) {
     }
 
     selectedCell = { ...cell };
+    playSfx('drop-component');
     console.log(
         `[partDrop.js]: [N/A] - [tryPlaceAtCell] - placedPartId has a value of ${selectedPartId}, cell has a value of ${cell.x},${cell.z}, rotationY has a value of ${rotationY}, yOffset has a value of ${yOffset}.`
     ); //This is logged when a session-only droppable stamp is committed.
@@ -1084,9 +1089,6 @@ function buildPalette(droppableParts) {
             selectDroppable(part.id);
         });
         paletteEl.appendChild(btn);
-        console.log(
-            `[partDrop.js]: [N/A] - [buildPalette] - partId has a value of ${part.id}, buttonImage has a value of ${imagePath || '(none)'}, tooltip has a value of ${tipText || '(none)'}.`
-        ); //This is logged to verify optional left button images and hardcoded tooltips on palette parts.
     }
 
     toastEl = document.createElement('div');

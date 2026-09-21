@@ -118,9 +118,6 @@ function ensureStatusGlowLayer() {
         mainTextureRatio: 0.5,
     });
     statusGlowLayer.intensity = STATUS_GLOW_INTENSITY;
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [ensureStatusGlowLayer] - glowCreated has a value of true, intensity has a value of ${STATUS_GLOW_INTENSITY}.`
-    ); //This is logged when the dedicated status-mesh GlowLayer is created.
     return statusGlowLayer;
 }
 
@@ -159,9 +156,6 @@ function addStatusMeshesToGlow(entry) {
         glow.addIncludedOnlyMesh(mesh);
         entry.glowMeshes.push(mesh);
     }
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [addStatusMeshesToGlow] - stampId has a value of ${entry.stampId}, glowMeshCount has a value of ${entry.glowMeshes.length}.`
-    ); //This is logged when status meshes are registered on the GlowLayer for bloom.
 }
 
 /**
@@ -221,9 +215,6 @@ async function ensureTemplatesLoaded() {
             boundScene
         );
         templateContainers.set(key, container);
-        console.log(
-            `[partConnectionStatus.js]: [N/A] - [ensureTemplatesLoaded] - visualKey has a value of ${key}.`
-        ); //This is logged when a status GLB template finishes loading once for the session.
     }
 }
 
@@ -316,9 +307,6 @@ function enableBuiltInEmissiveOnMaterial(material) {
     if (typeof material.emissiveIntensity === 'number') {
         material.emissiveIntensity = STATUS_EMISSIVE_INTENSITY;
     }
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [enableBuiltInEmissiveOnMaterial] - materialName has a value of ${material.name}, emissiveColor has a value of ${color?.r},${color?.g},${color?.b}, emissiveIntensity has a value of ${material.emissiveIntensity}, hasEmissiveTexture has a value of ${hasEmissiveTexture}.`
-    ); //This is logged to verify the GLB emissive was loaded for status meshes (GlowLayer reads this).
 }
 
 /**
@@ -329,9 +317,6 @@ function enableBuiltInEmissiveOnRoot(root) {
     for (const mesh of meshes) {
         enableBuiltInEmissiveOnMaterial(mesh.material);
     }
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [enableBuiltInEmissiveOnRoot] - meshCount has a value of ${meshes.length}.`
-    ); //This is logged when status mesh materials have their authored emissive enabled.
 }
 
 /**
@@ -373,9 +358,6 @@ function applyVisual(entry, stamp, visualKey) {
     if (boundScene) {
         syncStatusIconFx(boundScene, stamp.stampId, entry.root, visualKey);
     }
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [applyVisual] - stampId has a value of ${stamp.stampId}, visualKey has a value of ${visualKey}.`
-    ); //This is logged when a stamp's status mesh swaps to a new play/test GLB.
 }
 
 /**
@@ -471,9 +453,6 @@ export function detachConnectionStatusForStamp(stampId) {
         ); //This is logged when a status root fails to dispose after stamp removal.
     }
     statusByStampId.delete(stampId);
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [detachConnectionStatusForStamp] - stampId has a value of ${stampId}, remainingCount has a value of ${statusByStampId.size}.`
-    ); //This is logged when a status mesh is removed with its stamp.
 }
 
 /**
@@ -496,9 +475,6 @@ export function refreshAllConnectionStatuses() {
     for (const stampId of statusByStampId.keys()) {
         refreshConnectionStatusForStamp(stampId);
     }
-    console.log(
-        `[partConnectionStatus.js]: [N/A] - [refreshAllConnectionStatuses] - statusCount has a value of ${statusByStampId.size}, testModeActive has a value of ${testModeActive}.`
-    ); //This is logged when all status icons are refreshed after cables or test state change.
 }
 
 /**
@@ -615,13 +591,13 @@ export function disposePartConnectionStatus() {
     }
     statusGlowLayer = null;
 
+    // Masters live in the session asset cupboard — never container.dispose() them.
+    // That used to poison the cache after teardown; particles still attached to empty roots.
+    const host = globalThis[HOST_KEY];
     for (const container of templateContainers.values()) {
-        try {
-            container.dispose?.();
-        } catch (error) {
-            console.warn(
-                `[partConnectionStatus.js]: [N/A] - [disposePartConnectionStatus] - containerDisposeError has a value of ${error?.message || error}.`
-            ); //This is logged when a cached status GLB container fails to dispose.
+        const pathKey = container?._xrsRegistryPathKey;
+        if (pathKey && typeof host?.releaseAssetContainer === 'function') {
+            host.releaseAssetContainer(pathKey);
         }
     }
     templateContainers.clear();

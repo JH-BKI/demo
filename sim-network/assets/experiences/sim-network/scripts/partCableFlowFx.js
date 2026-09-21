@@ -19,8 +19,6 @@ const FLOW_MIN_SIZE = 0.08;
 const FLOW_MAX_SIZE = 0.12;
 /** Bright cyan + additive flare for a soft self-glow look. */
 const FLOW_COLOR = { r: 0.75, g: 0.95, b: 1.0, a: 1.0 };
-/** How often to log FPS / particle counts while flows are active. */
-const CABLE_FLOW_PERF_SAMPLE_MS = 1000;
 /** Default full Test progress window (ms); Wave A/B each use half. */
 const DEFAULT_PROGRESS_MS = 3000;
 /** Same draw layer as Test / Cable-mode tubes so packets show through furniture. */
@@ -56,8 +54,6 @@ let sharedSystem = null;
 let sharedFlareTexture = null;
 /** @type {ReturnType<typeof setTimeout> | null} */
 let waveBTimer = null;
-/** @type {ReturnType<typeof setInterval> | null} */
-let perfSampleTimer = null;
 /** @type {import('@babylonjs/core').Scene | null} */
 let boundScene = null;
 /** Scratch vector reused in update (avoid per-particle alloc). */
@@ -196,48 +192,6 @@ function enqueueConveyorSeedsForPath(pathIndex) {
     }
 }
 
-function stopCableFlowPerfSampling() {
-    if (perfSampleTimer != null) {
-        clearInterval(perfSampleTimer);
-        perfSampleTimer = null;
-    }
-}
-
-/**
- * @param {import('@babylonjs/core').Scene} scene
- */
-function startCableFlowPerfSampling(scene) {
-    stopCableFlowPerfSampling();
-    if (!scene) {
-        return;
-    }
-    perfSampleTimer = setInterval(() => {
-        if (!sharedSystem || pathRegistry.length === 0) {
-            return;
-        }
-        const engine = scene.getEngine?.();
-        const fps =
-            engine && typeof engine.getFps === 'function' ? engine.getFps() : -1;
-        const deltaMs =
-            engine && typeof engine.getDeltaTime === 'function'
-                ? engine.getDeltaTime()
-                : -1;
-        const activeParticles =
-            typeof sharedSystem.getActiveCount === 'function'
-                ? sharedSystem.getActiveCount()
-                : 0;
-        const fpsText = typeof fps === 'number' ? fps.toFixed(1) : String(fps);
-        const deltaText =
-            typeof deltaMs === 'number' ? deltaMs.toFixed(2) : String(deltaMs);
-        console.log(
-            `[partCableFlowFx.js]: [N/A] - [CableFlowPerf] - flowCount has a value of ${pathRegistry.length}, activeParticles has a value of ${activeParticles}, packetsPerCable has a value of ${FLOW_PACKET_COUNT}, sharedSystemCount has a value of 1, fps has a value of ${fpsText}, deltaMs has a value of ${deltaText}.`
-        ); //This is logged every second while cable-flow particles run, to correlate lag with particle load / FPS.
-    }, CABLE_FLOW_PERF_SAMPLE_MS);
-    console.log(
-        `[partCableFlowFx.js]: [N/A] - [CableFlowPerf] - samplingStarted has a value of true, intervalMs has a value of ${CABLE_FLOW_PERF_SAMPLE_MS}, mode has a value of sharedSystem.`
-    ); //This is logged when CableFlow performance sampling begins.
-}
-
 /**
  * Create the single shared system sized for all planned paths.
  * @param {import('@babylonjs/core').Scene} scene
@@ -366,9 +320,6 @@ function ensureSharedSystem(scene, totalPathCount) {
 
     sharedSystem = system;
     system.start();
-    console.log(
-        `[partCableFlowFx.js]: [N/A] - [ensureSharedSystem] - capacity has a value of ${capacity}, mode has a value of sharedConveyor.`
-    ); //This is logged when the single shared cable-flow particle system is created.
 }
 
 /**
@@ -393,9 +344,6 @@ function addFlowsToSharedSystem(flows, travelDurationMs) {
         enqueueConveyorSeedsForPath(pathIndex);
         emitCount += FLOW_PACKET_COUNT;
         added += 1;
-        console.log(
-            `[partCableFlowFx.js]: [N/A] - [addFlowsToSharedSystem] - flowId has a value of ${path.id}, totalLength has a value of ${path.totalLength.toFixed(2)}, travelSpeed has a value of ${path.travelSpeed.toFixed(2)}, packetCount has a value of ${FLOW_PACKET_COUNT}, pathIndex has a value of ${pathIndex}.`
-        ); //This is logged when a cable path is registered on the shared particle system.
     }
     if (emitCount > 0) {
         sharedSystem.manualEmitCount = emitCount;
@@ -407,7 +355,6 @@ function addFlowsToSharedSystem(flows, travelDurationMs) {
  * Stop and clear the shared cable-flow system immediately.
  */
 export function stopCableFlowFx() {
-    stopCableFlowPerfSampling();
     if (waveBTimer != null) {
         clearTimeout(waveBTimer);
         waveBTimer = null;
@@ -426,9 +373,6 @@ export function stopCableFlowFx() {
     sharedSystem = null;
     pathRegistry = [];
     seedJobs = [];
-    console.log(
-        `[partCableFlowFx.js]: [N/A] - [stopCableFlowFx] - cleared has a value of true.`
-    ); //This is logged when Test cable-flow particles are hard-cleared.
 }
 
 /**
@@ -481,20 +425,13 @@ export function playCableFlowWaves(scene, waveA, waveB, options = {}) {
 
     ensureSharedSystem(scene, totalPaths);
     addFlowsToSharedSystem(a, waveAMs);
-    startCableFlowPerfSampling(scene);
 
     const startWaveB = () => {
         waveBTimer = null;
-        const added = addFlowsToSharedSystem(b, waveBMs);
-        console.log(
-            `[partCableFlowFx.js]: [N/A] - [playCableFlowWaves] - waveBCount has a value of ${added}, waveBTravelMs has a value of ${waveBMs}.`
-        ); //This is logged when Router→device streams are added to the shared system.
+        addFlowsToSharedSystem(b, waveBMs);
     };
 
     if (b.length === 0) {
-        console.log(
-            `[partCableFlowFx.js]: [N/A] - [playCableFlowWaves] - waveACount has a value of ${a.length}, waveBCount has a value of 0, waveATravelMs has a value of ${waveAMs}, sharedSystemCount has a value of 1.`
-        ); //This is logged when only Cupboard→Router streams are active.
         return;
     }
 
@@ -504,7 +441,4 @@ export function playCableFlowWaves(scene, waveA, waveB, options = {}) {
     }
 
     waveBTimer = setTimeout(startWaveB, waveAMs);
-    console.log(
-        `[partCableFlowFx.js]: [N/A] - [playCableFlowWaves] - waveACount has a value of ${a.length}, waveBDelayMs has a value of ${waveAMs}, progressMs has a value of ${progressMs}, sharedSystemCount has a value of 1.`
-    ); //This is logged when Wave A starts and Wave B is scheduled for the second half of the Test progress bar.
 }

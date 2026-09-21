@@ -399,9 +399,6 @@ function ensureSlots(scene) {
     hoverSlot = createSlot('hover', scene);
     selectedSlot = createSlot('selected', scene);
     fxHidden = false;
-    console.log(
-        `[partCellHoverFx.js]: [N/A] - [ensureSlots] - slotsReady has a value of true, activeTheme has a value of ${activeTheme}.`
-    ); //This is logged when hover beams + selected middle particle systems are created.
 }
 
 /**
@@ -423,9 +420,6 @@ export function setCellHoverFxTheme(theme) {
     activeTheme = theme;
     paintSystemColors(hoverSlot?.edge, 'edge');
     paintSystemColors(selectedSlot?.floor, 'floor');
-    console.log(
-        `[partCellHoverFx.js]: [N/A] - [setCellHoverFxTheme] - activeTheme has a value of ${activeTheme}.`
-    ); //This is logged when cell particle theme colour changes.
 }
 
 /**
@@ -468,9 +462,6 @@ export function hideCellHoverFx() {
     fxHidden = true;
     stopSlot(hoverSlot);
     stopSlot(selectedSlot);
-    console.log(
-        `[partCellHoverFx.js]: [N/A] - [hideCellHoverFx] - fxHidden has a value of true.`
-    ); //This is logged when cell FX hide because a tool mode requires it.
 }
 
 /**

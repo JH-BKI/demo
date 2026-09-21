@@ -200,11 +200,7 @@ function showUnlockHint() {
                 unlockHintEl.hidden = true;
             }
         }, UNLOCK_HINT_FADE_MS);
-    }, UNLOCK_HINT_HOLD_MS);
-
-    console.log(
-        `[partCamera.js]: [N/A] - [showUnlockHint] - unlockHintShown has a value of true.`
-    ); //This is logged when a locked orbit-drag shows the unlock hint under Camera locked.
+        }, UNLOCK_HINT_HOLD_MS);
 }
 
 function ensureBanner() {
@@ -364,9 +360,6 @@ function publishResetHome() {
         target: [homeTarget.x, homeTarget.y, homeTarget.z],
         durationMs: lerpDurationMs,
     });
-    console.log(
-        `[partCamera.js]: [N/A] - [publishResetHome] - homeTarget has a value of ${homeTarget.x},${homeTarget.y},${homeTarget.z}, lerpDurationMs has a value of ${lerpDurationMs}.`
-    ); //This is logged when sim-network updates Reset view home to the grid center.
 }
 
 function registerPluginHomeSync() {
@@ -391,9 +384,6 @@ function registerPluginHomeSync() {
             return;
         }
         unlockSimNetworkCamera();
-        console.log(
-            `[partCamera.js]: [N/A] - [onReset3dView] - unlockedForReset has a value of true.`
-        ); //This is logged when Reset view clears the place/cable camera lock so home can stick.
     };
     window.addEventListener(host.EVENTS.RESET_3D_VIEW, onReset3dView);
 }
@@ -445,9 +435,6 @@ export function lockSimNetworkCamera() {
     boundCamera.inertialPanningY = 0;
     attachLockObserver();
     showBanner(true);
-    console.log(
-        `[partCamera.js]: [N/A] - [lockSimNetworkCamera] - locked has a value of true, alpha has a value of ${lockedAlpha}, beta has a value of ${lockedBeta}.`
-    ); //This is logged when sim-network locks the camera for place/cable.
 }
 
 /**
@@ -470,9 +457,6 @@ export function unlockSimNetworkCamera() {
     savedAngularX = null;
     savedAngularY = null;
     showBanner(false);
-    console.log(
-        `[partCamera.js]: [N/A] - [unlockSimNetworkCamera] - locked has a value of false.`
-    ); //This is logged when sim-network unlocks the camera after place/cable complete or cancel.
 }
 
 /**
@@ -503,9 +487,6 @@ export function focusSimNetworkCell(cell) {
     const startTime = performance.now();
     const duration = lerpDurationMs;
 
-    console.log(
-        `[partCamera.js]: [N/A] - [focusSimNetworkCell] - cell has a value of ${cell.x},${cell.z}, goal has a value of ${goal.x},${goal.y},${goal.z}, startRadius has a value of ${startRadius}, goalRadius has a value of ${goalRadius}, durationMs has a value of ${duration}.`
-    ); //This is logged when a cell double-click starts a target+radius camera focus lerp.
 
     lerpObserver = boundScene.onBeforeRenderObservable.add(() => {
         if (!boundCamera) {
@@ -526,9 +507,6 @@ export function focusSimNetworkCell(cell) {
             boundCamera.target.copyFrom(goalVec);
             boundCamera.radius = goalRadius;
             cancelTargetLerp();
-            console.log(
-                `[partCamera.js]: [N/A] - [focusSimNetworkCell] - lerpComplete has a value of true, target has a value of ${boundCamera.target}, radius has a value of ${boundCamera.radius}.`
-            ); //This is logged when the cell-focus target+radius lerp finishes.
         }
     });
 }

@@ -1,13 +1,13 @@
 /**
- * Sim-network in-scene UX flow.
- * StateManager screens: splash → instructions → levelSelect → play → complete.
- * Play maps are driven by layouts-index.json difficulties[].maps[] (session progress only).
+ * Sim-network in-game play flow (maps only).
+ * HTML chrome lives in separate 2d scenes (splash / instructions / level-select / complete).
+ * Session progress lives in simNetworkSession.js so it survives leaving in-game.
  */
 
 import { assembleLayout, disposeLayout } from './layoutAssembler.js';
 import {
     disposePartInteraction,
-    initializePartInteraction,
+    initializePartInteraction
 } from './partInteraction.js';
 import { disposePartDrop, initializePartDrop } from './partDrop.js';
 import {
@@ -15,63 +15,61 @@ import {
     disposePartNetworkTest,
     EVENT_SIM_NETWORK_TEST_FLOW,
     initializePartCables,
-    initializePartNetworkTest,
+    initializePartNetworkTest
 } from './partCables.js';
 import {
     disposePartCellInspector,
-    initializePartCellInspector,
+    initializePartCellInspector
 } from './partCellInspector.js';
 import {
     disposePartCellHighlight,
-    initializePartCellHighlight,
+    initializePartCellHighlight
 } from './partCellHighlight.js';
 import { disposePartCamera, initializePartCamera } from './partCamera.js';
 import {
     disposePartConnectionStatus,
-    initializePartConnectionStatus,
+    initializePartConnectionStatus
 } from './partConnectionStatus.js';
 import {
     createSequenceTargets,
-    disposeSequenceTargets,
+    disposeSequenceTargets
 } from './simNetworkSequenceTargets.js';
 import {
-    disposeTutorialStepContent,
-    hideTutorialStepContent,
-    initTutorialStepContent,
-    showTutorialStepContent,
-} from './sim-network-tutorial-step-content.js';
+    disposeTutorialDialogue,
+    initTutorialDialogue
+} from './sim-network-tutorial-dialogue.js';
 import {
     disposeTutorialCoach,
-    initTutorialCoach,
+    initTutorialCoach
 } from './sim-network-tutorial-coach.js';
 import {
     snapshotSimNetworkPerfProbe,
     startSimNetworkPerfProbe,
-    stopSimNetworkPerfProbe,
+    stopSimNetworkPerfProbe
 } from './simNetworkPerfProbe.js';
-import { createSimNetworkScreens } from './simNetworkScreens.js';
+import {
+    allDifficultiesComplete,
+    getCurrentMapEntry,
+    getSimNetworkSession,
+    isLastMapInTrack,
+    parseDifficulties
+} from './simNetworkSession.js';
 
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 const LAYOUTS_INDEX_URL =
     './assets/experiences/sim-network/layouts/layouts-index.json';
 
-/** @typedef {'splash' | 'instructions' | 'levelSelect' | 'play' | 'complete'} SimNetworkScreenState */
-/** @typedef {{ id: string, kind: 'tutorial' | 'level' | string, title: string, url: string, description?: string, sequenceFileName?: string }} SimNetworkMapEntry */
-/** @typedef {{ id: string, title: string, sortOrder: number, maps: SimNetworkMapEntry[] }} SimNetworkDifficulty */
-
 /** @type {object | null} */
 let flowManager = null;
-/** @type {ReturnType<typeof createSimNetworkScreens> | null} */
-let screens = null;
 /** @type {import('@babylonjs/core').Scene | null} */
 let boundScene = null;
 /** @type {string | null} */
 let boundSceneId = null;
 /** @type {object | null} */
 let catalog = null;
-/** @type {SimNetworkDifficulty[]} */
+/** @type {ReturnType<typeof parseDifficulties>} */
 let difficulties = [];
-/** @type {SimNetworkMapEntry | null} */
+/** @type {object | null} */
 let activeMap = null;
 /** @type {boolean} */
 let playActive = false;
@@ -82,43 +80,25 @@ let flowReadyResolve = null;
 /** @type {boolean} */
 let flowReadySignalled = false;
 
-/** @type {{ selectedDifficultyId: string | null, mapIndex: number, completedDifficulties: Set<string> }} */
-const session = {
-    selectedDifficultyId: null,
-    mapIndex: 0,
-    completedDifficulties: new Set(),
-};
-
 /**
  * @returns {{
  *   StateManager: new (initialState: string) => object,
- *   getPlayerUiRoot: () => HTMLElement,
+ *   switchToScene: (sceneId: string, fadeDuration?: number) => Promise<string|null>,
  *   playNamedSequence?: Function,
- *   disposeActiveSequence?: Function
+ *   disposeActiveSequence?: Function,
+ *   hasLoadedModelSets?: () => boolean,
+ *   getActiveLayout?: () => object|null,
+ *   getInteractableRoots?: () => import('@babylonjs/core').TransformNode[]
  * }}
  */
 function getHost() {
     const host = globalThis[HOST_KEY];
-    if (!host || typeof host.StateManager !== 'function' || typeof host.getPlayerUiRoot !== 'function') {
+    if (!host || typeof host.StateManager !== 'function' || typeof host.switchToScene !== 'function') {
         throw new Error(
-            'Experience host API missing StateManager or getPlayerUiRoot. Is installExperienceHostApi() running?'
+            'Experience host API missing StateManager or switchToScene. Is installExperienceHostApi() running?'
         );
     }
     return host;
-}
-
-/**
- * @param {boolean} visible
- */
-function setCanvasVisible(visible) {
-    const canvas = document.getElementById('renderCanvas');
-    if (!canvas) {
-        return;
-    }
-    canvas.classList.toggle('sim-network-canvas-hidden', !visible);
-    console.log(
-        `[simNetworkFlow.js]: [N/A] - [setCanvasVisible] - visible has a value of ${visible}.`
-    ); //This is logged when HTML screens hide or show the Babylon canvas.
 }
 
 /**
@@ -143,110 +123,15 @@ function joinCatalogAndMap(mapDoc, catalogDoc) {
     return { ...mapDoc, parts };
 }
 
-/**
- * @param {object} indexDoc
- * @returns {SimNetworkDifficulty[]}
- */
-function parseDifficulties(indexDoc) {
-    const list = Array.isArray(indexDoc?.difficulties) ? indexDoc.difficulties : [];
-    return list
-        .filter((entry) => entry && typeof entry.id === 'string' && entry.id)
-        .map((entry) => {
-            const maps = Array.isArray(entry.maps)
-                ? entry.maps.filter(
-                      (map) =>
-                          map &&
-                          typeof map.id === 'string' &&
-                          typeof map.url === 'string' &&
-                          typeof map.kind === 'string'
-                  )
-                : [];
-            return {
-                id: entry.id,
-                title: typeof entry.title === 'string' ? entry.title : entry.id,
-                sortOrder: typeof entry.sortOrder === 'number' ? entry.sortOrder : 99,
-                maps,
-            };
-        })
-        .sort((a, b) => a.sortOrder - b.sortOrder || a.id.localeCompare(b.id));
-}
-
-/**
- * @returns {SimNetworkDifficulty[]}
- */
-function getSortedDifficulties() {
-    return [...difficulties].sort((a, b) => a.sortOrder - b.sortOrder || a.id.localeCompare(b.id));
-}
-
-/**
- * @param {string} difficultyId
- * @returns {boolean}
- */
-function isDifficultyUnlocked(difficultyId) {
-    const sorted = getSortedDifficulties();
-    const index = sorted.findIndex((entry) => entry.id === difficultyId);
-    if (index <= 0) {
-        return index === 0;
-    }
-    for (let i = 0; i < index; i += 1) {
-        if (!session.completedDifficulties.has(sorted[i].id)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/**
- * @returns {boolean}
- */
-function allDifficultiesComplete() {
-    const sorted = getSortedDifficulties();
-    return sorted.length > 0 && sorted.every((entry) => session.completedDifficulties.has(entry.id));
-}
-
-/**
- * @returns {SimNetworkDifficulty | null}
- */
-function getSelectedDifficulty() {
-    if (!session.selectedDifficultyId) {
-        return null;
-    }
-    return difficulties.find((entry) => entry.id === session.selectedDifficultyId) || null;
-}
-
-/**
- * @returns {SimNetworkMapEntry | null}
- */
-function getCurrentMapEntry() {
-    const difficulty = getSelectedDifficulty();
-    if (!difficulty) {
-        return null;
-    }
-    return difficulty.maps[session.mapIndex] || null;
-}
-
-/**
- * @returns {boolean}
- */
-function isLastMapInTrack() {
-    const difficulty = getSelectedDifficulty();
-    if (!difficulty || difficulty.maps.length === 0) {
-        return true;
-    }
-    return session.mapIndex >= difficulty.maps.length - 1;
-}
-
 function signalFlowReady() {
     if (flowReadySignalled) {
         return;
     }
     flowReadySignalled = true;
-    const resolve = flowReadyResolve;
-    flowReadyResolve = null;
-    console.log(
-        `[simNetworkFlow.js]: [N/A] - [signalFlowReady] - ready has a value of true.`
-    ); //This is logged when createScene may finish after the splash screen is up.
-    resolve?.({ ready: true });
+    if (typeof flowReadyResolve === 'function') {
+        flowReadyResolve({ ready: true });
+        flowReadyResolve = null;
+    }
 }
 
 function disposeStageSequence() {
@@ -257,7 +142,7 @@ function disposeStageSequence() {
 }
 
 /**
- * @param {SimNetworkMapEntry} entry
+ * @param {object} entry
  * @returns {Promise<void>}
  */
 async function playMapSequenceIfConfigured(entry) {
@@ -273,7 +158,7 @@ async function playMapSequenceIfConfigured(entry) {
     await host.playNamedSequence({
         scene: boundScene,
         sceneId: boundSceneId,
-        sequenceFileName,
+        sequenceFileName
     });
 }
 
@@ -286,6 +171,7 @@ function unbindTestFlowListener() {
 
 function bindTestFlowListener() {
     unbindTestFlowListener();
+    const session = getSimNetworkSession();
     testFlowListener = (event) => {
         const action = /** @type {CustomEvent} */ (event).detail?.action;
         console.log(
@@ -298,13 +184,17 @@ function bindTestFlowListener() {
         }
 
         if (action === 'continue') {
-            if (isLastMapInTrack()) {
+            if (isLastMapInTrack(difficulties)) {
                 if (session.selectedDifficultyId) {
                     session.completedDifficulties.add(session.selectedDifficultyId);
                 }
                 session.selectedDifficultyId = null;
                 session.mapIndex = 0;
-                void flowManager?.transitionTo(allDifficultiesComplete() ? 'complete' : 'levelSelect');
+                const nextScene = allDifficultiesComplete(difficulties) ? '05-complete' : '03-level-select';
+                console.log(
+                    `[simNetworkFlow.js]: [N/A] - [testFlowListener] - trackOrAllDone has a value of true, targetSceneId has a value of ${nextScene}.`
+                ); //This is logged when leaving in-game after finishing a track (or all tracks).
+                void getHost().switchToScene(nextScene);
                 return;
             }
             session.mapIndex += 1;
@@ -323,7 +213,7 @@ function teardownPlay(options = {}) {
     stopSimNetworkPerfProbe();
     disposeStageSequence();
     unbindTestFlowListener();
-    disposeTutorialStepContent();
+    disposeTutorialDialogue();
     disposeTutorialCoach();
     disposePartNetworkTest();
     disposePartCellInspector();
@@ -333,8 +223,8 @@ function teardownPlay(options = {}) {
     disposePartDrop();
     disposePartInteraction();
     disposePartCamera();
+    disposeSequenceTargets();
     if (clearLayout) {
-        disposeSequenceTargets();
         disposeLayout();
     }
     playActive = false;
@@ -342,7 +232,7 @@ function teardownPlay(options = {}) {
 }
 
 /**
- * @param {SimNetworkMapEntry} entry
+ * @param {object} entry
  * @returns {Promise<void>}
  */
 async function startPlay(entry) {
@@ -350,25 +240,31 @@ async function startPlay(entry) {
         throw new Error('simNetworkFlow startPlay requires scene, catalog, and flow manager.');
     }
 
-    teardownPlay({ clearLayout: true });
-    setCanvasVisible(true);
+    const session = getSimNetworkSession();
 
-    const mapDoc = await fetchJson(entry.url);
-    const layout = joinCatalogAndMap(mapDoc, catalog);
+    // Always stamp the selected map. (Skip-assemble was for old in-scene HTML overlays.)
+    teardownPlay({ clearLayout: true });
+
     activeMap = entry;
     const mapKind = entry.kind === 'tutorial' ? 'tutorial' : 'level';
 
+    const mapDoc = await fetchJson(entry.url);
+    const layout = joinCatalogAndMap(mapDoc, catalog);
     console.log(
         `[simNetworkFlow.js]: [N/A] - [startPlay] - layoutId has a value of ${layout?.id ?? entry.id}, mapKind has a value of ${mapKind}, mapIndex has a value of ${session.mapIndex}, difficultyId has a value of ${session.selectedDifficultyId}.`
     ); //This is logged when a map is stamped for play.
+    const interactableRoots = await assembleLayout(boundScene, layout);
+
+    console.log(
+        `[simNetworkFlow.js]: [N/A] - [startPlay] - layoutId has a value of ${layout?.id ?? entry.id}, interactableCount has a value of ${interactableRoots.length}.`
+    ); //This is logged when play systems initialize for the active map.
 
     if (mapKind === 'tutorial') {
-        initTutorialStepContent();
+        initTutorialDialogue();
         initTutorialCoach({ stageId: entry.id, scene: boundScene });
     }
 
     initializePartCamera(boundScene, layout);
-    const interactableRoots = await assembleLayout(boundScene, layout);
     createSequenceTargets(boundScene);
     initializePartInteraction(boundScene, interactableRoots);
     initializePartDrop(boundScene, layout);
@@ -380,123 +276,43 @@ async function startPlay(entry) {
     bindTestFlowListener();
     playActive = true;
     startSimNetworkPerfProbe(boundScene, {
-        label: `play:${session.selectedDifficultyId}:map:${entry.id}`,
+        label: `play:${session.selectedDifficultyId}:map:${entry.id}`
     });
 }
 
-function resetSessionProgress() {
-    session.selectedDifficultyId = null;
-    session.mapIndex = 0;
-    session.completedDifficulties.clear();
-}
-
-function registerFlowStates() {
-    if (!flowManager || !screens) {
+function registerPlayState() {
+    if (!flowManager) {
         return;
     }
 
-    flowManager.addState('splash', {
-        onEnter: async () => {
-            setCanvasVisible(false);
-            teardownPlay({ clearLayout: true });
-            screens.showSplash(() => {
-                void flowManager?.transitionTo('instructions');
-            });
-        },
-        onStateReady: async () => {
-            signalFlowReady();
-        },
-        onExit: async () => {
-            screens.hide();
-        },
-    });
-
-    flowManager.addState('instructions', {
-        onEnter: async () => {
-            setCanvasVisible(false);
-            screens.showInstructions(() => {
-                void flowManager?.transitionTo('levelSelect');
-            });
-            initTutorialStepContent();
-            await showTutorialStepContent('instructions');
-        },
-        onExit: async () => {
-            await hideTutorialStepContent();
-            screens.hide();
-        },
-    });
-
-    flowManager.addState('levelSelect', {
-        onEnter: async () => {
-            setCanvasVisible(false);
-            teardownPlay({ clearLayout: true });
-
-            if (allDifficultiesComplete()) {
-                await flowManager?.transitionTo('complete');
-                return;
-            }
-
-            screens.showLevelSelect(
-                getSortedDifficulties(),
-                session.completedDifficulties,
-                isDifficultyUnlocked,
-                (difficultyId) => {
-                    session.selectedDifficultyId = difficultyId;
-                    session.mapIndex = 0;
-                    void flowManager?.transitionTo('play');
-                }
-            );
-            initTutorialStepContent();
-            await showTutorialStepContent('level-select');
-        },
-        onExit: async () => {
-            await hideTutorialStepContent();
-            disposeTutorialStepContent();
-            screens.hide();
-        },
-    });
-
     flowManager.addState('play', {
         onEnter: async () => {
-            const entry = getCurrentMapEntry();
+            const entry = getCurrentMapEntry(difficulties);
             if (!entry) {
                 console.warn(
-                    `[simNetworkFlow.js]: [N/A] - [play.onEnter] - mapMissing has a value of true, difficultyId has a value of ${session.selectedDifficultyId}, mapIndex has a value of ${session.mapIndex}.`
-                ); //This is logged when the selected track has no map at the current index.
-                await flowManager?.transitionTo('levelSelect');
+                    `[simNetworkFlow.js]: [N/A] - [play.onEnter] - mapMissing has a value of true, targetSceneId has a value of 03-level-select.`
+                ); //This is logged when in-game opened with no selected map — bounce to level-select.
+                await getHost().switchToScene('03-level-select');
                 return;
             }
             await startPlay(entry);
         },
         onStateReady: async () => {
-            const entry = getCurrentMapEntry();
+            const entry = getCurrentMapEntry(difficulties);
             if (entry) {
                 await playMapSequenceIfConfigured(entry);
             }
+            signalFlowReady();
         },
         onExit: async () => {
             teardownPlay({ clearLayout: true });
-            setCanvasVisible(false);
-        },
-    });
-
-    flowManager.addState('complete', {
-        onEnter: async () => {
-            setCanvasVisible(false);
-            teardownPlay({ clearLayout: true });
-            screens.showComplete(() => {
-                resetSessionProgress();
-                void flowManager?.transitionTo('levelSelect');
-            });
-        },
-        onExit: async () => {
-            screens.hide();
-        },
+        }
     });
 }
 
 /**
- * Boot the in-scene flow. Resolves when the splash screen is ready (createScene no longer waits for first stamp).
+ * Boot play-only flow. Resolves when the first map systems are ready.
+ * Does not reset session (level-select sets the track before switchToScene).
  * @param {import('@babylonjs/core').Scene} scene
  * @param {object} catalogDoc
  * @param {string} sceneId
@@ -510,18 +326,17 @@ export async function startSimNetworkFlow(scene, catalogDoc, sceneId) {
     activeMap = null;
     flowReadySignalled = false;
     flowReadyResolve = null;
-    resetSessionProgress();
 
     const indexDoc = await fetchJson(LAYOUTS_INDEX_URL);
     difficulties = parseDifficulties(indexDoc);
+    const session = getSimNetworkSession();
     console.log(
-        `[simNetworkFlow.js]: [N/A] - [startSimNetworkFlow] - sceneId has a value of ${boundSceneId}, difficultyCount has a value of ${difficulties.length}, catalogId has a value of ${catalogDoc?.id ?? 'unnamed'}.`
-    ); //This is logged when the flow boots and difficulties are loaded from layouts-index.json.
+        `[simNetworkFlow.js]: [N/A] - [startSimNetworkFlow] - sceneId has a value of ${boundSceneId}, difficultyCount has a value of ${difficulties.length}, selectedDifficultyId has a value of ${session.selectedDifficultyId}, mapIndex has a value of ${session.mapIndex}.`
+    ); //This is logged when in-game play flow boots with session track selection.
 
     const host = getHost();
-    screens = createSimNetworkScreens(host);
-    flowManager = new host.StateManager('splash');
-    registerFlowStates();
+    flowManager = new host.StateManager('play');
+    registerPlayState();
 
     const flowReadyPromise = new Promise((resolve) => {
         flowReadyResolve = resolve;
@@ -531,22 +346,18 @@ export async function startSimNetworkFlow(scene, catalogDoc, sceneId) {
 }
 
 /**
- * Full teardown when leaving the sim-network scene.
+ * Teardown play systems when leaving in-game. Keeps session progress.
  */
 export function disposeSimNetworkFlow() {
     console.log(
-        `[simNetworkFlow.js]: [N/A] - [disposeSimNetworkFlow] - currentState has a value of ${flowManager?.getCurrentState?.() ?? 'none'}.`
-    ); //This is logged when the scene exits and the UX flow is torn down.
+        `[simNetworkFlow.js]: [N/A] - [disposeSimNetworkFlow] - currentState has a value of ${flowManager?.getCurrentState?.() ?? 'none'}, playActive has a value of ${playActive}.`
+    ); //This is logged when leaving in-game; session progress is intentionally kept.
 
     signalFlowReady();
     unbindTestFlowListener();
     teardownPlay({ clearLayout: true });
-    setCanvasVisible(true);
-    screens?.dispose();
-    screens = null;
     flowManager = null;
     difficulties = [];
-    resetSessionProgress();
     catalog = null;
     boundScene = null;
     boundSceneId = null;

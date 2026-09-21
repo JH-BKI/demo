@@ -1,5 +1,5 @@
 {
-  "version": "0.6.2705",
+  "version": "0.7.090926",
   "webxr": {
     "vrEnabled": false,
     "arEnabled": false
@@ -11,8 +11,8 @@
       0.1,
       0.15
     ],
-    "title": "Cybersecurity Cluster 2",
-    "description": "<div class='text-center'><p>Cybersecurity Cluster 2</p></div>",
+    "title": "SIM-NETWORK",
+    "description": "<div class='text-center'><p>SIM-NETWORK</p></div>",
     "tracking": {
       "startTimeStamp": null,
       "completedSessions": []
@@ -50,15 +50,141 @@
         "vrToggle": false,
         "progressDrawer": false
       }
-    }
+    },
+    "audio": [
+      {
+        "id": "default-ui-click",
+        "path": "./assets/experiences/sim-network/audio/sfx-00.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 3
+      },
+      {
+        "id": "default-ui-hover",
+        "path": "./assets/experiences/sim-network/audio/sfx-01.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 3
+      },
+      {
+        "id": "default-ui-open",
+        "path": "./assets/experiences/sim-network/audio/sfx-02.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 2
+      },
+      {
+        "id": "default-ui-close",
+        "path": "./assets/experiences/sim-network/audio/sfx-03.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 2
+      },
+      {
+        "id": "default-sys-next",
+        "path": "./assets/experiences/sim-network/audio/sfx-04.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 1
+      },
+      {
+        "id": "default-sys-error",
+        "path": "./assets/experiences/sim-network/audio/sfx-05.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 1
+      },
+      {
+        "id": "default-sys-success",
+        "path": "./assets/experiences/sim-network/audio/sfx-06.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 1
+      },
+      {
+        "id": "default-ui-typewriter",
+        "path": "./assets/experiences/sim-network/audio/sfx-07.ogg",
+        "tag": "sfx",
+        "loop": false,
+        "volume": 1,
+        "autoplay": false,
+        "maxInstances": 2
+      }
+     
+    ]
   },
-  "initialScene": "sim-network",
+  "initialScene": "01-splash",
   "scenes": [
     {
       "scene": {
-        "id": "sim-network-instructions",
+        "id": "01-splash",
         "type": "2d",
-        "title": "Sim Network — Instructions",
+        "title": "01 - Splash",
+        "description": "<p>Sim Network title splash.</p>",
+        "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/sim-network/scripts/sim-network-splash.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    {
+                      "path": "./assets/experiences/sim-network/fonts/IBMPlexMono-Regular.woff2",
+                      "weight": 400
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "plugins": [
+          "audioVolume"
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits)."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "audio": [
+        {
+          "id": "music-title",
+          "path": "./assets/experiences/sim-network/audio/music-title.ogg",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.5,
+          "autoplay": true,
+          "maxInstances": 1
+        }  
+      ]
+    },
+    {
+      "scene": {
+        "id": "02-instructions",
+        "type": "2d",
+        "title": "02 - Instructions",
         "description": "<p>How to play Sim Network.</p>",
         "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
         "customScript": "./assets/experiences/sim-network/scripts/sim-network-instructions.js",
@@ -84,26 +210,93 @@
           ]
         },
         "plugins": [
+          "audioVolume",
           {
             "name": "help",
             "config": {
               "showHudButton": true,
-              "scene-help-content": "<p>Read the instructions, then press Continue to enter Sim Network.</p>"
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the left palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Cupboard.</li><li>If the test fails, press <strong>Try again</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
             }
           }
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits).",
+          "Placeholder attribution — Shared environment assets © placeholder."
+        ],
+        "tracking": {
+          "visited": false
+        }        
+      },
+      "audio": [
+        {
+          "id": "music-instruct-select",
+          "path": "./assets/experiences/sim-network/audio/music-instruct-select.ogg",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.5,
+          "autoplay": true,
+          "maxInstances": 1
+        }      
+      ]
+    },
+    {
+      "scene": {
+        "id": "03-level-select",
+        "type": "2d",
+        "title": "03 - Level Select",
+        "description": "<p>Choose a network type track.</p>",
+        "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/sim-network/scripts/sim-network-level-select.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    {
+                      "path": "./assets/experiences/sim-network/fonts/IBMPlexMono-Regular.woff2",
+                      "weight": 400
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "plugins": [
+          "audioVolume"
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits)."
         ],
         "tracking": {
           "visited": false
         }
-      }
+      },
+      "audio": [
+        {
+          "id": "music-instruct-select",
+          "path": "./assets/experiences/sim-network/audio/music-instruct-select.ogg",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.5,
+          "autoplay": true,
+          "maxInstances": 1
+        }
+      ]
     },
     {
       "scene": {
-        "id": "sim-network",
+        "id": "04-in-game",
         "type": "3d-viewer",
         "image": "./assets/core/360/viewer-gradient.jpg",
         "preview": "",
-        "title": "Sim Network",
+        "title": "04 - Sim Network",
         "description": "<p>Build and test a network — pick a difficulty track, complete maps to unlock the next. Maps are listed in layouts-index.json difficulties[].</p>",
         "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
         "customScript": "./assets/experiences/sim-network/scripts/sim-network.js",
@@ -209,47 +402,95 @@
             0
           ],
           "scale": [
-            0.1,
-            0.1,
-            0.1
+            0.00001,
+            0.00001,
+            0.00001
           ],
           "showModelOnLoad": true
         }
       ],
       "audio": [
         {
-          "id": "music-loop-hauntedcastle",
-          "path": "./assets/experiences/sim-network/audio/music-loop_hauntedcastle.mp3",
+          "id": "music-in-game",
+          "path": "./assets/experiences/sim-network/audio/music-in-game.ogg",
           "tag": "music",
           "loop": true,
-          "volume": 0.1,
+          "volume": 0.5,
           "autoplay": true,
           "maxInstances": 1
         },
         {
-          "id": "ui-click",
-          "path": "./assets/experiences/sim-network/audio/ui-click_4.wav",
+          "id": "drop-component",
+          "path": "./assets/experiences/sim-network/audio/sfx-08.ogg",
           "tag": "sfx",
           "loop": false,
-          "volume": 0.5,
-          "maxInstances": 8
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
         },
         {
-          "id": "ui-click-wrong",
-          "path": "./assets/experiences/sim-network/audio/ui-click_wrongerror.wav",
+          "id": "no-drop",
+          "path": "./assets/experiences/sim-network/audio/sfx-09.ogg",
           "tag": "sfx",
           "loop": false,
-          "volume": 0.5,
-          "maxInstances": 8
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
         },
         {
-          "id": "dialog",
-          "path": "./assets/experiences/sim-network/audio/random.wav",
+          "id": "remove-component",
+          "path": "./assets/experiences/sim-network/audio/sfx-10.ogg",
           "tag": "sfx",
           "loop": false,
-          "volume": 0.4,
-          "maxInstances": 2
-        }
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
+        },
+        {
+          "id": "drop-cable",
+          "path": "./assets/experiences/sim-network/audio/sfx-11.ogg",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
+        },
+        {
+          "id": "connect-cable",
+          "path": "./assets/experiences/sim-network/audio/sfx-12.ogg",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
+        },
+        {
+          "id": "test-connection",
+          "path": "./assets/experiences/sim-network/audio/sfx-13.ogg",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 1
+        },
+        {
+          "id": "device-selection",
+          "path": "./assets/experiences/sim-network/audio/sfx-14.ogg",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
+        },
+        {
+          "id": "cell-selection",
+          "path": "./assets/experiences/sim-network/audio/sfx-15.ogg",
+          "tag": "sfx",
+          "loop": false,
+          "volume": 1,
+          "autoplay": false,
+          "maxInstances": 4
+        }        
       ],
       "referenceModels": [],
       "dimensions": [],
@@ -580,6 +821,57 @@
         }
       ],
       "hotspots": []
+    },
+    {
+      "scene": {
+        "id": "05-complete",
+        "type": "2d",
+        "title": "05 - Complete",
+        "description": "<p>All tracks complete.</p>",
+        "customCss": "./assets/experiences/sim-network/styles/sim-network.css",
+        "customScript": "./assets/experiences/sim-network/scripts/sim-network-complete.js",
+        "typography": {
+          "fonts": [
+            {
+              "label": "Monospaced",
+              "fontFamily": "IBM Plex Mono",
+              "sizeMultiplier": 0.875,
+              "sources": [
+                {
+                  "type": "local",
+                  "family": "IBM Plex Mono",
+                  "files": [
+                    {
+                      "path": "./assets/experiences/sim-network/fonts/IBMPlexMono-Regular.woff2",
+                      "weight": 400
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "plugins": [
+          "audioVolume"
+        ],
+        "attribution": [
+          "Placeholder attribution — Sim Network model pack (replace with real credits)."
+        ],
+        "tracking": {
+          "visited": false
+        }
+      },
+      "audio": [
+        {
+          "id": "music-complete",
+          "path": "./assets/experiences/sim-network/audio/music-complete.ogg",
+          "tag": "music",
+          "loop": true,
+          "volume": 0.5,
+          "autoplay": true,
+          "maxInstances": 1
+        }
+      ]
     }
   ]
 }

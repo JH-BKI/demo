@@ -137,6 +137,37 @@ function getHost() {
 }
 
 /**
+ * Play a scene/global clip via audioControl. Missing clips warn once in audioManager.
+ * @param {string} clipId
+ */
+function playSfx(clipId) {
+    const host = getHost();
+    if (typeof host.dispatchAppEvent !== 'function' || !host.EVENTS?.AUDIO_CONTROL) {
+        return;
+    }
+    host.dispatchAppEvent(host.EVENTS.AUDIO_CONTROL, {
+        action: 'play',
+        clipId,
+    });
+}
+
+/**
+ * Sticky green select always; purple device select when the cell has an interactable.
+ * Hover must not call this (would spam).
+ * @param {{ x: number, z: number }} cell
+ */
+function playSelectionSfxForCell(cell) {
+    playSfx('cell-selection');
+    const hasDevice = getInteractableMeshesAtCell(cell).length > 0;
+    if (hasDevice) {
+        playSfx('device-selection');
+    }
+    console.log(
+        `[partCellHighlight.js]: [N/A] - [playSelectionSfxForCell] - cell has a value of ${cell.x},${cell.z}, deviceSelectionPlayed has a value of ${hasDevice}.`
+    ); //This is logged when sticky cell/device selection SFX are requested.
+}
+
+/**
  * @returns {boolean}
  */
 function areToolsActive() {
@@ -515,9 +546,6 @@ function applyDroppableCellFxRequest(detail) {
     }
     syncCellHoverFx(boundScene, validCell, null, getActiveLayout());
     positionHoverOutline(validCell, { allowDroppable: true });
-    console.log(
-        `[partCellHighlight.js]: [N/A] - [applyDroppableCellFxRequest] - theme has a value of ${theme}, cell has a value of ${validCell.x},${validCell.z}.`
-    ); //This is logged when droppable hover drives purple/red cell FX.
 }
 
 /**
@@ -581,9 +609,6 @@ function applyCableCellFxRequest(detail) {
     );
     positionHoverOutline(lastCableHoverCell, { allowCable: true });
     positionSelectedWash(cableSelectedCell, { allowCable: true });
-    console.log(
-        `[partCellHighlight.js]: [N/A] - [applyCableCellFxRequest] - hoverCell has a value of ${lastCableHoverCell ? `${lastCableHoverCell.x},${lastCableHoverCell.z}` : 'null'}, selectedCell has a value of ${cableSelectedCell ? `${cableSelectedCell.x},${cableSelectedCell.z}` : 'null'}.`
-    ); //This is logged when Cable mode updates blue hover and/or click–click selected FX.
 }
 
 function enterCableToolFxMode() {
@@ -597,9 +622,6 @@ function enterCableToolFxMode() {
     applyCellFxTheme('blue');
     syncCellHoverFx(boundScene, null, null, getActiveLayout());
     activeToolMode = 'cable';
-    console.log(
-        `[partCellHighlight.js]: [N/A] - [enterCableToolFxMode] - activeToolMode has a value of cable.`
-    ); //This is logged when Cable tool takes over cell FX in blue.
 }
 
 function enterDroppableToolFxMode() {
@@ -611,9 +633,6 @@ function enterDroppableToolFxMode() {
     applyCellFxTheme('purple');
     syncCellHoverFx(boundScene, null, null, getActiveLayout());
     activeToolMode = 'droppable';
-    console.log(
-        `[partCellHighlight.js]: [N/A] - [enterDroppableToolFxMode] - activeToolMode has a value of droppable.`
-    ); //This is logged when Droppable tool takes over cell FX in purple/red.
 }
 
 /**
@@ -636,9 +655,6 @@ function resolveCellAtPointer(pointerX, pointerY) {
  */
 function syncCellPointerCursor(pointerX, pointerY) {
     if (!renderingCanvas) {
-        console.log(
-            `[partCellHighlight.js]: [N/A] - [syncCellPointerCursor] - renderingCanvas has a value of null.`
-        ); //This is logged when cursor sync cannot run because the input element was never captured.
         return;
     }
     const cell = resolveCellAtPointer(pointerX, pointerY);
@@ -678,12 +694,10 @@ function applyExploreSelectionRequest(cell) {
     ) {
         clearSelectedCell();
         clearHover();
-        console.log(
-            `[partCellHighlight.js]: [N/A] - [applyExploreSelectionRequest] - clearedExploreSelection has a value of true.`
-        ); //This is logged when Cable/droppable cancel or an external clear wipes the green sticky cell.
         return;
     }
     selectedCell = { x: cell.x, z: cell.z };
+    playSelectionSfxForCell(selectedCell);
     // Tools hide FX; keep memory so restore (or next free-play frame) shows this cell.
     if (!areToolsActive()) {
         hoverCell = null;
@@ -691,9 +705,6 @@ function applyExploreSelectionRequest(cell) {
         syncGreenCellFx();
         syncInteractableOverlays();
     }
-    console.log(
-        `[partCellHighlight.js]: [N/A] - [applyExploreSelectionRequest] - selectedCell has a value of ${selectedCell.x},${selectedCell.z}.`
-    ); //This is logged when a successful drop (or other caller) sets the green sticky cell.
 }
 
 function hideExploreHighlights() {
@@ -875,9 +886,6 @@ function attachPointerObserver(scene) {
             // Click outside the grid — clear sticky selection.
             clearSelectedCell();
             clearHover();
-            console.log(
-                `[partCellHighlight.js]: [N/A] - [attachPointerObserver] - clearedSelectionOutsideGrid has a value of true.`
-            ); //This is logged when an outside-grid click clears the green explore selection.
             return;
         }
 
@@ -894,9 +902,7 @@ function attachPointerObserver(scene) {
         hoverCell = null;
         syncGreenCellFx();
         syncInteractableOverlays();
-        console.log(
-            `[partCellHighlight.js]: [N/A] - [attachPointerObserver] - selectedCell has a value of ${selectedCell.x},${selectedCell.z}.`
-        ); //This is logged when the player sticky-selects a cell with the green explore highlight.
+        playSelectionSfxForCell(selectedCell);
     });
 }
 

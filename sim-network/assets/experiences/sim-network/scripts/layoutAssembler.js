@@ -26,10 +26,16 @@ const MERGE_LAYER2_WALL_STAMPS = false;
 
 /** @type {Map<string, import('@babylonjs/core').AssetContainer>} */
 let templateContainers = new Map();
+/** Registry path keys for template masters (Phase 2 cupboard — do not dispose containers). */
+/** @type {Map<string, string>} */
+let templatePathKeys = new Map();
 /** @type {Array<{ dispose?: () => void }>} */
 let stampEntries = [];
 /** @type {import('@babylonjs/core').TransformNode[]} */
 let stampRoots = [];
+/** Last assemble's interactable wrap roots (for play init when core already stamped). */
+/** @type {import('@babylonjs/core').TransformNode[]} */
+let lastInteractableRoots = [];
 /** @type {Map<string, object>} */
 let partById = new Map();
 /** @type {object | null} */
@@ -392,6 +398,7 @@ export function removeStampById(stampId) {
 }
 
 /**
+ * Active joined layout after the last successful assemble (or null).
  * @returns {object | null}
  */
 export function getActiveLayout() {
@@ -607,14 +614,25 @@ export function createGhostStamp(scene, partId) {
 }
 
 /**
+ * Interactable stamp roots from the last assemble (copy).
+ * @returns {import('@babylonjs/core').TransformNode[]}
+ */
+export function getInteractableRoots() {
+    return lastInteractableRoots.slice();
+}
+
+/**
  * @param {import('@babylonjs/core').Scene} scene
  * @param {object} layout
+ * @param {{ onTemplateLoaded?: (path: string) => void }} [options]
  * @returns {Promise<import('@babylonjs/core').TransformNode[]>}
  */
-export async function assembleLayout(scene, layout) {
+export async function assembleLayout(scene, layout, options = {}) {
     disposeLayout();
 
     const host = getHost();
+    const onTemplateLoaded =
+        typeof options?.onTemplateLoaded === 'function' ? options.onTemplateLoaded : null;
     const parts = Array.isArray(layout?.parts) ? layout.parts : [];
     const placements = Array.isArray(layout?.placements) ? layout.placements : [];
 
@@ -623,6 +641,7 @@ export async function assembleLayout(scene, layout) {
     occupiedCells = new Set();
     stampsById = new Map();
     nextStampSeq = 1;
+    lastInteractableRoots = [];
 
     let newlyLoadedTemplates = 0;
     for (const part of parts) {
@@ -636,7 +655,13 @@ export async function assembleLayout(scene, layout) {
         if (!templateContainers.has(part.id)) {
             const container = await host.loadAssetContainerFromPath(part.path, scene);
             templateContainers.set(part.id, container);
+            const pathKey =
+                typeof container?._xrsRegistryPathKey === 'string'
+                    ? container._xrsRegistryPathKey
+                    : String(part.path || '').replace(/\\/g, '/');
+            templatePathKeys.set(part.id, pathKey);
             newlyLoadedTemplates += 1;
+            onTemplateLoaded?.(part.path);
         }
     }
 
@@ -654,6 +679,8 @@ export async function assembleLayout(scene, layout) {
         }
     }
 
+    lastInteractableRoots = interactableRoots;
+
     console.log(
         `[layoutAssembler.js]: [N/A] - [assembleLayout] - layoutId has a value of ${layout?.id ?? 'unnamed'}, partsCount has a value of ${parts.length}, placementsCount has a value of ${placements.length}, newlyLoadedTemplates has a value of ${newlyLoadedTemplates}, stampedCount has a value of ${stamped}, interactableCount has a value of ${interactableRoots.length}, templateCount has a value of ${templateContainers.size}, hideLayer has a value of ${EXPERIMENT_HIDE_LAYER}, mergeLayer2Walls has a value of ${MERGE_LAYER2_WALL_STAMPS}.`
     ); //This is logged once to summarize layout assembly (templates + stamps).
@@ -661,7 +688,7 @@ export async function assembleLayout(scene, layout) {
 }
 
 /**
- * Dispose stamps and template containers.
+ * Dispose stamps and release template cupboard refs (do not destroy session masters).
  */
 export function disposeLayout() {
     for (const entries of stampEntries) {
@@ -686,21 +713,35 @@ export function disposeLayout() {
     }
     stampRoots = [];
 
-    for (const [partId, container] of templateContainers) {
+    const host = globalThis[HOST_KEY];
+    let releasedCount = 0;
+    for (const [partId] of templateContainers) {
+        const pathKey = templatePathKeys.get(partId);
         try {
-            container.dispose?.();
-            console.log(
-                `[layoutAssembler.js]: [N/A] - [disposeLayout] - disposedTemplateId has a value of ${partId}.`
-            ); //This is logged when a template container is disposed.
+            if (pathKey && typeof host?.releaseAssetContainer === 'function') {
+                host.releaseAssetContainer(pathKey);
+                releasedCount += 1;
+            } else {
+                const container = templateContainers.get(partId);
+                container?.dispose?.();
+                releasedCount += 1;
+            }
         } catch (error) {
             console.warn(
                 `[layoutAssembler.js]: [N/A] - [disposeLayout] - containerDisposeError has a value of ${error?.message || error}.`
-            ); //This is logged when container dispose fails.
+            ); //This is logged when container dispose/release fails.
         }
     }
+    if (releasedCount > 0) {
+        console.log(
+            `[layoutAssembler.js]: [N/A] - [disposeLayout] - releasedTemplateCount has a value of ${releasedCount}.`
+        ); //This is logged once when layout templates are released back to the session cupboard.
+    }
     templateContainers = new Map();
+    templatePathKeys = new Map();
     partById = new Map();
     activeLayout = null;
+    lastInteractableRoots = [];
     occupiedCells = new Set();
     stampsById = new Map();
     nextStampSeq = 1;

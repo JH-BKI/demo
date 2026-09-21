@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "sim-network",
+  "scene": "05-complete",
+  "autoPlay": true,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-enter-1",
+      "kind": "html",
+      "startTime": 0,
+      "html": {
+        "selector": "#sim-network-flow-overlay .sim-network-flow-overlay__panel--complete",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "html-clip-anim-fade-up",
+        "classAction": "add"
+      }
+    }
+  ]
+}

@@ -192,9 +192,6 @@ export function syncStatusIconFx(scene, stampId, statusRoot, visualKey) {
         fxByStampId.set(stampId, slot);
         slot.system.start();
         slot.running = true;
-        console.log(
-            `[partCellStatusFx.js]: [N/A] - [syncStatusIconFx] - stampId has a value of ${stampId}, theme has a value of ${theme}, created has a value of true.`
-        ); //This is logged when status-icon beam FX are created for a stamp.
         return;
     }
 
@@ -206,9 +203,6 @@ export function syncStatusIconFx(scene, stampId, statusRoot, visualKey) {
         slot.system.reset();
         slot.system.start();
         slot.running = true;
-        console.log(
-            `[partCellStatusFx.js]: [N/A] - [syncStatusIconFx] - stampId has a value of ${stampId}, theme has a value of ${theme}, recoloured has a value of true.`
-        ); //This is logged when status beams switch colour with the status GLB.
         return;
     }
 
@@ -256,7 +250,4 @@ export function disposeAllStatusIconFx() {
         }
     }
     sharedFlareTexture = null;
-    console.log(
-        `[partCellStatusFx.js]: [N/A] - [disposeAllStatusIconFx] - cleared has a value of true.`
-    ); //This is logged when all status-icon particle systems are torn down.
 }

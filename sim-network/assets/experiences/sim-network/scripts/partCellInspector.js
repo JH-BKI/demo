@@ -121,7 +121,14 @@ function createRemoveButton(ariaLabel, onClick) {
     } else {
         removeBtn.textContent = '✕';
     }
-    removeBtn.addEventListener('click', onClick);
+    removeBtn.addEventListener('click', () => {
+        // Hand-built control (not templates.button) — action SFX only on remove.
+        playSfx('remove-component');
+        console.log(
+            `[partCellInspector.js]: [N/A] - [createRemoveButton] - removeComponentSfxDispatched has a value of true, ariaLabel has a value of ${ariaLabel}.`
+        ); //This is logged when trash remove plays the remove-component clip.
+        onClick();
+    });
     return removeBtn;
 }
 
@@ -150,6 +157,21 @@ function getHost() {
         );
     }
     return host;
+}
+
+/**
+ * Play a scene/global clip via audioControl. Missing clips warn once in audioManager.
+ * @param {string} clipId
+ */
+function playSfx(clipId) {
+    const host = getHost();
+    if (typeof host.dispatchAppEvent !== 'function' || !host.EVENTS?.AUDIO_CONTROL) {
+        return;
+    }
+    host.dispatchAppEvent(host.EVENTS.AUDIO_CONTROL, {
+        action: 'play',
+        clipId,
+    });
 }
 
 function hidePanel() {

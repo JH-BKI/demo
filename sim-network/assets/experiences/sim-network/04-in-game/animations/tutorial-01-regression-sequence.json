@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "sim-network",
+  "scene": "sim-network",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-initial-reset",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_1_L5"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.01,
+        "position": {
+          "enabled": true,
+          "value": [0.5, 0, 1.5]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [0, 180, 0]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [1, 1, 1]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-initial-fade-to-black",
+      "kind": "screenFade",
+      "screenFade": {
+        "direction": "toBlack",
+        "durationSeconds": 0.01
+      },
+      "startTime": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-initial-fade-from-black",
+      "kind": "screenFade",
+      "screenFade": {
+        "direction": "fromBlack",
+        "durationSeconds": 0.25
+      },
+      "startTime": 0.02
+    },
+    {
+      "type": "clip",
+      "id": "clip-camera-toward-pc",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "cameraMove": {
+        "durationSeconds": 1,
+        "properties": {
+          "alpha": {
+            "from": -1.5625,
+            "to": -1.25
+          },
+          "beta": {
+            "from": 1.1516,
+            "to": 1
+          },
+          "radius": {
+            "from": 12,
+            "to": 9
+          },
+          "target": {
+            "from": [3, 0.5, 3.5],
+            "to": [0.5, 0.5, 1.5]
+          }
+        },
+        "autoRotate": false
+      },
+      "startTime": 0.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-camera-return-home",
+      "targets": [
+        {
+          "kind": "camera"
+        }
+      ],
+      "cameraMove": {
+        "durationSeconds": 1,
+        "properties": {
+          "alpha": {
+            "from": -1.25,
+            "to": -1.5625
+          },
+          "beta": {
+            "from": 1,
+            "to": 1.1516
+          },
+          "radius": {
+            "from": 9,
+            "to": 12
+          },
+          "target": {
+            "from": [0.5, 0.5, 1.5],
+            "to": [3, 0.5, 3.5]
+          }
+        },
+        "autoRotate": false
+      },
+      "startTime": 1.5
+    },
+    {
+      "type": "clip",
+      "id": "clip-model-move",
+      "kind": "model-move",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_1_L5"
+        }
+      ],
+      "modelMove": {
+        "durationSeconds": 1.5,
+        "position": {
+          "enabled": true,
+          "from": [0.5, 0, 1.5],
+          "to": [0.5, 0.25, 1.5]
+        },
+        "rotation": {
+          "enabled": false,
+          "from": [0, 180, 0],
+          "to": [0, 180, 0]
+        },
+        "scale": {
+          "enabled": true,
+          "from": [1, 1, 1],
+          "to": [1.2, 1.2, 1.2]
+        },
+        "visibility": {
+          "enabled": false,
+          "from": 1,
+          "to": 1
+        }
+      },
+      "startTime": 3
+    },
+    {
+      "type": "clip",
+      "id": "clip-highlight-upper-row",
+      "kind": "highlight",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_1_L5"
+        }
+      ],
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": false,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#00ff7b",
+          "alpha": 0.65,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "startTime": 4.7
+    },
+    {
+      "type": "clip",
+      "id": "clip-highlight-lower-row",
+      "kind": "highlight",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_1_L5"
+        }
+      ],
+      "highlight": {
+        "durationSeconds": 1,
+        "fade": false,
+        "glow": {
+          "enabled": false,
+          "color": "#00ffcc",
+          "blurSize": 1,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minBlurSize": 0.125
+          }
+        },
+        "overlay": {
+          "enabled": true,
+          "color": "#ff00ff",
+          "alpha": 0.65,
+          "xray": false,
+          "pulse": {
+            "enabled": false,
+            "intervalSeconds": 1,
+            "minAlpha": 0.1
+          }
+        }
+      },
+      "startTime": 4.7
+    },
+    {
+      "type": "clip",
+      "id": "clip-final-reset",
+      "kind": "reset",
+      "targets": [
+        {
+          "modelId": "desktop-pc_0_1_L5"
+        }
+      ],
+      "reset": {
+        "durationSeconds": 0.1,
+        "position": {
+          "enabled": true,
+          "value": [0.5, 0, 1.5]
+        },
+        "rotation": {
+          "enabled": true,
+          "value": [0, 180, 0]
+        },
+        "scale": {
+          "enabled": true,
+          "value": [1, 1, 1]
+        },
+        "visibility": {
+          "enabled": true,
+          "value": 1
+        }
+      },
+      "startTime": 5.9
+    },
+    {
+      "type": "emit",
+      "id": "emit-before-wait",
+      "time": 6.3,
+      "event": "phase1-regression",
+      "label": "Emit before Enter wait",
+      "detail": {
+        "checkpoint": "before-enter-wait"
+      },
+      "subLane": 0
+    },
+    {
+      "type": "wait",
+      "id": "gate-enter",
+      "time": 6.3,
+      "trigger": {
+        "kind": "keypress",
+        "key": "Enter"
+      },
+      "label": "Press Enter to continue",
+      "subLane": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-final-fade-to-black",
+      "kind": "screenFade",
+      "screenFade": {
+        "direction": "toBlack",
+        "durationSeconds": 0.25
+      },
+      "startTime": 6.8
+    },
+    {
+      "type": "clip",
+      "id": "clip-final-fade-from-black",
+      "kind": "screenFade",
+      "screenFade": {
+        "direction": "fromBlack",
+        "durationSeconds": 0.25
+      },
+      "startTime": 7.05
+    },
+    {
+      "type": "emit",
+      "id": "emit-complete",
+      "time": 7.5,
+      "event": "phase1-regression",
+      "label": "Regression sequence complete",
+      "detail": {
+        "checkpoint": "complete"
+      },
+      "subLane": 0
+    }
+  ],
+  "rowOrder": [
+    ["clip-initial-reset"],
+    ["clip-initial-fade-to-black", "clip-initial-fade-from-black"],
+    ["clip-camera-toward-pc", "clip-camera-return-home"],
+    ["clip-model-move"],
+    ["clip-highlight-upper-row"],
+    ["clip-highlight-lower-row"],
+    ["clip-final-reset"],
+    ["clip-final-fade-to-black", "clip-final-fade-from-black"]
+  ],
+  "chapters": [
+    {
+      "id": "chapter-regression",
+      "label": "Phase 1 regression",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 7.5
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-motion",
+      "label": "Motion",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 4.7
+    },
+    {
+      "id": "region-ordering",
+      "label": "Ordering and reset",
+      "color": "#4a90d9",
+      "startTime": 4.7,
+      "endTime": 6.3
+    },
+    {
+      "id": "region-gate",
+      "label": "Gate and completion",
+      "color": "#4a90d9",
+      "startTime": 6.3,
+      "endTime": 7.5
+    }
+  ]
+}

@@ -197,6 +197,21 @@ function getHost() {
 }
 
 /**
+ * Play a scene/global clip via audioControl. Missing clips warn once in audioManager.
+ * @param {string} clipId
+ */
+function playSfx(clipId) {
+    const host = getHost();
+    if (typeof host.dispatchAppEvent !== 'function' || !host.EVENTS?.AUDIO_CONTROL) {
+        return;
+    }
+    host.dispatchAppEvent(host.EVENTS.AUDIO_CONTROL, {
+        action: 'play',
+        clipId,
+    });
+}
+
+/**
  * Lightweight cable edges for connectivity tests (no meshes).
  * @returns {Array<{ id: string, fromStampId: string, toStampId: string }>}
  */
@@ -366,9 +381,6 @@ function clearCablePathOverlay() {
         }
     }
     pathOverlayTiles = [];
-    console.log(
-        `[partCables.js]: [N/A] - [clearCablePathOverlay] - cleared has a value of true.`
-    ); //This is logged when cable-path cell highlights are removed.
 }
 
 /**
@@ -516,9 +528,6 @@ function setCablePathOverlay(cells) {
         pathOverlayTiles.push(built);
     }
 
-    console.log(
-        `[partCables.js]: [N/A] - [setCablePathOverlay] - cellCount has a value of ${seen.size}.`
-    ); //This is logged when blue path-cell tiles are shown for an active cable run.
 }
 
 /**
@@ -865,9 +874,6 @@ function ensureCableGlowLayer() {
         mainTextureRatio: 0.5,
     });
     cableGlowLayer.intensity = CABLE_GLOW_INTENSITY;
-    console.log(
-        `[partCables.js]: [N/A] - [ensureCableGlowLayer] - glowCreated has a value of true.`
-    ); //This is logged when the cable selection GlowLayer is created.
     return cableGlowLayer;
 }
 
@@ -993,9 +999,6 @@ function refreshCableLaneVisuals() {
             glow.addIncludedOnlyMesh(cable.mesh);
         }
     }
-    console.log(
-        `[partCables.js]: [N/A] - [refreshCableLaneVisuals] - cableCount has a value of ${cables.length}.`
-    ); //This is logged when cable tubes are rebuilt to apply per-cell lane spacing.
 }
 
 /**
@@ -1028,9 +1031,6 @@ export function clearCableSelection() {
     if (cable) {
         rebuildCableVisual(cable, false);
     }
-    console.log(
-        `[partCables.js]: [N/A] - [clearCableSelection] - previousCableId has a value of ${previousId}.`
-    ); //This is logged when cable highlight is cleared (panel close or switch).
 }
 
 /**
@@ -1071,9 +1071,6 @@ export function selectCableById(cableId) {
     if (glow) {
         glow.addIncludedOnlyMesh(cable.mesh);
     }
-    console.log(
-        `[partCables.js]: [N/A] - [selectCableById] - cableId has a value of ${cableId}.`
-    ); //This is logged when the player selects a cable from the cell inspector.
     return true;
 }
 
@@ -1107,9 +1104,6 @@ function syncCableRenderGroups() {
     if (previewCable?.mesh) {
         previewCable.mesh.renderingGroupId = group;
     }
-    console.log(
-        `[partCables.js]: [N/A] - [syncCableRenderGroups] - renderingGroupId has a value of ${group}, cableMode has a value of ${cableMode}, networkTestCableXray has a value of ${networkTestCableXray}, cableCount has a value of ${cables.length}.`
-    ); //This is logged when cable draw-order switches with Cable mode or Test x-ray.
 }
 
 /**
@@ -1123,9 +1117,6 @@ function setNetworkTestCableXray(on) {
     }
     networkTestCableXray = next;
     syncCableRenderGroups();
-    console.log(
-        `[partCables.js]: [N/A] - [setNetworkTestCableXray] - networkTestCableXray has a value of ${networkTestCableXray}.`
-    ); //This is logged when Test turns cable x-ray on or off.
 }
 
 /**
@@ -1224,9 +1215,6 @@ export function mountCableToggle(paletteEl) {
         setCableMode(!cableMode);
     });
     paletteEl.prepend(cableToggleBtn);
-    console.log(
-        `[partCables.js]: [N/A] - [mountCableToggle] - trailingIconAttached has a value of ${Boolean(trailingIconHtml)}, tooltip has a value of ${PALETTE_BUTTON_TOOLTIPS.cable}.`
-    ); //This is logged to verify the Cable button received the host getIcon SVG and tooltip.
 }
 
 /**
@@ -1249,9 +1237,6 @@ function setNetworkPaletteToolsEnabled(enabled) {
     const on = enabled !== false;
     setDroppableButtonsEnabled(on);
     setCableToggleEnabled(on);
-    console.log(
-        `[partCables.js]: [N/A] - [setNetworkPaletteToolsEnabled] - enabled has a value of ${on}.`
-    ); //This is logged when Test locks or unlocks the left palette tools.
 }
 
 /**
@@ -1270,9 +1255,6 @@ export function clearNetworkTestPassLock() {
     lastNetworkTestPassed = false;
     setNetworkPaletteToolsEnabled(true);
     notifyNetworkEditsLockChanged();
-    console.log(
-        `[partCables.js]: [N/A] - [clearNetworkTestPassLock] - unlocked has a value of true.`
-    ); //This is logged when a future layout re-pick clears the successful-Test tool lock.
 }
 
 /**
@@ -1292,9 +1274,6 @@ function prepareSceneForNetworkTest() {
     const host = getNetworkTestHost();
     host.dispatchAppEvent(host.EVENTS.RESET_3D_VIEW);
     setNetworkPaletteToolsEnabled(false);
-    console.log(
-        `[partCables.js]: [N/A] - [prepareSceneForNetworkTest] - toolsCleared has a value of true.`
-    ); //This is logged when Test turns off tools and resets the camera to home.
 }
 
 /**
@@ -1360,6 +1339,10 @@ function tryCommitCable(startStamp, endStamp, path, source) {
     refreshConnectionStatusForStamp(startStamp.stampId);
     refreshConnectionStatusForStamp(endStamp.stampId);
     notifyCablesChanged();
+    playSfx('connect-cable');
+    console.log(
+        `[partCables.js]: [N/A] - [tryCommitCable] - connectCableSfxDispatched has a value of true, cableId has a value of ${id}.`
+    ); //This is logged when a successful cable link plays the connect-cable clip.
     return true;
 }
 
@@ -1373,9 +1356,6 @@ export function handleCableDevicePick(root) {
     }
     if (ignoreNextDevicePick) {
         ignoreNextDevicePick = false;
-        console.log(
-            `[partCables.js]: [N/A] - [handleCableDevicePick] - ignoredAfterHoldDrag has a value of true.`
-        ); //This is logged when click–click is skipped after a hold–drag gesture.
         return;
     }
     if (dragSession?.becameDrag) {
@@ -1404,9 +1384,6 @@ function handleCableStampPick(stamp) {
 
     const partDef = getPartDef(stamp.partId);
     if (!acceptsWiredCable(partDef)) {
-        console.log(
-            `[partCables.js]: [N/A] - [handleCableStampPick] - refusedWifiOnlyPartId has a value of ${stamp.partId}.`
-        ); //This is logged when a wifi-only part is chosen in cable mode.
         return;
     }
 
@@ -1419,9 +1396,6 @@ function handleCableStampPick(stamp) {
         clearCablePathOverlay();
         requestCableSelectedCellFx({ x: stamp.x, z: stamp.z });
         lockSimNetworkCamera();
-        console.log(
-            `[partCables.js]: [N/A] - [handleCableStampPick] - pendingStartStampId has a value of ${pendingStartStampId}.`
-        ); //This is logged when the first click–click cable endpoint is chosen.
         return;
     }
 
@@ -1454,9 +1428,6 @@ function handleCableStampPick(stamp) {
     );
     if (!path || path.length < 2) {
         showDropToast('No free cable path between those devices.');
-        console.log(
-            `[partCables.js]: [N/A] - [handleCableStampPick] - pathBlockedFromTo has a value of ${startStamp.stampId}->${stamp.stampId}.`
-        ); //This is logged when A* cannot find a route under the per-cell cable cap.
         pendingStartStampId = null;
         clearCablePathOverlay();
         requestCableSelectedCellFx(null);
@@ -1502,12 +1473,13 @@ function updateDragPathToCell(cell) {
         const key = `${cell.x},${cell.z}`;
         if (dragSession.lastBlockedKey !== key) {
             dragSession.lastBlockedKey = key;
-            console.log(
-                `[partCables.js]: [N/A] - [updateDragPathToCell] - noPathToCell has a value of ${key}.`
-            ); //This is logged when hold–drag A* cannot reach the pointer cell under the cable cap.
         }
         return;
     }
+
+    const prevCells = dragSession.cells;
+    /** @type {Set<string>} */
+    const prevKeys = new Set(prevCells.map((entry) => `${entry.x},${entry.z}`));
 
     dragSession.cells = path.map((entry) => ({ x: entry.x, z: entry.z }));
     dragSession.lastBlockedKey = null;
@@ -1516,6 +1488,22 @@ function updateDragPathToCell(cell) {
         pendingStartStampId = null;
         requestCableSelectedCellFx(null);
     }
+
+    // Play drop-cable once per newly covered cell while hold-dragging (not on hover rebuild of same path).
+    let newCellSfxCount = 0;
+    for (const entry of dragSession.cells) {
+        const key = `${entry.x},${entry.z}`;
+        if (!prevKeys.has(key)) {
+            playSfx('drop-cable');
+            newCellSfxCount += 1;
+        }
+    }
+    if (newCellSfxCount > 0) {
+        console.log(
+            `[partCables.js]: [N/A] - [updateDragPathToCell] - dropCableSfxCount has a value of ${newCellSfxCount}, pathLength has a value of ${dragSession.cells.length}.`
+        ); //This is logged when hold-drag cable path grows onto new cells.
+    }
+
     updatePreviewCable(dragSession.cells);
     setCablePathOverlay(dragSession.cells);
 }
@@ -1553,9 +1541,6 @@ function finishHoldDrag(scene) {
 
     if (!endStamp || endStamp.stampId === startStamp.stampId) {
         clearDragSession();
-        console.log(
-            `[partCables.js]: [N/A] - [finishHoldDrag] - cancelledMissingEnd has a value of true.`
-        ); //This is logged when hold–drag ends without a valid second device.
         return;
     }
 
@@ -1573,9 +1558,6 @@ function finishHoldDrag(scene) {
     if (!path || path.length < 2) {
         showDropToast('No free cable path between those devices.');
         clearDragSession();
-        console.log(
-            `[partCables.js]: [N/A] - [finishHoldDrag] - pathBlockedFromTo has a value of ${startStamp.stampId}->${endStamp.stampId}.`
-        ); //This is logged when hold–drag ends but A* cannot connect the two devices.
         return;
     }
 
@@ -1630,9 +1612,6 @@ function attachCablePointerObserver(scene) {
             setCablePathOverlay([{ x: stamp.x, z: stamp.z }]);
             // Same as droppable place cycle / click–click first device: lock for this cable run.
             lockSimNetworkCamera();
-            console.log(
-                `[partCables.js]: [N/A] - [attachCablePointerObserver] - dragStartStampId has a value of ${stamp.stampId}.`
-            ); //This is logged when a potential hold–drag begins on a wired device.
             return;
         }
 
@@ -1793,9 +1772,6 @@ export function initializePartCables(scene) {
         onResetClearTools = () => {
             clearDropSelection();
             setCableMode(false, { clearExplore: false });
-            console.log(
-                `[partCables.js]: [N/A] - [onResetClearTools] - toolsClearedForReset has a value of true.`
-            ); //This is logged when Reset view turns off Cable/droppable toggles.
         };
         window.addEventListener(host.EVENTS.RESET_3D_VIEW, onResetClearTools);
     }
@@ -1943,6 +1919,7 @@ function getNetworkTestHost() {
         typeof host.getPlayerUiRoot !== 'function' ||
         typeof host.Color3 !== 'function' ||
         typeof host.dispatchAppEvent !== 'function' ||
+        typeof host.button !== 'function' ||
         !host.EVENTS?.RESET_3D_VIEW
     ) {
         throw new Error(
@@ -2127,9 +2104,6 @@ function collectConnectedCableFlowWaves(result) {
         }
     }
 
-    console.log(
-        `[partCables.js]: [N/A] - [collectConnectedCableFlowWaves] - waveACount has a value of ${waveA.length}, waveBCount has a value of ${waveB.length}, energizedCount has a value of ${energized.size}.`
-    ); //This is logged when Test builds particle paths for connected cables only.
     return { waveA, waveB };
 }
 
@@ -2140,17 +2114,11 @@ function collectConnectedCableFlowWaves(result) {
 function startNetworkTestCableFlow(result) {
     stopCableFlowFx();
     if (!boundScene) {
-        console.log(
-            `[partCables.js]: [N/A] - [startNetworkTestCableFlow] - boundScene has a value of null.`
-        ); //This is logged when Test cannot start cable-flow particles without a scene.
         return;
     }
     const { waveA, waveB } = collectConnectedCableFlowWaves(result);
     if (waveA.length === 0 && waveB.length === 0) {
         setNetworkTestCableXray(false);
-        console.log(
-            `[partCables.js]: [N/A] - [startNetworkTestCableFlow] - flowCount has a value of 0.`
-        ); //This is logged when Test has no connected cables to animate.
         return;
     }
     setNetworkTestCableXray(true);
@@ -2237,9 +2205,6 @@ function evaluateNetworkTest() {
     }
 
     const passed = hasDirectRouter && missing.length === 0;
-    console.log(
-        `[partCables.js]: [N/A] - [evaluateNetworkTest] - passed has a value of ${passed}, hasDirectRouter has a value of ${hasDirectRouter}, connectedCount has a value of ${connected.length}, missingCount has a value of ${missing.length}, cableCount has a value of ${links.length}.`
-    ); //This is logged when Test evaluates wired reachability from the Comms Cupboard.
     return {
         passed,
         startStamp,
@@ -2325,9 +2290,6 @@ function applyNetworkTestOverlayToStamps(stamps, kind) {
  */
 function highlightNetworkTestMissingStamps(stamps) {
     applyNetworkTestOverlayToStamps(stamps, 'fail');
-    console.log(
-        `[partCables.js]: [N/A] - [highlightNetworkTestMissingStamps] - stampCount has a value of ${stamps.length}.`
-    ); //This is logged when unreachable devices are tinted red after a failed Test.
 }
 
 /**
@@ -2335,9 +2297,6 @@ function highlightNetworkTestMissingStamps(stamps) {
  */
 function highlightNetworkTestConnectedStamps(stamps) {
     applyNetworkTestOverlayToStamps(stamps, 'connected');
-    console.log(
-        `[partCables.js]: [N/A] - [highlightNetworkTestConnectedStamps] - stampCount has a value of ${stamps.length}.`
-    ); //This is logged when connected devices are tinted blue after Test (pass or partial fail).
 }
 
 /**
@@ -2360,9 +2319,6 @@ function applyNetworkTestResultOverlays(result) {
     enterConnectionStatusTestMode(
         connectedForVisuals.map((stamp) => stamp.stampId)
     );
-    console.log(
-        `[partCables.js]: [N/A] - [applyNetworkTestResultOverlays] - connectedCount has a value of ${result.connected.length}, includeStartStamp has a value of ${Boolean(result.hasDirectRouter && result.startStamp)}, missingCount has a value of ${result.missing.length}, overlayMeshCount has a value of ${networkTestOverlayByMesh.size}.`
-    ); //This is logged when Test result device overlays are applied for the dialog lifetime.
 }
 
 /**
@@ -2431,21 +2387,68 @@ function dispatchNetworkTestFlowAction(action) {
             detail: { action },
         })
     );
-    console.log(
-        `[partCables.js]: [N/A] - [dispatchNetworkTestFlowAction] - action has a value of ${action}, stageRole has a value of ${networkTestStageRole}.`
-    ); //This is logged when a Test pass button asks the sim-network flow to change phase.
 }
 
 /**
  * Pass footer: Retry + Continue for both tutorial and level maps.
  * Flow decides whether Continue advances the track or returns to level select.
- * @returns {string}
+ * Built with host.button so default UI hover/click SFX apply.
+ * @param {object} host
+ * @param {{ footerEl: HTMLElement, close: () => void }} ctx
  */
-function buildNetworkTestPassFooterHtml() {
-    return (
-        '<button type="button" class="btn btn-neutral" data-action="retry">Retry</button>' +
-        '<button type="button" class="btn btn-primary" data-action="continue">Continue</button>'
+function mountNetworkTestPassFooter(host, ctx) {
+    const { footerEl, close } = ctx;
+    const retryWrap = host.button(
+        'sim-network-test-retry',
+        'neutral',
+        { iconName: '', iconOnly: false, iconPosition: 'before' },
+        { text: 'Retry', tooltipPosition: 'top' },
+        () => {
+            clearNetworkTestCableFlow();
+            clearNetworkTestFailHighlights();
+            resetNetworkTestControl();
+            close();
+            dispatchNetworkTestFlowAction('retry');
+        }
     );
+    const continueWrap = host.button(
+        'sim-network-test-continue',
+        'primary',
+        { iconName: '', iconOnly: false, iconPosition: 'before' },
+        { text: 'Continue', tooltipPosition: 'top' },
+        () => {
+            clearNetworkTestCableFlow();
+            clearNetworkTestFailHighlights();
+            resetNetworkTestControl();
+            close();
+            dispatchNetworkTestFlowAction('continue');
+        }
+    );
+    footerEl.appendChild(retryWrap);
+    footerEl.appendChild(continueWrap);
+}
+
+/**
+ * Fail footer: Try again (templates.button for default UI hover/click SFX).
+ * @param {object} host
+ * @param {{ footerEl: HTMLElement, close: () => void }} ctx
+ */
+function mountNetworkTestFailFooter(host, ctx) {
+    const { footerEl, close } = ctx;
+    const tryAgainWrap = host.button(
+        'sim-network-test-try-again',
+        'neutral',
+        { iconName: '', iconOnly: false, iconPosition: 'before' },
+        { text: 'Try again', tooltipPosition: 'top' },
+        () => {
+            clearNetworkTestCableFlow();
+            clearNetworkTestFailHighlights();
+            resetNetworkTestControl();
+            close();
+            notifyTutorialAction({ type: 'networkTestTryAgain' });
+        }
+    );
+    footerEl.appendChild(tryAgainWrap);
 }
 
 /**
@@ -2453,6 +2456,7 @@ function buildNetworkTestPassFooterHtml() {
  */
 function openNetworkTestResultDialog(result) {
     ensureNetworkTestDialog();
+    const host = getNetworkTestHost();
     const title = result.passed ? 'Network test — success' : 'Network test — failed';
     const statusLine = result.passed
         ? '<h2>Well done!</h2><p class="sim-network-test-dialog__status sim-network-test-dialog__status--pass">All required devices can reach the internet from the Comms Cupboard.</p>'
@@ -2476,53 +2480,22 @@ function openNetworkTestResultDialog(result) {
         ${networkTestStampListHtml(result.missing)}
     `;
 
-    const footerHtml = result.passed
-        ? buildNetworkTestPassFooterHtml()
-        : '<button type="button" class="btn btn-neutral" data-action="try-again">Try again</button>';
-
     networkTestDialogApi.open({
         title,
         bodyHtml,
-        footerHtml,
+        footerHtml: '',
         nonBlocking: true,
         position: 'right',
         collapsible: true,
         bind: ({ footerEl, close }) => {
-            const tryAgainBtn = footerEl.querySelector('[data-action="try-again"]');
-            tryAgainBtn?.addEventListener('click', () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                resetNetworkTestControl();
-                close();
-                notifyTutorialAction({ type: 'networkTestTryAgain' });
-            });
-
-            const retryBtn = footerEl.querySelector('[data-action="retry"]');
-            retryBtn?.addEventListener('click', () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                resetNetworkTestControl();
-                close();
-                dispatchNetworkTestFlowAction('retry');
-            });
-
-            const continueBtn = footerEl.querySelector('[data-action="continue"]');
-            continueBtn?.addEventListener('click', () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                resetNetworkTestControl();
-                close();
-                dispatchNetworkTestFlowAction('continue');
-            });
-
-            const backTitleBtn = footerEl.querySelector('[data-action="back-title"]');
-            backTitleBtn?.addEventListener('click', () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                resetNetworkTestControl();
-                close();
-                dispatchNetworkTestFlowAction('back-title');
-            });
+            if (result.passed) {
+                mountNetworkTestPassFooter(host, { footerEl, close });
+            } else {
+                mountNetworkTestFailFooter(host, { footerEl, close });
+            }
+            console.log(
+                `[partCables.js]: [N/A] - [openNetworkTestResultDialog] - footerButtonsAreTemplateButtons has a value of true, passed has a value of ${result.passed}.`
+            ); //This is logged when network-test result footer uses templates.button for default UI SFX.
         },
     });
 }
@@ -2634,9 +2607,6 @@ function resetNetworkTestControl() {
         networkTestProgressEl.hidden = false;
     }
     updateNetworkTestProgressUi(0, NETWORK_TEST_LABEL_TESTING);
-    console.log(
-        `[partCables.js]: [N/A] - [resetNetworkTestControl] - uiState has a value of ${networkTestUiState}.`
-    ); //This is logged when Try again / Retry restores the Test Connection button.
 }
 
 /**
@@ -2653,6 +2623,7 @@ function finishNetworkTestAfterProgress(result) {
         updateNetworkTestProgressUi(100, NETWORK_TEST_LABEL_PASS, {
             showCompletedSuffix: true,
         });
+        playSfx('default-sys-success');
     } else {
         networkEditsLockedAfterPass = false;
         networkTestUiState = 'fail';
@@ -2660,6 +2631,7 @@ function finishNetworkTestAfterProgress(result) {
         updateNetworkTestProgressUi(targetPercent, NETWORK_TEST_LABEL_FAIL, {
             showFailConnectedSuffix: true,
         });
+        playSfx('default-sys-error');
     }
     // After the 3s morph, keep title + % text only — hide the bar.
     if (networkTestProgressEl) {
@@ -2717,25 +2689,20 @@ function startNetworkTestProgressMorph(result) {
         }
     };
     networkTestProgressRafId = window.requestAnimationFrame(tick);
-    console.log(
-        `[partCables.js]: [N/A] - [startNetworkTestProgressMorph] - durationMs has a value of ${NETWORK_TEST_PROGRESS_MS}, targetPercent has a value of ${targetPercent}, passed has a value of ${result.passed}, cableFlowStarted has a value of true.`
-    ); //This is logged when Test Connection shows the alert progress and cable packets start.
 }
 
 function runNetworkTest() {
     if (networkTestUiState !== 'idle') {
-        console.log(
-            `[partCables.js]: [N/A] - [runNetworkTest] - ignoredClick has a value of true, uiState has a value of ${networkTestUiState}.`
-        ); //This is logged when a second click is ignored while the progress / result state is showing.
         return;
     }
     prepareSceneForNetworkTest();
     clearNetworkTestCableFlow();
     const result = evaluateNetworkTest();
-    startNetworkTestProgressMorph(result);
+    playSfx('test-connection');
     console.log(
-        `[partCables.js]: [N/A] - [runNetworkTest] - passed has a value of ${result.passed}, progressStarted has a value of true.`
-    ); //This is logged when Test evaluates connectivity and starts the 3s progress morph.
+        `[partCables.js]: [N/A] - [runNetworkTest] - testConnectionSfxDispatched has a value of true.`
+    ); //This is logged when the network test progress morph starts and plays test-connection.
+    startNetworkTestProgressMorph(result);
 }
 
 function mountNetworkTestButton() {
@@ -2776,9 +2743,6 @@ function mountNetworkTestButton() {
     networkTestBtn.addEventListener('click', () => {
         runNetworkTest();
     });
-    console.log(
-        `[partCables.js]: [N/A] - [mountNetworkTestButton] - testHelpIconAttached has a value of ${Boolean(testIconHtml)}.`
-    ); //This is logged to verify Test Connection received the right-aligned help icon.
 
     networkTestAlertEl = document.createElement('div');
     networkTestAlertEl.className = `${NETWORK_TEST_ALERT_BASE_CLASSES} alert-info`;
@@ -2815,9 +2779,6 @@ function mountNetworkTestButton() {
     networkTestControlEl.appendChild(networkTestAlertEl);
     parent.appendChild(networkTestControlEl);
     networkTestUiState = 'idle';
-    console.log(
-        `[partCables.js]: [N/A] - [mountNetworkTestButton] - mountedInPalette has a value of ${Boolean(palette)}.`
-    ); //This is logged when Test Connection is mounted at the bottom of the left palette.
 }
 
 /**

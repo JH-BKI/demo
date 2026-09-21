@@ -1,0 +1,194 @@
+/*
+ * Sim Network scene-switch loading curtain skin + shared UI backdrop paint.
+ * Loaded once per session by core (if this file exists).
+ *
+ * Shared paint (gradient + drifting grid + logo tiles) applies to:
+ * - .sim-network-flow-overlay__backdrop (flow screens)
+ * - #xrs-scene-loading (scene-switch curtain)
+ * Kept here (sticky) so scene customCss unload does not flash the curtain dark.
+ */
+
+/* Text / progress on the curtain only */
+#xrs-scene-loading {
+    color: #f8fafc;
+    overflow: hidden;
+}
+
+#xrs-scene-loading-slot-above,
+#xrs-scene-loading-core,
+#xrs-scene-loading-slot-below {
+    position: relative;
+    z-index: 1;
+}
+
+#xrs-scene-loading-bar.progress {
+    /* --progress-color: #5eead4; */
+    box-shadow: 0px 0px 16px 0px rgba(0,224,255,0.5);
+}
+
+/* One 32px tile; move by exactly that size on X+Y so the loop has no seam. */
+@keyframes sim-network-loading-bar-stripes {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 32px 32px;
+    }
+}
+
+/* Chrome / Edge / Safari — the filled portion */
+#xrs-scene-loading-bar::-webkit-progress-value {
+    background-image: linear-gradient(
+        135deg,
+        #00E1FF 0%,
+        #00E1FF 25%,
+        #25FFFF 25%,
+        #25FFFF 50%,
+        #00E1FF 50%,
+        #00E1FF 75%,
+        #25FFFF 75%,
+        #25FFFF 100%
+    );
+    background-size: 32px 32px;
+    background-color: #00E1FF;
+    animation: sim-network-loading-bar-stripes 3.5s linear infinite;
+    box-shadow: 0px 0px 16px 0px rgba(37,255,255,0.95);
+}
+
+/* Firefox — the filled portion */
+#xrs-scene-loading-bar::-moz-progress-bar {
+    background-image: linear-gradient(
+        135deg,
+        #00E1FF 0%,
+        #00E1FF 25%,
+        #25FFFF 25%,
+        #25FFFF 50%,
+        #00E1FF 50%,
+        #00E1FF 75%,
+        #25FFFF 75%,
+        #25FFFF 100%
+    );
+    background-size: 32px 32px;
+    background-color: #00E1FF;
+    animation: sim-network-loading-bar-stripes 3.5s linear infinite;
+}
+
+/* LAYER 1 — green gradient base */
+.sim-network-flow-overlay__backdrop,
+#xrs-scene-loading {
+    background-color: #003b36;
+    background-image: linear-gradient(
+        to right top,
+        #009689,
+        #008b7f,
+        #008075,
+        #00756b,
+        #006a61,
+        #00635a,
+        #005b53,
+        #00544c,
+        #004e46,
+        #004741,
+        #00413b,
+        #003b36
+    );
+}
+
+/* LAYER 2 — line grid drifting top-left → bottom-right */
+.sim-network-flow-overlay__backdrop::before,
+#xrs-scene-loading::before {
+    content: '';
+    position: absolute;
+    /* Oversized so moving edges never enter view (overhang > translate distance). */
+    inset: -300px;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+    animation: sim-network-flow-drift-grid 36s linear infinite;
+}
+
+/* 192px = 6 tiles at 32px — seamless loop; 36s ≈ half the logo-tile on-screen speed. */
+@keyframes sim-network-flow-drift-grid {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(192px, 192px);
+    }
+}
+
+/* LAYER 3 — logo tile watermark, brick stagger (2 layers), rotated -45°, drifting */
+.sim-network-flow-overlay__backdrop::after,
+#xrs-scene-loading::after {
+    content: '';
+    position: absolute;
+    /* Extra room so rotation never shows a hard edge. */
+    inset: -100%;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        url('../images/sim-network-background-tile-transparent.png'),
+        url('../images/sim-network-background-tile-transparent.png');
+    background-repeat: repeat, repeat;
+    background-size: 512px 256px, 512px 256px;
+    background-position: 0 0, 256px 128px;
+    opacity: 0.1;
+    animation: sim-network-flow-drift-tile 40s linear infinite;
+}
+
+/* One tile width (512px) along the rotated x-axis = seamless up-right diagonal. */
+@keyframes sim-network-flow-drift-tile {
+    from {
+        transform: rotate(-45deg) translate(0, 0);
+    }
+    to {
+        transform: rotate(-45deg) translate(512px, 0);
+    }
+}
+
+
+#xrs-scene-loading-title {
+    font-size: 0; /* hide the real JS/HTML title */
+  }
+  #xrs-scene-loading-title::before {
+    content: "CONNECTING...";
+    font-size: 2rem; /* restore readable size on the fake text */
+  }
+
+  #xrs-scene-loading-icon {
+    display: none;
+  }
+
+  #xrs-scene-loading-detail {
+    font-size: 1rem;
+    position: absolute;
+    bottom: 0.25rem;
+    z-index: 1;
+    font-weight: 700;
+    mix-blend-mode: difference;
+    color: #a4c3cf;
+  }
+  
+  #xrs-scene-loading-bar {
+    width: 100%;
+    height: 2rem;
+    max-width: 100%;
+  }
+
+/* Decorative monitor icon in the above slot (CSS paint only — not DOM SVG). */
+/* #xrs-scene-loading-core::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    margin-top: 5rem;    
+    display: block;
+    width: 24rem;
+    height: 24rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%20-960%20960%20960%22%20fill%3D%22%234b5563%22%20stroke%3D%22%23000000%22%20stroke-width%3D%2215%22%3E%3Cpath%20d%3D%22M0-160v-80h160v-40q-33%200-56.5-23.5T80-360v-400q0-33%2023.5-56.5T160-840h640q33%200%2056.5%2023.5T880-760v400q0%2033-23.5%2056.5T800-280v40h160v80H0Zm160-200h640v-400H160v400Zm0%200v-400%20400Z%22%2F%3E%3C%2Fsvg%3E");
+} */

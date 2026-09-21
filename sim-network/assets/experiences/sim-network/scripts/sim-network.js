@@ -1,14 +1,10 @@
 /**
- * Sim-network scene script — in-scene UX flow + kit stamp play.
+ * Sim-network in-game scene — play maps only (kit stamp + map systems).
+ * Flow chrome: splash / instructions / level-select / complete are separate 2d scenes.
+ * Maps come from layouts-index.json; selection lives in simNetworkSession.js.
  *
- * Flow (StateManager): splash → instructions → levelSelect → play → complete.
- * Maps come from layouts-index.json difficulties[].maps[].
- * createScene resolves when the splash HTML screen is ready (not when the first map stamps).
- *
- * Edit → play loop for maps:
- * 1. Author placements in layout-editor.html (parts come from kit-parts.json)
- * 2. Save writes the map file and upserts map meta into layouts-index.json difficulties[]
- * 3. Open sim-network in the player
+ * EA: office maps are stamped only by simNetworkFlow (not core modelSets).
+ * Core modelSetManager stays in the repo dormant for a later phase.
  */
 
 import { startSimNetworkFlow, disposeSimNetworkFlow } from './simNetworkFlow.js';
@@ -42,17 +38,17 @@ export async function createScene(scene, sceneId) {
     boundSceneId = sceneId;
     console.log(
         `[sim-network.js]: [N/A] - [createScene] - sceneId has a value of ${sceneId}, kitPartsUrl has a value of ${KIT_PARTS_URL}, hostPresent has a value of ${Boolean(globalThis[HOST_KEY])}.`
-    ); //This is logged to debug sim-network boot before the in-scene UX flow starts.
+    ); //This is logged when in-game boots into play-only mode (no core modelSets stamp).
 
     const catalog = await fetchJson(KIT_PARTS_URL);
     console.log(
         `[sim-network.js]: [N/A] - [createScene] - catalogId has a value of ${catalog?.id ?? 'unnamed'}, partsCount has a value of ${catalog?.parts?.length ?? 0}.`
-    ); //This is logged when the kit catalog has loaded for the flow.
+    ); //This is logged when the kit catalog has loaded for play.
 
     const flowReady = await startSimNetworkFlow(scene, catalog, sceneId);
     console.log(
         `[sim-network.js]: [N/A] - [createScene] - flowReady has a value of ${flowReady?.ready}.`
-    ); //This is logged when the sim-network flow splash screen is ready and createScene can finish.
+    ); //This is logged when the first map play systems are ready.
 }
 
 /**
@@ -61,7 +57,7 @@ export async function createScene(scene, sceneId) {
 export function dispose() {
     console.log(
         `[sim-network.js]: [N/A] - [dispose] - boundSceneId has a value of ${boundSceneId}.`
-    ); //This is logged to debug sim-network teardown.
+    ); //This is logged when leaving in-game.
     disposeSimNetworkFlow();
     boundSceneId = null;
 }

@@ -1,3 +1,14 @@
+/* ============================================================================
+   Sim Network experience styles
+   Organised by area: in-game play UI → 2D flow (shared + splash + split) →
+   info drawer → HTML timeline clips.
+   Backdrop paint for flow/loading lives in styles/loading.css (sticky).
+   ============================================================================ */
+
+/* ==========================================================================
+   IN-GAME PLAY UI
+   ========================================================================== */
+
 /* --------------------------------------------------------------------------
    Sim-network droppable palette (player only) — mid-left inside #uiContainer
    -------------------------------------------------------------------------- */
@@ -426,15 +437,82 @@
     opacity: 1;
 }
 
+/* ==========================================================================
+   2D FLOW SCREENS
+   ========================================================================== */
+
 /* --------------------------------------------------------------------------
-   Full-panel flow screens (splash, instructions, level select, complete)
+   2D SHARED — white elevated surfaces + dark headings (photo-card screens)
+   Use together with scene-specific classes (e.g. splash__title + 2d-heading)
+   so either class alone still styles correctly.
+   -------------------------------------------------------------------------- */
+
+.sim-network-2d-surface {
+    border-radius: 1rem;
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+}
+
+.sim-network-2d-heading {
+    margin: 0;
+    font-size: clamp(1rem, 3.5vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0f172a;
+}
+
+/* Splash tagline only — smaller than shared 2d headings so short screens stay readable. */
+.sim-network-splash__title {
+    margin: 0;
+    font-size: clamp(0.75rem, 1.75vw, 1.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 0.75rem 1rem;
+    border-radius: 0.65rem;
+}
+
+.sim-network-2d-heading.sim-network-split__title,
+.sim-network-split__title {
+    margin: 0;
+    font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #0f172a;
+}
+
+.sim-network-2d-lead,
+.sim-network-splash__lead {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: #334155;
+    max-width: 32rem;
+}
+
+.sim-network-2d-lead.sim-network-split__lead,
+.sim-network-split__lead {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    text-align: center;
+    color: #334155;
+    max-width: 32rem;
+}
+
+/* --------------------------------------------------------------------------
+   2D SHARED — flow overlay shell (all 2D scenes)
    Shell: overlay > backdrop (background only) + content (foreground UI)
    -------------------------------------------------------------------------- */
 
 .sim-network-flow-overlay {
     position: absolute;
     inset: 0;
-    z-index: 25;
+    /* Below footer HUD (~5) so help / audio / fullscreen stay visible and clickable. */
+    z-index: 4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -448,7 +526,7 @@
 }
 
 /*
- * Flow overlay sits at z-index 25 and covers the player frame.
+ * Flow overlay sits at z-index 4 (under persistent HUD).
  * Step drawer lives in #uiContainer-center — raise that slot above the overlay
  * so instructions / level-select notes stay visible beside the panels.
  * Center keeps pointer-events: none from #uiContainer; only drawer children capture clicks.
@@ -457,66 +535,13 @@
     z-index: 26;
 }
 
-/* LAYER 1 — green gradient base (content sits in __content above this). */
+/* LAYER 1 shell — paint (gradient / grid / tiles) lives in sticky styles/loading.css */
 .sim-network-flow-overlay__backdrop {
     position: absolute;
     inset: 0;
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
-    background-image: linear-gradient(to right top, #009689, #008b7f, #008075, #00756b, #006a61, #00635a, #005b53, #00544c, #004e46, #004741, #00413b, #003b36);
-}
-
-/* LAYER 2 — line grid drifting top-left → bottom-right. */
-.sim-network-flow-overlay__backdrop::before {
-    content: '';
-    position: absolute;
-    /* Oversized so moving edges never enter view (overhang > translate distance). */
-    inset: -300px;
-    z-index: 1;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 32px 32px;
-    animation: sim-network-flow-drift-grid 36s linear infinite;
-}
-
-/* 192px = 6 tiles at 32px — seamless loop; 36s ≈ half the logo-tile on-screen speed. */
-@keyframes sim-network-flow-drift-grid {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(192px, 192px);
-    }
-}
-
-/* LAYER 3 — logo tile watermark, brick stagger (2 layers), rotated -45°, drifting. */
-.sim-network-flow-overlay__backdrop::after {
-    content: '';
-    position: absolute;
-    /* Extra room so rotation never shows a hard edge. */
-    inset: -100%;
-    z-index: 2;
-    /* Two repeats of the same tile; second layer offset by half a tile = brick zigzag. */
-    background-image:
-        url('../images/sim-network-background-tile-transparent.png'),
-        url('../images/sim-network-background-tile-transparent.png');
-    background-repeat: repeat, repeat;
-    background-size: 512px 256px, 512px 256px;
-    background-position: 0 0, 256px 128px;
-    opacity: 0.1;
-    animation: sim-network-flow-drift-tile 40s linear infinite;
-}
-
-/* One tile width (512px) along the rotated x-axis = seamless up-right diagonal. */
-@keyframes sim-network-flow-drift-tile {
-    from {
-        transform: rotate(-45deg) translate(0, 0);
-    }
-    to {
-        transform: rotate(-45deg) translate(512px, 0);
-    }
 }
 
 /* Foreground slot — title / instructions / level select / complete go here.
@@ -590,7 +615,8 @@
 }
 
 /* --------------------------------------------------------------------------
-   Splash — gate card → large photo panel + white strip
+   2D — Splash (01-splash)
+   Gate card → large photo panel + white strip
    -------------------------------------------------------------------------- */
 
 .sim-network-flow-overlay--splash-gate {
@@ -612,13 +638,10 @@
     align-items: center;
     gap: 0.85rem;
     padding: 1.5rem 1.75rem;
-    border-radius: 1rem;
-    background: #ffffff;
-    color: #0f172a;
     text-align: center;
-    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
     pointer-events: none;
 }
 
@@ -627,11 +650,18 @@
 }
 
 .sim-network-splash__gate.is-gone {
+    opacity: 0;
     display: none;
 }
 
 .sim-network-splash__gate-logo {
     margin: 0;
+    width: 200px;
+    height: 50px;
+    background-image: url('../images/sim-network-title.png');
+    background-repeat: repeat;
+    background-position: 100%;
+    background-size: cover;    
 }
 
 .sim-network-splash__gate-logo img {
@@ -653,14 +683,12 @@
     display: none;
     flex-direction: column;
     /* 80% of player frame (content slot), not a fixed rem width. */
-    width: 80%;
-    height: 80%;
-    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    background: #ffffff;
-    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 1s ease;
 }
 
 .sim-network-splash__main.is-ready {
@@ -672,74 +700,152 @@
 }
 
 .sim-network-splash__hero {
+    /* Room kept clear at the bottom for tagline + START (approx strip height). */
+    --sim-network-splash-strip-reserve: 8rem;
     position: relative;
+    container-type: size;
+    container-name: splash-hero;
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
     min-height: 0;
     width: 100%;
     background-color: #e2e8f0;
     background-image: url('../images/splash-full.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background-repeat: repeat;
+    background-position: 100%;
     background-size: cover;
 }
 
+@keyframes sim-network-splash-hero-pan {
+    from {
+        background-position: 100% 50%;
+    }
+    to {
+        background-position: 0% 50%;
+    }
+}
+.sim-network-splash__hero--pan {
+    animation: sim-network-splash-hero-pan 90s linear forwards;
+}
+
+/*
+ * Logo is centered in the area ABOVE the strip reserve (option C),
+ * so it cannot sit on the tagline / START.
+ * Image cap: 50% of hero height (40% on short landscape).
+ */
 .sim-network-splash__hero-logo {
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    /*
-     * 60% of player-frame width: panel is 80% wide, so logo = 60/80 = 75% of panel.
-     */
+    top: 0;
+    bottom: var(--sim-network-splash-strip-reserve);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 75%;
-    max-width: none;
-    height: auto;
+    margin: 0;
+    padding: 0;
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: none;
+    z-index: 0;
+}
+
+.sim-network-splash__hero-logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: min(100%, 50cqh);
+    object-fit: contain;
+    opacity: 0;
+    scale: -1;
+    transform: rotate(90deg);
+    background: linear-gradient(-45deg, transparent 40%, #fafafa 50%, transparent 60%);
+    background-size: 200%;
+    background-position-x: 100%;
+}
+
+@keyframes sim-network-splash__hero-logo-appear {
+    0% {
+        opacity: 0;
+        scale: 0;
+        transform: rotate(120deg);
+        background-position-x: 100%
+    }
+    50% {
+        opacity: 1;
+        scale: 1.25;
+        transform: rotate(0deg);
+        background-position-x: 100%
+    }
+    60% {
+        opacity: 1;
+        scale: 1;
+        transform: rotate(0deg);
+        background-position-x: 100%;
+    }
+    100% {
+        opacity: 1;
+        scale: 1;
+        transform: rotate(0deg);
+        background-position-x: 0%
+    }
 }
 
 .sim-network-splash__hero-logo.is-visible {
     opacity: 1;
 }
+.sim-network-splash__hero-logo.is-visible img {
+    animation: sim-network-splash__hero-logo-appear 3s ease-in-out forwards;
+}
+
+/* Phone portrait: slightly narrower slot; <picture> source swaps the file. */
+@media (max-width: 767px) and (orientation: portrait) {
+    .sim-network-splash__hero-logo {
+        width: 70%;
+    }
+}
+
+/* Short landscape: smaller logo cap so the reserved strip stays clear. */
+@media (orientation: landscape) and (max-height: 500px) {
+    .sim-network-splash__hero {
+        --sim-network-splash-strip-reserve: 6.75rem;
+    }
+
+    .sim-network-splash__hero-logo img {
+        max-height: min(100%, 40cqh);
+    }
+}
 
 .sim-network-splash__strip {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-shrink: 0;
-    gap: 0.75rem;
-    padding: 1.25rem 1.5rem 1.5rem;
+    gap: 1.25rem;
+    padding: 1rem 1.5rem 0.5rem;
     text-align: center;
     color: #0f172a;
-    background: #ffffff;
-}
-
-.sim-network-splash__title {
-    margin: 0;
-    font-size: clamp(1.35rem, 3.5vw, 1.85rem);
-    font-weight: 700;
-    line-height: 1.2;
-    color: #0f172a;
-}
-
-.sim-network-splash__lead {
-    margin: 0;
-    font-size: 1.05rem;
-    line-height: 1.4;
-    color: #334155;
-    max-width: 32rem;
 }
 
 .sim-network-splash__cta {
-    margin-top: 0.25rem;
+    margin: 0.25rem;
+    font-size: 2rem;
+    padding: 2rem;
 }
 
 /* --------------------------------------------------------------------------
-   Split layout — photo (~60%) + content card (~40%, height fits content)
-   Used by instructions + level select.
+   2D — Split layout (02-instructions + 03-level-select)
+   Photo (~60%) + content card (~40%, height fits content)
    -------------------------------------------------------------------------- */
 
 .sim-network-split {
@@ -777,30 +883,10 @@
     align-items: stretch;
     gap: 1rem;
     padding: 1.5rem 1.35rem;
-    border-radius: 1rem;
-    background: #ffffff;
-    color: #0f172a;
-    box-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+    /* Surface look: pair with .sim-network-2d-surface in HTML */
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-gutter: stable;
-}
-
-.sim-network-split__title {
-    margin: 0;
-    font-size: clamp(1.35rem, 3.5vw, 1.85rem);
-    font-weight: 700;
-    line-height: 1.2;
-    text-align: center;
-    color: #0f172a;
-}
-
-.sim-network-split__lead {
-    margin: 0;
-    font-size: 1.05rem;
-    line-height: 1.4;
-    text-align: center;
-    color: #334155;
 }
 
 .sim-network-split__body {
@@ -884,17 +970,21 @@
     pointer-events: none;
 }
 
+/* ==========================================================================
+   DIALOGUE (2D + in-game coaching lines)
+   ========================================================================== */
+
 /* --------------------------------------------------------------------------
-   Info drawer — sim-network overrides (trim what you do not need)
-   Base styles: src/core/ui/info-drawer/infoDrawer.css
+   Dialogue — sim-network overrides (trim what you do not need)
+   Base styles: src/core/ui/dialogue/dialogue.css
    These load only on this scene via customCss. Edit values, delete unused rules.
    -------------------------------------------------------------------------- */
 
-#uiContainer-center > .info-drawer {
+#uiContainer-center > .dialogue {
     pointer-events: none;
 }
 
-.info-drawer {
+.dialogue {
     position: absolute;
     z-index: 26;
     display: flex;
@@ -905,200 +995,366 @@
     -webkit-user-select: none;
 }
 
-.info-drawer.hidden {
+.dialogue.hidden {
     display: none !important;
 }
 
 /* 9-slot docks */
-.info-drawer--top-left {
+.dialogue--top-left {
     left: 3rem;
     top: 3rem;
     flex-direction: row;
 }
 
-.info-drawer--top-center {
+.dialogue--top-center {
     left: 50%;
     top: 3rem;
     transform: translateX(-50%);
     flex-direction: column;
 }
 
-.info-drawer--top-right {
+.dialogue--top-right {
     right: 3rem;
     top: 3rem;
     flex-direction: row-reverse;
 }
 
-.info-drawer--center-left {
+.dialogue--center-left {
     left: 3rem;
     top: 50%;
     transform: translateY(-50%);
     flex-direction: row;
 }
 
-.info-drawer--center {
+.dialogue--center {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     flex-direction: row;
 }
 
-.info-drawer--center-right {
+.dialogue--center-right {
     right: 3rem;
     top: 50%;
     transform: translateY(-50%);
     flex-direction: row-reverse;
 }
 
-.info-drawer--bottom-left {
+.dialogue--bottom-left {
     left: 3rem;
     bottom: 3rem;
     flex-direction: row;
 }
 
-.info-drawer--bottom-center {
+.dialogue--bottom-center {
     left: 50%;
     bottom: 3rem;
     transform: translateX(-50%);
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 
-.info-drawer--bottom-right {
+.dialogue--bottom-right {
     right: 3rem;
     bottom: 3rem;
     flex-direction: row-reverse;
 }
 
 @media (max-width: 767px) and (orientation: portrait) {
-    .info-drawer--top-left,
-    .info-drawer--center-left,
-    .info-drawer--bottom-left {
+    .dialogue--top-left,
+    .dialogue--center-left,
+    .dialogue--bottom-left {
         left: 1rem;
     }
 
-    .info-drawer--top-right,
-    .info-drawer--center-right,
-    .info-drawer--bottom-right {
+    .dialogue--top-right,
+    .dialogue--center-right,
+    .dialogue--bottom-right {
         right: 1rem;
     }
 
-    .info-drawer--top-left,
-    .info-drawer--top-center,
-    .info-drawer--top-right {
+    .dialogue--top-left,
+    .dialogue--top-center,
+    .dialogue--top-right {
         top: 1rem;
     }
 
-    .info-drawer--center-left,
-    .info-drawer--center-right,
-    .info-drawer--center {
+    .dialogue--center-left,
+    .dialogue--center-right,
+    .dialogue--center {
         top: 30%;
     }
 
-    .info-drawer--bottom-left,
-    .info-drawer--bottom-center,
-    .info-drawer--bottom-right {
+    .dialogue--bottom-left,
+    .dialogue--bottom-center,
+    .dialogue--bottom-right {
         bottom: 1rem;
     }
 
-    .info-drawer__panel {
+    .dialogue--look-compact .dialogue__stack {
         max-width: min(16rem, calc(100% - 5rem));
     }
 }
 
-.info-drawer__toggle {
+/* Slot owns half-out position (must match core dialogue.css — do not put translate on .dialogue__action). */
+.dialogue__action-slot {
+    position: absolute;
+    z-index: 3;
+    right: 0.75rem;
+    bottom: 0;
+    transform: translateY(50%);
     flex-shrink: 0;
-    z-index: 2;
     pointer-events: auto;
-    color: var(--color-primary-content, #fff);
 }
 
-.info-drawer__toggle.hidden {
+.dialogue__action-slot.hidden {
     display: none !important;
     pointer-events: none;
 }
 
-.info-drawer__toggle svg {
-    color: inherit;
+.dialogue__action {
+    pointer-events: auto;
+    color: var(--color-primary-content, #fff);
 }
 
-.info-drawer__toggle-input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+.dialogue__action.hidden {
+    display: none !important;
     pointer-events: none;
 }
 
-.info-drawer__panel {
+.dialogue__action svg {
+    color: inherit;
+}
+
+.dialogue__stack {
     flex-shrink: 0;
-    max-width: min(20rem, calc(100% - 5rem));
-    padding: 0.75rem 1rem;
-    border-radius: 1rem;
-    background: rgb(255 255 255 / 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 4px 24px rgb(0 0 0 / 0.15);
-    color: var(--color-base-content, #1e293b);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
     transform: translateX(0);
     opacity: 1;
     transition:
         transform 220ms ease,
         opacity 220ms ease;
     will-change: transform, opacity;
+    color: var(--color-base-content, #1e293b);
 }
 
-.info-drawer__title {
-    font-size: 1.4rem; /* was 0.95rem — doubled for sim-network */
+/* Compact — sim-network larger type than core defaults */
+.dialogue--look-compact .dialogue__stack {
+    position: relative;
+    flex-direction: row;
+    max-width: min(20rem, calc(100% - 5rem));
+    padding: 0.75rem 1rem;
+    overflow: visible;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.15);
+}
+
+.dialogue--look-compact .dialogue__panel {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    padding-bottom: 0.35rem;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.dialogue--look-compact .dialogue__title {
+    font-size: 1.4rem;
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 0.35rem;
 }
 
-.info-drawer__body {
-    font-size: 1.15rem; /* was 0.875rem — doubled for sim-network */
+.dialogue--look-compact .dialogue__body {
+    font-size: 1.15rem;
     line-height: 1.45;
     opacity: 0.9;
     white-space: pre-line;
 }
 
-/* Closed / open slide + fade (usually keep unless changing animation) */
-.info-drawer--top-left.is-closed .info-drawer__panel,
-.info-drawer--center-left.is-closed .info-drawer__panel,
-.info-drawer--bottom-left.is-closed .info-drawer__panel {
+/* Full — fill most of the player frame; text overlaid on lower band.
+   Cap at 1660px on large/4K screens and center the stage inside the dialogue root. */
+.dialogue.dialogue--look-full {
+    width: min(82%, 1660px);
+    height: 90%;
+    max-width: 1660px;
+    max-height: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogue--look-full .dialogue__stack {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 1660px;
+    max-height: none;
+    margin-inline: auto;
+    padding: 0;
+    gap: 0;
+    overflow: visible;
+    border-radius: 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.dialogue--look-full .dialogue__avatar {
+    width: 100%;
+    height: 100%;
+    max-width: 1660px;
+    margin-inline: auto;
+    border-radius: 0.5rem;
+}
+
+.dialogue--look-full .dialogue__avatar.hidden {
+    display: block !important;
+    background: rgb(15 23 42 / 0.35);
+}
+
+.dialogue--look-full .dialogue__panel {
+    position: absolute;
+    z-index: 1;
+    left: 8%;
+    right: 8%;
+    bottom: 4%;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    padding: 1.35rem 1.6rem;
+    padding-bottom: 1.85rem;
+    border-radius: 0.25rem;
+    background: rgb(220 225 232 / 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.18);
+}
+
+.dialogue--look-full .dialogue__action-slot {
+    bottom: 4%;
+    right: calc(8% + 0.75rem);
+}
+
+.dialogue--look-full .dialogue__title {
+    font-size: clamp(1.55rem, 2.6vh, 2.2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+
+.dialogue--look-full .dialogue__body {
+    font-size: clamp(1.25rem, 2.3vh, 1.7rem);
+    line-height: 1.45;
+    opacity: 0.95;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Closed / open slide + fade — animate stack so avatar + box move together */
+.dialogue--top-left.is-closed .dialogue__stack,
+.dialogue--center-left.is-closed .dialogue__stack,
+.dialogue--bottom-left.is-closed .dialogue__stack {
     transform: translateX(calc(-100% - 0.75rem));
     opacity: 0;
     pointer-events: none;
 }
 
-.info-drawer--top-right.is-closed .info-drawer__panel,
-.info-drawer--center-right.is-closed .info-drawer__panel,
-.info-drawer--bottom-right.is-closed .info-drawer__panel {
+.dialogue--top-right.is-closed .dialogue__stack,
+.dialogue--center-right.is-closed .dialogue__stack,
+.dialogue--bottom-right.is-closed .dialogue__stack {
     transform: translateX(calc(100% + 0.75rem));
     opacity: 0;
     pointer-events: none;
 }
 
-.info-drawer--top-center.is-closed .info-drawer__panel {
+.dialogue--top-center.is-closed .dialogue__stack {
     transform: translateY(calc(-100% - 0.75rem));
     opacity: 0;
     pointer-events: none;
 }
 
-.info-drawer--bottom-center.is-closed .info-drawer__panel {
+.dialogue--bottom-center.is-closed .dialogue__stack {
     transform: translateY(calc(100% + 0.75rem));
     opacity: 0;
     pointer-events: none;
 }
 
-.info-drawer--center.is-closed .info-drawer__panel {
+.dialogue--center.is-closed .dialogue__stack {
     transform: none;
     opacity: 0;
     pointer-events: none;
 }
 
-.info-drawer.is-open .info-drawer__panel {
+.dialogue.is-open .dialogue__stack {
     transform: none;
     opacity: 1;
     pointer-events: auto;
 }
 
+/* ==========================================================================
+   HTML TIMELINE CLIP MOTION
+   ========================================================================== */
+
+/* Phase 5 HTML clip proof — class toggles; CSS owns the motion */
+.html-clip-proof-glow {
+    text-shadow: 0 0 0.65rem rgba(34, 211, 238, 0.85);
+    color: #67e8f9;
+    transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+@keyframes html-clip-fade-up-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.html-clip-anim-fade-up {
+    animation: html-clip-fade-up-in 1s ease-out forwards;
+}
+
+@keyframes html-clip-drop-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(160px);
+    }
+}
+
+.html-clip-anim-drop-out {
+    animation: html-clip-drop-out 2s ease-in-out forwards;
+}
+
+@keyframes html-clip-drop-in {
+    from {
+        opacity: 0;
+        transform: translateY(160px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.html-clip-anim-drop-in {
+    animation: html-clip-drop-in 2s ease-in-out forwards;
+}

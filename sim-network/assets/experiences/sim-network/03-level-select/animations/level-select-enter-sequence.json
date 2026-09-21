@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "sim-network",
+  "autoPlay": true,
+  "items": [
+    {
+      "type": "clip",
+      "id": "clip-1",
+      "kind": "html",
+      "startTime": 1,
+      "html": {
+        "selector": "#sim-network-instructions-overlay .sim-network-split",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "html-clip-anim-fade-up",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 0.1,
+      "event": "event:show-dialogue",
+      "label": "show-level-select-01",
+      "detail": {
+        "contentKey": "levelselect-01"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 20,
+      "event": "event:hide-dialogue",
+      "label": "hide-instructions-level-select-01",
+      "subLane": 1,
+      "detail": {
+        "contentKey": "levelselect-01"
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "label": "03-level-select scene timeline",
+      "color": "#ff8800",
+      "startTime": 0,
+      "endTime": 20
+    }
+  ],
+  "regions": [
+    {
+      "id": "region-1",
+      "label": "dialogue 01",
+      "color": "#4488ff",
+      "startTime": 0,
+      "endTime": 1.5
+    },
+    {
+      "id": "region-2",
+      "label": "level select",
+      "color": "#4488ff",
+      "startTime": 1.5,
+      "endTime": 20
+    }
+  ],
+  "rowOrder": [
+    [
+      "clip-1"
+    ],
+    [],
+    [],
+    [],
+    []
+  ]
+}
