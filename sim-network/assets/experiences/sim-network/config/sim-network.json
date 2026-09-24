@@ -54,52 +54,52 @@
     "audio": [
       {
         "id": "default-ui-click",
-        "path": "./assets/experiences/sim-network/audio/sfx-00.ogg",
+        "path": "./assets/experiences/sim-network/audio/click.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.9,
         "autoplay": false,
         "maxInstances": 3
       },
       {
         "id": "default-ui-hover",
-        "path": "./assets/experiences/sim-network/audio/sfx-01.ogg",
+        "path": "./assets/experiences/sim-network/audio/hover.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.8,
         "autoplay": false,
         "maxInstances": 3
       },
       {
         "id": "default-ui-open",
-        "path": "./assets/experiences/sim-network/audio/sfx-02.ogg",
+        "path": "./assets/experiences/sim-network/audio/ui-open.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.9,
         "autoplay": false,
         "maxInstances": 2
       },
       {
         "id": "default-ui-close",
-        "path": "./assets/experiences/sim-network/audio/sfx-03.ogg",
+        "path": "./assets/experiences/sim-network/audio/ui-close.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.9,
         "autoplay": false,
         "maxInstances": 2
       },
       {
         "id": "default-sys-next",
-        "path": "./assets/experiences/sim-network/audio/sfx-04.ogg",
+        "path": "./assets/experiences/sim-network/audio/next.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.45,
         "autoplay": false,
         "maxInstances": 1
       },
       {
         "id": "default-sys-error",
-        "path": "./assets/experiences/sim-network/audio/sfx-05.ogg",
+        "path": "./assets/experiences/sim-network/audio/no-drop-error.mp3",
         "tag": "sfx",
         "loop": false,
         "volume": 1,
@@ -108,23 +108,22 @@
       },
       {
         "id": "default-sys-success",
-        "path": "./assets/experiences/sim-network/audio/sfx-06.ogg",
+        "path": "./assets/experiences/sim-network/audio/success.mp3",
         "tag": "sfx",
         "loop": false,
-        "volume": 1,
+        "volume": 0.88,
         "autoplay": false,
         "maxInstances": 1
       },
       {
         "id": "default-ui-typewriter",
-        "path": "./assets/experiences/sim-network/audio/sfx-07.ogg",
+        "path": "./assets/experiences/sim-network/audio/typewriter.mp3",
         "tag": "sfx",
         "loop": false,
         "volume": 1,
         "autoplay": false,
-        "maxInstances": 2
+        "maxInstances": 1
       }
-     
     ]
   },
   "initialScene": "01-splash",
@@ -171,13 +170,13 @@
       "audio": [
         {
           "id": "music-title",
-          "path": "./assets/experiences/sim-network/audio/music-title.ogg",
+          "path": "./assets/experiences/sim-network/audio/ThemeTitleMusic01.cm_2-04.mp3",
           "tag": "music",
           "loop": true,
-          "volume": 0.5,
+          "volume": 0.6,
           "autoplay": true,
           "maxInstances": 1
-        }  
+        }
       ]
     },
     {
@@ -230,13 +229,13 @@
       "audio": [
         {
           "id": "music-instruct-select",
-          "path": "./assets/experiences/sim-network/audio/music-instruct-select.ogg",
+          "path": "./assets/experiences/sim-network/audio/mus-instruct-select.mp3",
           "tag": "music",
           "loop": true,
-          "volume": 0.5,
+          "volume": 0.45,
           "autoplay": true,
           "maxInstances": 1
-        }      
+        }  
       ]
     },
     {
@@ -281,13 +280,13 @@
       "audio": [
         {
           "id": "music-instruct-select",
-          "path": "./assets/experiences/sim-network/audio/music-instruct-select.ogg",
+          "path": "./assets/experiences/sim-network/audio/mus-instruct-select.mp3",
           "tag": "music",
           "loop": true,
-          "volume": 0.5,
+          "volume": 0.45,
           "autoplay": true,
           "maxInstances": 1
-        }
+        }  
       ]
     },
     {
@@ -412,7 +411,7 @@
       "audio": [
         {
           "id": "music-in-game",
-          "path": "./assets/experiences/sim-network/audio/music-in-game.ogg",
+          "path": "./assets/experiences/sim-network/audio/mus-in-game.mp3",
           "tag": "music",
           "loop": true,
           "volume": 0.5,
@@ -421,7 +420,7 @@
         },
         {
           "id": "drop-component",
-          "path": "./assets/experiences/sim-network/audio/sfx-08.ogg",
+          "path": "./assets/experiences/sim-network/audio/drop-component.mp3",
           "tag": "sfx",
           "loop": false,
           "volume": 1,
@@ -430,7 +429,7 @@
         },
         {
           "id": "no-drop",
-          "path": "./assets/experiences/sim-network/audio/sfx-09.ogg",
+          "path": "./assets/experiences/sim-network/audio/no-drop-error.mp3",
           "tag": "sfx",
           "loop": false,
           "volume": 1,
@@ -439,58 +438,58 @@
         },
         {
           "id": "remove-component",
-          "path": "./assets/experiences/sim-network/audio/sfx-10.ogg",
+          "path": "./assets/experiences/sim-network/audio/remove-component.mp3",
           "tag": "sfx",
           "loop": false,
-          "volume": 1,
+          "volume": 0.9,
           "autoplay": false,
           "maxInstances": 4
         },
         {
           "id": "drop-cable",
-          "path": "./assets/experiences/sim-network/audio/sfx-11.ogg",
+          "path": "./assets/experiences/sim-network/audio/drop-cable.mp3",
           "tag": "sfx",
           "loop": false,
-          "volume": 1,
+          "volume": 0.65,
           "autoplay": false,
           "maxInstances": 4
         },
         {
           "id": "connect-cable",
-          "path": "./assets/experiences/sim-network/audio/sfx-12.ogg",
+          "path": "./assets/experiences/sim-network/audio/connect-cable.mp3",
           "tag": "sfx",
           "loop": false,
-          "volume": 1,
+          "volume": 0.6,
           "autoplay": false,
           "maxInstances": 4
         },
         {
           "id": "test-connection",
-          "path": "./assets/experiences/sim-network/audio/sfx-13.ogg",
+          "path": "./assets/experiences/sim-network/audio/test-connect.mp3",
           "tag": "sfx",
           "loop": false,
-          "volume": 1,
+          "volume": 0.63,
           "autoplay": false,
           "maxInstances": 1
         },
         {
           "id": "device-selection",
-          "path": "./assets/experiences/sim-network/audio/sfx-14.ogg",
+          "path": "./assets/experiences/sim-network/audio/device-select.mp3",
           "tag": "sfx",
           "loop": false,
-          "volume": 1,
+          "volume": 0.5,
           "autoplay": false,
           "maxInstances": 4
         },
         {
           "id": "cell-selection",
-          "path": "./assets/experiences/sim-network/audio/sfx-15.ogg",
+          "path": "./assets/experiences/sim-network/audio/cell-selection.mp3",
           "tag": "sfx",
           "loop": false,
           "volume": 1,
           "autoplay": false,
           "maxInstances": 4
-        }        
+        }     
       ],
       "referenceModels": [],
       "dimensions": [],
@@ -864,7 +863,7 @@
       "audio": [
         {
           "id": "music-complete",
-          "path": "./assets/experiences/sim-network/audio/music-complete.ogg",
+          "path": "./assets/experiences/sim-network/audio/ThemeTitleMusic01.cm_2-04.mp3",
           "tag": "music",
           "loop": true,
           "volume": 0.5,
