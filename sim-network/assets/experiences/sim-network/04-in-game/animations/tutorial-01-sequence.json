@@ -43,7 +43,8 @@
         {
           "kind": "camera"
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "type": "clip",
@@ -102,7 +103,8 @@
           "to": 1
         }
       },
-      "startTime": 57.3
+      "startTime": 57.3,
+      "disabled": true
     },
     {
       "type": "clip",
@@ -161,7 +163,8 @@
           "to": 1
         }
       },
-      "startTime": 55.3
+      "startTime": 55.3,
+      "disabled": true
     },
     {
       "type": "emit",
@@ -241,7 +244,7 @@
       "label": "show-step-1",
       "subLane": 0,
       "detail": {
-        "contentKey": "step-1"
+        "contentKey": "level-01-tutorial-01-1"
       }
     },
     {
@@ -420,7 +423,8 @@
           }
         },
         "autoRotate": false
-      }
+      },
+      "disabled": true
     },
     {
       "type": "emit",

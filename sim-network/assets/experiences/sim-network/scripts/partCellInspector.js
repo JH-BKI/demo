@@ -504,7 +504,7 @@ export function initializePartCellInspector(scene) {
 
     panelEl = document.createElement('div');
     panelEl.className =
-        'sim-network-cell-inspector flex flex-col items-stretch gap-1 min-w-[14rem] max-w-[min(36rem,94vw)] bg-base-100/20 backdrop-blur-2xl rounded-2xl p-2 pointer-events-auto select-none absolute bottom-4';
+        'sim-network-cell-inspector flex flex-col items-stretch gap-1 min-w-[14rem] bg-base-100/20 backdrop-blur-2xl rounded-2xl p-2 pointer-events-auto select-none absolute bottom-4';
     panelEl.setAttribute('role', 'region');
     panelEl.setAttribute('aria-label', 'Cell device and connections');
     panelEl.hidden = true;

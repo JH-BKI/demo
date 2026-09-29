@@ -45,7 +45,7 @@
       "interactable": true,
       "showConnectionStatus": true,
       "interactableMessage": [
-        "Comms Cupboard",
+        "Comms Box",
         "<p>Open the comms cupboard to access the network cables.</p>"
       ],
       "droppable": false,

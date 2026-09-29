@@ -74,18 +74,26 @@ export async function createScene(scene, sceneId) {
     const contentEl = document.createElement('div');
     contentEl.className = 'sim-network-flow-overlay__content';
     contentEl.innerHTML =
-        '<div class="sim-network-split__card sim-network-2d-surface opacity-0 w-1/2 md:w-full">' +
-        '<h1 class="sim-network-split__title sim-network-2d-heading">How to play</h1>' +
-        '<h2>THE BRIEF:</h2>' +
-        '<p>The company "eNetworks" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p>' +
-        '<p>Place devices on the grid, connect cables along the floor, and press <strong>Test</strong> to check connectivity from the Comms Cupboard.</p>' +
+        '<div class="sim-network-split__card sim-network-2d-surface opacity-0">' +
+        '<img class="max-w-sm mx-auto" src="./assets/experiences/sim-network/images/sim-network-title.png" alt="SIM NETWORK" />'+
+        '<h2 class="sim-network-split__title sim-network-2d-heading">Your Objective:</h2>' +
+        '<h3>THE BRIEF:</h3>' +
+        '<p>Our new client, "eNetworks", is setting up new offices in multiple locations.</p>' +
+        '<p>As our new trainee, you are tasked with bringing internet connectivity to all company devices.</p>' +
+        '<p>Each office has a different type of network and quantities of devices to connect.</p>'+
+        '<p>There are 7 levels to complete, each with a different difficulty and challenge.</p>' +
+        '<p>Complete each level to unlock the next.</p><BR>' +
+        '<h2 class="sim-network-split__title sim-network-2d-heading">How to play:</h2>' +
+        '<p>Using common networking devices, create and configure <strong>WIRED</strong>, <strong>WIRELESS</strong> and <strong>HYBRID</strong> networks to suit the office devices.</p>' +
         '<ol class="list-decimal pl-5 space-y-2 sim-network-flow-overlay__list">' +
-        '<li>Use the left palette to place network devices on the grid.</li>' +
-        '<li>Use <strong>Cable</strong> mode to connect devices.</li>' +
-        '<li>Press <strong>Test</strong> to verify the network.</li>' +
-        '<li>Complete each difficulty track to unlock the next.</li>' +
+        '<li>Use the left menu to select and place network devices on the grid.</li>' +
+        '<li>Use <strong>cables</strong> to connect <strong>wired/LAN</strong> network devices.</li>' +
+        '<li>Use <strong>wireless</strong> devices to connect <strong>WIFI</strong> network devices.</li>' +
+        '<li>Select <strong>Test Connection</strong> to verify the status of the network at anytime.</li>' +
+        '<li>Training, tips and tricks will be made available as you progress through each of the 7 levels.</li>' +
+        '<li>Select the </strong>Help</strong> button, bottom left at anytime if you get stuck.</li>' +
         '</ol>'+    
-        '<button type="button" class="btn btn-primary btn-lg sim-network-split__cta" data-action="continue">Continue</button>' +
+        '<button type="button" class="btn btn-primary btn-lg sim-network-split__cta btn-ping" data-action="continue">Next</button>' +
         '</div>' +
         '</div>';
 

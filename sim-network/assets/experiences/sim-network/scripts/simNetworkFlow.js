@@ -43,15 +43,21 @@ import {
     initTutorialCoach
 } from './sim-network-tutorial-coach.js';
 import {
+    disposeExitButton,
+    initExitButton
+} from './sim-network-exit-button.js';
+import {
     snapshotSimNetworkPerfProbe,
     startSimNetworkPerfProbe,
     stopSimNetworkPerfProbe
 } from './simNetworkPerfProbe.js';
 import {
     allDifficultiesComplete,
+    clearCurrentTrackSelection,
     getCurrentMapEntry,
     getSimNetworkSession,
     isLastMapInTrack,
+    markMapComplete,
     parseDifficulties
 } from './simNetworkSession.js';
 
@@ -169,6 +175,18 @@ function unbindTestFlowListener() {
     }
 }
 
+/**
+ * Credit the active layout as complete for this page visit (idempotent).
+ * Completed maps stay complete even if the player later EXIT mid-replay.
+ */
+function creditCurrentMapComplete() {
+    const entry = getCurrentMapEntry(difficulties);
+    if (!entry) {
+        return;
+    }
+    markMapComplete(difficulties, entry.id);
+}
+
 function bindTestFlowListener() {
     unbindTestFlowListener();
     const session = getSimNetworkSession();
@@ -176,21 +194,35 @@ function bindTestFlowListener() {
         const action = /** @type {CustomEvent} */ (event).detail?.action;
         console.log(
             `[simNetworkFlow.js]: [N/A] - [testFlowListener] - action has a value of ${action}, mapIndex has a value of ${session.mapIndex}, difficultyId has a value of ${session.selectedDifficultyId}.`
-        ); //This is logged when the Test dialog asks the flow to retry or continue.
+        ); //This is logged when the Test dialog asks the flow to retry, continue, or go back.
+
+        if (action === 'map-passed') {
+            creditCurrentMapComplete();
+            return;
+        }
 
         if (action === 'retry') {
             void flowManager?.restart();
             return;
         }
 
+        if (action === 'go-back') {
+            creditCurrentMapComplete();
+            clearCurrentTrackSelection();
+            console.log(
+                `[simNetworkFlow.js]: [N/A] - [testFlowListener] - goBackConfirmed has a value of true, targetSceneId has a value of 03-level-select.`
+            ); //This is logged when Go Back Yes returns to level-select after a pass (credit kept).
+            void getHost().switchToScene('03-level-select');
+            return;
+        }
+
         if (action === 'continue') {
+            creditCurrentMapComplete();
             if (isLastMapInTrack(difficulties)) {
-                if (session.selectedDifficultyId) {
-                    session.completedDifficulties.add(session.selectedDifficultyId);
-                }
-                session.selectedDifficultyId = null;
-                session.mapIndex = 0;
-                const nextScene = allDifficultiesComplete(difficulties) ? '05-complete' : '03-level-select';
+                clearCurrentTrackSelection();
+                const nextScene = allDifficultiesComplete(difficulties)
+                    ? '05-complete'
+                    : '03-level-select';
                 console.log(
                     `[simNetworkFlow.js]: [N/A] - [testFlowListener] - trackOrAllDone has a value of true, targetSceneId has a value of ${nextScene}.`
                 ); //This is logged when leaving in-game after finishing a track (or all tracks).
@@ -213,6 +245,7 @@ function teardownPlay(options = {}) {
     stopSimNetworkPerfProbe();
     disposeStageSequence();
     unbindTestFlowListener();
+    disposeExitButton();
     disposeTutorialDialogue();
     disposeTutorialCoach();
     disposePartNetworkTest();
@@ -273,6 +306,7 @@ async function startPlay(entry) {
     initializePartCellHighlight(boundScene, layout);
     initializePartCellInspector(boundScene);
     initializePartNetworkTest(boundScene, { stageRole: mapKind });
+    initExitButton();
     bindTestFlowListener();
     playActive = true;
     startSimNetworkPerfProbe(boundScene, {

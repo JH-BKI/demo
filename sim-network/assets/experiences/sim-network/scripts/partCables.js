@@ -1847,7 +1847,7 @@ const NETWORK_TEST_DIALOG_ID = 'sim-network-network-test-dialog';
 
 /**
  * Flow listens for this after a successful Test.
- * tutorial: retry | continue — office: retry | back-title
+ * Actions: map-passed | retry | continue | go-back
  */
 export const EVENT_SIM_NETWORK_TEST_FLOW = 'sim-network:test-flow-action';
 const NETWORK_TEST_ROUTER_PART_ID = 'router';
@@ -1895,9 +1895,13 @@ let networkTestPendingResult = null;
 let networkTestDialogApi = null;
 /** @type {((this: HTMLDialogElement, ev: Event) => void) | null} */
 let networkTestDialogCloseHandler = null;
+/** @type {{ open: Function, close: Function, dispose: Function, getDialogElement?: Function } | null} */
+let networkTestGoBackConfirmApi = null;
+/** @type {boolean} */
+let networkTestGoBackConfirmOpen = false;
 /**
  * Meshes tinted for the open Test result (fail red / connected blue).
- * Explore hover must not clear these until Try again / Retry / Continue / Back to title.
+ * Explore hover must not clear these until Try again / Retry / Continue / Go Back.
  * @type {Map<import('@babylonjs/core').AbstractMesh, 'fail' | 'connected'>}
  */
 let networkTestOverlayByMesh = new Map();
@@ -2379,7 +2383,7 @@ function ensureNetworkTestDialog() {
 }
 
 /**
- * @param {'retry' | 'continue' | 'back-title'} action
+ * @param {'retry' | 'continue' | 'go-back' | 'map-passed'} action
  */
 function dispatchNetworkTestFlowAction(action) {
     window.dispatchEvent(
@@ -2390,7 +2394,81 @@ function dispatchNetworkTestFlowAction(action) {
 }
 
 /**
- * Pass footer: Retry + Continue for both tutorial and level maps.
+ * Blocking confirm for Go Back on the pass footer (same copy as EXIT).
+ * @param {object} host
+ * @param {() => void} onYes
+ */
+function openNetworkTestGoBackConfirm(host, onYes) {
+    if (networkTestGoBackConfirmOpen) {
+        console.log(
+            `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmOpen has a value of true.`
+        ); //This is logged when Go Back is clicked while the leave confirm is already open.
+        return;
+    }
+
+    if (!networkTestGoBackConfirmApi) {
+        networkTestGoBackConfirmApi = host.createGenericDialogPanel({
+            id: 'sim-network-test-go-back-confirm',
+            allowBackdropClose: true,
+            closeOnEscape: true,
+            hideCloseButton: false,
+            footerAlign: 'end',
+            nonBlocking: false,
+        });
+    }
+
+    networkTestGoBackConfirmOpen = true;
+    const dialogApi = networkTestGoBackConfirmApi;
+    const dialogEl = dialogApi.getDialogElement?.();
+    if (dialogEl) {
+        const onClose = () => {
+            networkTestGoBackConfirmOpen = false;
+            dialogEl.removeEventListener('close', onClose);
+        };
+        dialogEl.addEventListener('close', onClose);
+    }
+
+    dialogApi.open({
+        title: 'Leave this level?',
+        bodyHtml: '<p>Are you sure you want to go back?</p>',
+        footerHtml: '',
+        nonBlocking: false,
+        bind: ({ footerEl, close }) => {
+            const yesWrap = host.button(
+                'sim-network-test-go-back-yes',
+                'primary',
+                { iconName: '', iconOnly: false, iconPosition: 'before' },
+                { text: 'Yes', tooltipPosition: 'top' },
+                () => {
+                    console.log(
+                        `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmResponse has a value of YES.`
+                    ); //This is logged when the learner confirms Go Back to level-select after a pass.
+                    networkTestGoBackConfirmOpen = false;
+                    close();
+                    onYes();
+                }
+            );
+            const noWrap = host.button(
+                'sim-network-test-go-back-no',
+                'neutral',
+                { iconName: '', iconOnly: false, iconPosition: 'before' },
+                { text: 'No', tooltipPosition: 'top' },
+                () => {
+                    console.log(
+                        `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmResponse has a value of NO.`
+                    ); //This is logged when the learner cancels Go Back and stays on the pass dialog.
+                    networkTestGoBackConfirmOpen = false;
+                    close();
+                }
+            );
+            footerEl.appendChild(yesWrap);
+            footerEl.appendChild(noWrap);
+        },
+    });
+}
+
+/**
+ * Pass footer: Retry + Continue + Go Back for both tutorial and level maps.
  * Flow decides whether Continue advances the track or returns to level select.
  * Built with host.button so default UI hover/click SFX apply.
  * @param {object} host
@@ -2424,8 +2502,24 @@ function mountNetworkTestPassFooter(host, ctx) {
             dispatchNetworkTestFlowAction('continue');
         }
     );
+    const goBackWrap = host.button(
+        'sim-network-test-go-back',
+        'neutral',
+        { iconName: '', iconOnly: false, iconPosition: 'before' },
+        { text: 'Go Back', tooltipPosition: 'top' },
+        () => {
+            openNetworkTestGoBackConfirm(host, () => {
+                clearNetworkTestCableFlow();
+                clearNetworkTestFailHighlights();
+                resetNetworkTestControl();
+                close();
+                dispatchNetworkTestFlowAction('go-back');
+            });
+        }
+    );
     footerEl.appendChild(retryWrap);
     footerEl.appendChild(continueWrap);
+    footerEl.appendChild(goBackWrap);
 }
 
 /**
@@ -2641,6 +2735,9 @@ function finishNetworkTestAfterProgress(result) {
     notifyNetworkEditsLockChanged();
     // Cable-flow particles already started with the progress bar; keep looping.
     openNetworkTestResultDialog(result);
+    if (result.passed) {
+        dispatchNetworkTestFlowAction('map-passed');
+    }
     console.log(
         `[partCables.js]: [N/A] - [finishNetworkTestAfterProgress] - passed has a value of ${result.passed}, targetPercent has a value of ${targetPercent}, editsLocked has a value of ${networkEditsLockedAfterPass}, progressBarHidden has a value of true.`
     ); //This is logged when the progress alert finishes, the bar is hidden, and results are shown.
@@ -2825,6 +2922,9 @@ export function disposePartNetworkTest() {
     networkTestDialogCloseHandler = null;
     networkTestDialogApi?.dispose();
     networkTestDialogApi = null;
+    networkTestGoBackConfirmOpen = false;
+    networkTestGoBackConfirmApi?.dispose();
+    networkTestGoBackConfirmApi = null;
     lastNetworkTestPassed = false;
     networkEditsLockedAfterPass = false;
     networkTestStageRole = 'level';

@@ -18,6 +18,12 @@ let clearSplashGateInput = null;
 let splashSequenceReadyForGate = false;
 /** True when the learner already continued before the wait gate was listening. */
 let splashGateContinueRequested = false;
+/**
+ * True after the learner has dismissed the splash gate once this browser-tab visit.
+ * Not cleared on dispose — return visits (e.g. EXIT from level-select) skip the gate card
+ * but still play the title/logo enter sequence. Cleared only on full page reload.
+ */
+let splashGateUnlockedThisVisit = false;
 
 /**
  * @returns {{
@@ -117,9 +123,10 @@ function armSplashGateInput(host, mainEl) {
         }
         gateDone = true;
         splashGateContinueRequested = true;
+        splashGateUnlockedThisVisit = true;
         teardownSplashGateInput();
         console.log(
-            `[sim-network-splash.js]: [N/A] - [armSplashGateInput] - gateContinue has a value of true, sequenceReady has a value of ${splashSequenceReadyForGate}.`
+            `[sim-network-splash.js]: [N/A] - [armSplashGateInput] - gateContinue has a value of true, sequenceReady has a value of ${splashSequenceReadyForGate}, splashGateUnlockedThisVisit has a value of true.`
         ); //This is logged when the learner dismisses the splash gate via click or key.
         playSfx(host, 'default-sys-next');
         mainEl.setAttribute('aria-hidden', 'false');
@@ -194,7 +201,30 @@ export async function createScene(scene, sceneId) {
 
     splashSequenceReadyForGate = false;
     splashGateContinueRequested = false;
-    armSplashGateInput(host, mainEl);
+
+    const splashRootEl = contentEl.querySelector('.sim-network-splash');
+    const gateEl = contentEl.querySelector('[data-splash-gate]');
+    const skipGateCard = splashGateUnlockedThisVisit === true;
+
+    if (skipGateCard) {
+        // Return visit: no touch-to-begin card; auto-release the sequence wait so title/logo still animate.
+        splashGateContinueRequested = true;
+        if (splashRootEl instanceof HTMLElement) {
+            splashRootEl.classList.add('sim-network-splash--skip-gate');
+        }
+        if (gateEl instanceof HTMLElement) {
+            gateEl.classList.remove('is-visible');
+        }
+        mainEl.setAttribute('aria-hidden', 'false');
+        console.log(
+            `[sim-network-splash.js]: [N/A] - [createScene] - skipGateCard has a value of true, splashGateUnlockedThisVisit has a value of true.`
+        ); //This is logged when splash reopens mid-visit and skips the audio-unlock gate card.
+    } else {
+        armSplashGateInput(host, mainEl);
+        console.log(
+            `[sim-network-splash.js]: [N/A] - [createScene] - skipGateCard has a value of false, splashGateUnlockedThisVisit has a value of false.`
+        ); //This is logged when splash arms the first-visit touch/key gate for audio unlock.
+    }
 
     const beginBtn = contentEl.querySelector('[data-action="begin"]');
     beginBtn?.addEventListener('click', (event) => {

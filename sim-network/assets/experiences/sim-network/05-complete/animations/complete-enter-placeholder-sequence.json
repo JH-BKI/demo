@@ -7,9 +7,9 @@
   "items": [
     {
       "type": "clip",
-      "id": "clip-enter-1",
+      "id": "clip-1",
       "kind": "html",
-      "startTime": 0,
+      "startTime": 2,
       "html": {
         "selector": "#sim-network-flow-overlay .sim-network-flow-overlay__panel--complete",
         "durationSeconds": 0,
@@ -17,6 +17,46 @@
         "className": "html-clip-anim-fade-up",
         "classAction": "add"
       }
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 0.5,
+      "trigger": {
+        "kind": "event",
+        "name": "event:dialogue-complete-complete-01"
+      },
+      "label": "",
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 0.2,
+      "event": "event:show-dialogue",
+      "label": "",
+      "detail": {
+        "contentKey": "complete-01"
+      },
+      "subLane": 0
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 1,
+      "event": "event:hide-dialogue",
+      "label": "",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "complete-01"
+      }
     }
+  ],
+  "chapters": [],
+  "regions": [],
+  "rowOrder": [
+    [
+      "clip-1"
+    ]
   ]
 }

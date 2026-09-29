@@ -1,9 +1,14 @@
 /**
  * Sim Network complete scene (type 2d) — all tracks done; Play again → level-select.
+ * Keeps session completions so level-select still shows finished levels.
  * Phase 5.5: plays complete-enter-placeholder-sequence.json after mount.
+ * Inits tutorial dialogue so sequence emits (event:show-dialogue) can open STEP_CONTENT.
  */
 
-import { resetSimNetworkSession } from './simNetworkSession.js';
+import {
+    disposeTutorialDialogue,
+    initTutorialDialogue,
+} from './sim-network-tutorial-dialogue.js';
 
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 const OVERLAY_ID = 'sim-network-complete-overlay';
@@ -71,7 +76,8 @@ export async function createScene(scene, sceneId) {
     contentEl.innerHTML =
         '<div class="sim-network-flow-overlay__panel sim-network-flow-overlay__panel--complete">' +
         '<h1 class="sim-network-flow-overlay__title">Congratulations!</h1>' +
-        '<p class="sim-network-flow-overlay__lead">You completed every difficulty track.</p>' +
+        '<p class="sim-network-flow-overlay__lead">You completed every level.</p>' +
+        '<p class="sim-network-flow-overlay__lead">Check back soon to see what new levels are available.</p><BR>' +
         '<button type="button" class="btn btn-primary btn-lg sim-network-flow-overlay__cta" data-action="play-again">Play again</button>' +
         '</div>';
 
@@ -82,11 +88,10 @@ export async function createScene(scene, sceneId) {
     const playAgainBtn = contentEl.querySelector('[data-action="play-again"]');
     playAgainBtn?.addEventListener('click', () => {
         console.log(
-            `[sim-network-complete.js]: [N/A] - [createScene] - playAgainClicked has a value of true, targetSceneId has a value of 03-level-select.`
-        ); //This is logged when Play again clears progress and returns to level-select.
+            `[sim-network-complete.js]: [N/A] - [createScene] - playAgainClicked has a value of true, targetSceneId has a value of 03-level-select, progressKept has a value of true.`
+        ); //This is logged when Play again returns to level-select without clearing completions.
         playSfx(host, 'default-ui-click');
         playSfx(host, 'default-sys-next');
-        resetSimNetworkSession();
         void host.switchToScene('03-level-select');
     });
     playAgainBtn?.addEventListener('pointerenter', () => {
@@ -96,6 +101,8 @@ export async function createScene(scene, sceneId) {
     console.log(
         `[sim-network-complete.js]: [N/A] - [createScene] - sceneId has a value of ${sceneId}, overlayMounted has a value of true.`
     ); //This is logged when the complete 2d scene mounts.
+
+    initTutorialDialogue();
 
     if (typeof host.playNamedSequence === 'function') {
         const playResult = await host.playNamedSequence({
@@ -118,6 +125,7 @@ export function dispose() {
     if (host && typeof host.disposeActiveSequence === 'function') {
         host.disposeActiveSequence();
     }
+    disposeTutorialDialogue();
     if (overlayEl) {
         overlayEl.remove();
         overlayEl = null;
