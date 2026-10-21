@@ -6,7 +6,7 @@
       "shortLabel": "LAN",
       "chapterTitle": "Silence of the LANs",
       "description": "Let's test your skills. Local Area Networks (LANs) use ethernet cables, modems and switches to connect wired devices.",
-      "image": "public/assets/experiences/sim-network/03-level-select/images/LAN-01-preview.png",
+      "image": "./assets/experiences/sim-network/03-level-select/images/LAN-01-preview.png",
       "sortOrder": 1,
       "maps": [
         {
@@ -44,7 +44,7 @@
       "shortLabel": "WIFI",
       "chapterTitle": "No SIGNAL for old networks",
       "description": "Time to level up. WIFI networks connect all manner of wireless devices via routers and access points.",
-      "image": "public/assets/experiences/sim-network/03-level-select/images/WIFI-02-preview.png",
+      "image": "./assets/experiences/sim-network/03-level-select/images/WIFI-02-preview.png",
       "sortOrder": 2,
       "comingSoon": true,
       "maps": [
@@ -82,7 +82,7 @@
       "shortLabel": "HYBRID",
       "chapterTitle": "Lord of the PINGs",
       "description": "Our biggest job yet. Deliver a hybrid network solution using a blend of both wired and wireless tech. Good luck!",
-      "image": "public/assets/experiences/sim-network/03-level-select/images/HYBRID-03-preview.png",
+      "image": "./assets/experiences/sim-network/03-level-select/images/HYBRID-03-preview.png",
       "sortOrder": 3,
       "comingSoon": true,
       "maps": [
