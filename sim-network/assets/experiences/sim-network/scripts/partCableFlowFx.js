@@ -1,7 +1,8 @@
 /**
  * Sim-network Test cable-flow particles — bright blue packets along cable paths.
- * Pass B: one shared ParticleSystem for all cables (conveyor, evenly spaced).
- * Timed to the Test progress bar: Wave A ~first half, Wave B ~second half, then loop.
+ * One shared ParticleSystem for all cables (conveyor).
+ * Every cable uses the same world speed and the same gap between packets.
+ * Wave B still starts halfway through the Test progress bar, then both keep looping.
  */
 
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
@@ -9,14 +10,19 @@ const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 /** Babylon CDN flare — soft round particle (Phase 1 prototype). */
 const FLARE_TEXTURE_URL = 'https://assets.babylonjs.com/core/textures/flare.png';
 
-/** Evenly spaced packets per cable (conveyor). */
-const FLOW_PACKET_COUNT = 16;
-/** Fallback speed if a path has no timed duration (world units per second). */
-const FLOW_TRAVEL_SPEED_FALLBACK = 2.4;
-/** 0.5 = half the timed speed (one trip takes ~2× longer). */
-const FLOW_SPEED_SCALE = 0.5;
-const FLOW_MIN_SIZE = 0.08;
-const FLOW_MAX_SIZE = 0.12;
+/**
+ * Same travel speed on every cable, in world units (one tile) per second.
+ * Raise it to make the packets move faster. Lower it to slow them down.
+ */
+const FLOW_WORLD_SPEED = 2;
+/**
+ * Same gap between packet centres on every cable, in world units (one tile).
+ * A short cable gets fewer packets. A long cable gets more.
+ */
+const FLOW_PACKET_SPACING = 1;
+/** Shared by the selected-cable dots and Test Connection. */
+const FLOW_MIN_SIZE = 0.18;
+const FLOW_MAX_SIZE = 0.27;
 /** Bright cyan + additive flare for a soft self-glow look. */
 const FLOW_COLOR = { r: 0.75, g: 0.95, b: 1.0, a: 1.0 };
 /** Default full Test progress window (ms); Wave A/B each use half. */
@@ -30,7 +36,8 @@ const FLOW_RENDER_GROUP_ON_TOP = 1;
  *   points: import('@babylonjs/core').Vector3[],
  *   cumLength: number[],
  *   totalLength: number,
- *   travelSpeed: number
+ *   travelSpeed: number,
+ *   packetCount: number
  * }} CableFlowPath
  */
 
@@ -150,11 +157,22 @@ function getFlareTexture(scene) {
 }
 
 /**
+ * How many packets fit on this cable at the shared gap. At least one.
+ * @param {number} totalLength
+ * @returns {number}
+ */
+function packetCountForLength(totalLength) {
+    if (!(totalLength > 0) || !(FLOW_PACKET_SPACING > 0)) {
+        return 1;
+    }
+    return Math.max(1, Math.round(totalLength / FLOW_PACKET_SPACING));
+}
+
+/**
  * @param {{ id: string, points: import('@babylonjs/core').Vector3[] }} flow
- * @param {number} travelDurationMs One full trip along this cable should take this long.
  * @returns {CableFlowPath | null}
  */
-function toCableFlowPath(flow, travelDurationMs) {
+function toCableFlowPath(flow) {
     if (!flow?.points || flow.points.length < 2) {
         return null;
     }
@@ -162,21 +180,13 @@ function toCableFlowPath(flow, travelDurationMs) {
     if (totalLength <= 1e-6) {
         return null;
     }
-    const durationSec =
-        typeof travelDurationMs === 'number' && travelDurationMs > 0
-            ? travelDurationMs / 1000
-            : 0;
-    const baseSpeed =
-        durationSec > 1e-6
-            ? totalLength / durationSec
-            : FLOW_TRAVEL_SPEED_FALLBACK;
-    const travelSpeed = baseSpeed * FLOW_SPEED_SCALE;
     return {
         id: flow.id,
         points: flow.points,
         cumLength,
         totalLength,
-        travelSpeed,
+        travelSpeed: FLOW_WORLD_SPEED,
+        packetCount: packetCountForLength(totalLength),
     };
 }
 
@@ -184,10 +194,12 @@ function toCableFlowPath(flow, travelDurationMs) {
  * @param {number} pathIndex
  */
 function enqueueConveyorSeedsForPath(pathIndex) {
-    for (let i = 0; i < FLOW_PACKET_COUNT; i += 1) {
+    const path = pathRegistry[pathIndex];
+    const count = path?.packetCount > 0 ? path.packetCount : 1;
+    for (let i = 0; i < count; i += 1) {
         seedJobs.push({
             pathIndex,
-            t: FLOW_PACKET_COUNT > 0 ? i / FLOW_PACKET_COUNT : 0,
+            t: i / count,
         });
     }
 }
@@ -195,17 +207,14 @@ function enqueueConveyorSeedsForPath(pathIndex) {
 /**
  * Create the single shared system sized for all planned paths.
  * @param {import('@babylonjs/core').Scene} scene
- * @param {number} totalPathCount
+ * @param {number} totalPacketCount
  */
-function ensureSharedSystem(scene, totalPathCount) {
+function ensureSharedSystem(scene, totalPacketCount) {
     const host = getHost();
     if (sharedSystem && !sharedSystem.isDisposed?.()) {
         return;
     }
-    const capacity = Math.max(
-        FLOW_PACKET_COUNT,
-        totalPathCount * FLOW_PACKET_COUNT
-    );
+    const capacity = Math.max(1, totalPacketCount);
     if (!scratchPos) {
         scratchPos = new host.Vector3(0, 0, 0);
     }
@@ -299,7 +308,7 @@ function ensureSharedSystem(scene, totalPathCount) {
             const speed =
                 typeof path.travelSpeed === 'number' && path.travelSpeed > 0
                     ? path.travelSpeed
-                    : FLOW_TRAVEL_SPEED_FALLBACK;
+                    : FLOW_WORLD_SPEED;
             let t = state.t + (speed * dt) / path.totalLength;
             if (t >= 1) {
                 t -= Math.floor(t);
@@ -323,26 +332,55 @@ function ensureSharedSystem(scene, totalPathCount) {
 }
 
 /**
- * Register paths and emit their conveyor packets into the shared system.
+ * Turn raw cable polylines into flow paths. Skips anything too short to draw.
  * @param {Array<{ id: string, points: import('@babylonjs/core').Vector3[] }>} flows
- * @param {number} travelDurationMs
+ * @returns {CableFlowPath[]}
+ */
+function prepareCableFlowPaths(flows) {
+    /** @type {CableFlowPath[]} */
+    const paths = [];
+    if (!Array.isArray(flows)) {
+        return paths;
+    }
+    for (const flow of flows) {
+        const path = toCableFlowPath(flow);
+        if (path) {
+            paths.push(path);
+        }
+    }
+    return paths;
+}
+
+/**
+ * @param {CableFlowPath[]} paths
+ * @returns {number}
+ */
+function packetTotalForPaths(paths) {
+    let total = 0;
+    for (const path of paths) {
+        total += path.packetCount;
+    }
+    return total;
+}
+/**
+ * Register ready paths and emit their conveyor packets into the shared system.
+ * @param {CableFlowPath[]} paths
  * @returns {number} how many paths were added
  */
-function addFlowsToSharedSystem(flows, travelDurationMs) {
-    if (!sharedSystem || !Array.isArray(flows) || flows.length === 0) {
+function addFlowsToSharedSystem(paths) {
+    if (!sharedSystem || !Array.isArray(paths) || paths.length === 0) {
         return 0;
     }
     let added = 0;
     let emitCount = 0;
-    for (const flow of flows) {
-        const path = toCableFlowPath(flow, travelDurationMs);
-        if (!path) {
+    for (const path of paths) {
+        if (!path || path.packetCount < 1) {
             continue;
         }
         const pathIndex = pathRegistry.length;
         pathRegistry.push(path);
         enqueueConveyorSeedsForPath(pathIndex);
-        emitCount += FLOW_PACKET_COUNT;
+        emitCount += path.packetCount;
         added += 1;
     }
     if (emitCount > 0) {
@@ -396,7 +434,7 @@ export function disposeCableFlowFx() {
 
 /**
  * Play Wave A immediately, then Wave B after half the Test progress window.
- * Speeds are scaled so one full trip fits each half; streams keep looping after.
+ * Packet speed and spacing are the same on every cable. Streams keep looping after.
  *
  * @param {import('@babylonjs/core').Scene} scene
  * @param {Array<{ id: string, points: import('@babylonjs/core').Vector3[] }>} waveA
@@ -409,10 +447,10 @@ export function playCableFlowWaves(scene, waveA, waveB, options = {}) {
         return;
     }
     boundScene = scene;
-    const a = Array.isArray(waveA) ? waveA : [];
-    const b = Array.isArray(waveB) ? waveB : [];
-    const totalPaths = a.length + b.length;
-    if (totalPaths === 0) {
+    const pathsA = prepareCableFlowPaths(waveA);
+    const pathsB = prepareCableFlowPaths(waveB);
+    const packetTotal = packetTotalForPaths(pathsA) + packetTotalForPaths(pathsB);
+    if (packetTotal === 0) {
         return;
     }
 
@@ -421,21 +459,23 @@ export function playCableFlowWaves(scene, waveA, waveB, options = {}) {
             ? options.progressMs
             : DEFAULT_PROGRESS_MS;
     const waveAMs = Math.max(200, progressMs / 2);
-    const waveBMs = Math.max(200, progressMs / 2);
 
-    ensureSharedSystem(scene, totalPaths);
-    addFlowsToSharedSystem(a, waveAMs);
+    ensureSharedSystem(scene, packetTotal);
+    addFlowsToSharedSystem(pathsA);
+    console.log(
+        `[partCableFlowFx.js]: [N/A] - [playCableFlowWaves] - packetTotal has a value of ${packetTotal}, worldSpeed has a value of ${FLOW_WORLD_SPEED}, packetSpacing has a value of ${FLOW_PACKET_SPACING}.`
+    ); //This is logged when Test cable packets start, so speed and spacing can be checked.
 
     const startWaveB = () => {
         waveBTimer = null;
-        addFlowsToSharedSystem(b, waveBMs);
+        addFlowsToSharedSystem(pathsB);
     };
 
-    if (b.length === 0) {
+    if (pathsB.length === 0) {
         return;
     }
 
-    if (a.length === 0) {
+    if (pathsA.length === 0) {
         startWaveB();
         return;
     }

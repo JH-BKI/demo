@@ -21,7 +21,7 @@
       "kind": "html",
       "startTime": 0,
       "html": {
-        "selector": "#sim-network-splash-overlay [data-splash-gate]",
+        "selector": ".sim-network-splash-overlay [data-splash-gate]",
         "durationSeconds": 0,
         "mode": "class",
         "className": "is-visible",
@@ -34,7 +34,7 @@
       "kind": "html",
       "startTime": 0.3,
       "html": {
-        "selector": "#sim-network-splash-overlay [data-splash-gate]",
+        "selector": ".sim-network-splash-overlay [data-splash-gate]",
         "durationSeconds": 0,
         "mode": "class",
         "className": "is-gone",
@@ -47,7 +47,7 @@
       "kind": "html",
       "startTime": 0.5,
       "html": {
-        "selector": "#sim-network-splash-overlay [data-splash-main]",
+        "selector": ".sim-network-splash-overlay [data-splash-main]",
         "durationSeconds": 0,
         "mode": "class",
         "className": "is-ready",
@@ -60,7 +60,7 @@
       "kind": "html",
       "startTime": 0.6,
       "html": {
-        "selector": "#sim-network-splash-overlay [data-splash-main]",
+        "selector": ".sim-network-splash-overlay [data-splash-main]",
         "durationSeconds": 0,
         "mode": "class",
         "className": "is-visible",
@@ -73,7 +73,7 @@
       "kind": "html",
       "startTime": 1,
       "html": {
-        "selector": "#sim-network-splash-overlay [data-splash-logo]",
+        "selector": ".sim-network-splash-overlay [data-splash-logo]",
         "durationSeconds": 0,
         "mode": "class",
         "className": "is-visible",
@@ -86,7 +86,7 @@
       "startTime": 0.5,
       "kind": "html",
       "html": {
-        "selector": "#sim-network-splash-overlay .sim-network-splash__hero",
+        "selector": ".sim-network-splash-overlay .sim-network-splash__hero",
         "durationSeconds": 0,
         "mode": "class",
         "className": "sim-network-splash__hero--pan",

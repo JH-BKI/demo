@@ -11,6 +11,8 @@ const ENTER_SEQUENCE_FILE = 'splash-enter-sequence.json';
 const SPLASH_GATE_CONTINUE_EVENT = 'sim-network:splash-gate-continue';
 
 /** @type {HTMLElement | null} */
+let backdropEl = null;
+/** @type {HTMLElement | null} */
 let overlayEl = null;
 /** @type {(() => void) | null} */
 let clearSplashGateInput = null;
@@ -28,6 +30,8 @@ let splashGateUnlockedThisVisit = false;
 /**
  * @returns {{
  *   getPlayerUiRoot: () => HTMLElement,
+ *   getUIContainerSlot: (slot: string) => HTMLElement,
+ *   getIcon: (iconName: string, classes?: string) => string,
  *   switchToScene: (sceneId: string, fadeDuration?: number) => Promise<string|null>,
  *   dispatchAppEvent: (eventName: string, detail?: object|null) => void,
  *   EVENTS: { AUDIO_CONTROL: string },
@@ -40,12 +44,14 @@ function getHost() {
     if (
         !host ||
         typeof host.getPlayerUiRoot !== 'function' ||
+        typeof host.getUIContainerSlot !== 'function' ||
+        typeof host.getIcon !== 'function' ||
         typeof host.switchToScene !== 'function' ||
         typeof host.dispatchAppEvent !== 'function' ||
         !host.EVENTS?.AUDIO_CONTROL
     ) {
         throw new Error(
-            'Experience host API missing getPlayerUiRoot, switchToScene, or audio helpers. Is installExperienceHostApi() running?'
+            'Experience host API missing getUIContainerSlot, getIcon, switchToScene, or audio helpers. Is installExperienceHostApi() running?'
         );
     }
     return host;
@@ -109,7 +115,9 @@ function flushPendingSplashGateContinue() {
 }
 
 /**
- * Any click on the overlay or any key → SFX, aria reveal, then fire the wait-gate event.
+ * Any click or key (window) → SFX, aria reveal, then fire the wait-gate event.
+ * Window click keeps "anywhere" working when content lives only in center and
+ * the full-bleed backdrop is pointer-events: none.
  * Timeline owns the class show after that event.
  * @param {{ dispatchAppEvent: Function, EVENTS: { AUDIO_CONTROL: string } }} host
  * @param {HTMLElement} mainEl
@@ -142,11 +150,11 @@ function armSplashGateInput(host, mainEl) {
     };
 
     overlayEl?.classList.add('sim-network-flow-overlay--splash-gate');
-    overlayEl?.addEventListener('click', onClick);
+    window.addEventListener('click', onClick);
     window.addEventListener('keydown', onKeyDown);
 
     clearSplashGateInput = () => {
-        overlayEl?.removeEventListener('click', onClick);
+        window.removeEventListener('click', onClick);
         window.removeEventListener('keydown', onKeyDown);
     };
 }
@@ -157,42 +165,51 @@ function armSplashGateInput(host, mainEl) {
  */
 export async function createScene(scene, sceneId) {
     const host = getHost();
-    const root = host.getPlayerUiRoot();
+    const eworksLogo = host.getIcon('eworks-logo', 'inline-block h-[1em] w-auto align-middle');
+    const rootSlot = host.getUIContainerSlot('root');
+    const centerSlot = host.getUIContainerSlot('center');
 
-    overlayEl = document.createElement('div');
-    overlayEl.id = OVERLAY_ID;
-    overlayEl.className = 'sim-network-flow-overlay';
-    overlayEl.setAttribute('role', 'region');
+    backdropEl = document.createElement('div');
+    backdropEl.className = 'sim-network-flow-overlay__backdrop';
+    backdropEl.setAttribute('aria-hidden', 'true');
+    rootSlot.appendChild(backdropEl);
 
-    const backdrop = document.createElement('div');
-    backdrop.className = 'sim-network-flow-overlay__backdrop';
-    backdrop.setAttribute('aria-hidden', 'true');
-
-    const contentEl = document.createElement('div');
-    contentEl.className = 'sim-network-flow-overlay__content';
-    contentEl.innerHTML =
-        `<div class="sim-network-splash">
-            <div class="sim-network-splash__gate sim-network-2d-surface is-visible" data-splash-gate>
-                <div class="sim-network-splash__gate-logo"></div>
-                <p class="sim-network-splash__gate-text">Press a key or click anywhere to begin...</p>
-            </div>
-            <div class="sim-network-splash__main sim-network-2d-surface" data-splash-main aria-hidden="true">
-                <div class="sim-network-splash__hero">
-                    <picture class="sim-network-splash__hero-logo" data-splash-logo>
-                        <source media="(max-width: 767px) and (orientation: portrait)" srcset="./assets/experiences/sim-network/images/sim-network-title-compact.png">
-                        <img src="./assets/experiences/sim-network/images/sim-network-title.png" alt="SIM NETWORK">
-                    </picture>
-                    <div class="sim-network-splash__strip">
-                        <button type="button" class="btn btn-neutral btn-xl btn-ping sim-network-splash__cta" data-action="begin">LET'S GO!</button>
-                        <p class="sim-network-splash__title sim-network-2d-heading">A gamified immersive learning experience by eWorks.</p>
+    centerSlot.innerHTML = `
+        <div id="uiSection" class="ui-section ${OVERLAY_ID}">
+            <div id="uiSection-center" class="ui-section-cell">
+                <div class="sim-network-splash">
+                    <div class="sim-network-splash__gate sim-network-2d-surface is-visible animate-pulse" data-splash-gate>
+                        <div class="sim-network-splash__gate-logo"></div>
+                        <p class="sim-network-splash__gate-text">Press a key or click anywhere to begin...</p>
+                    </div>
+                    <div class="sim-network-splash__main sim-network-2d-surface" data-splash-main aria-hidden="true">
+                        <div class="sim-network-splash__hero">
+                            <span class="block absolute top-4 scale-100 right-4 md:right-8 lg:right-14 lg:top-6 md:scale-150 lg:scale-250" role="img" aria-label="eWorks">${eworksLogo}</span>
+                            <picture class="sim-network-splash__hero-logo" data-splash-logo>
+                                <source media="(max-width: 767px) and (orientation: portrait)" srcset="./assets/experiences/sim-network/images/sim-network-title-compact.png">
+                                <img src="./assets/experiences/sim-network/images/sim-network-title.png" alt="SIM NETWORK">
+                            </picture>
+                            <div class="sim-network-splash__strip">
+                                <button type="button" class="btn btn-neutral btn-lg lg:btn-xl btn-ping" data-action="begin">LET'S GO!</button>
+                                <p class="sim-network-splash__title text-md md:text-lg lg:text-xl">A gamified immersive learning experience by 
+                                    <span class="inline" role="img" aria-label="eWorks">${eworksLogo}</span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>`;
+        </div>
+    `;
 
-    overlayEl.appendChild(backdrop);
-    overlayEl.appendChild(contentEl);
-    root.appendChild(overlayEl);
+    const sectionEl = centerSlot.querySelector('#uiSection');
+    const contentEl = centerSlot.querySelector('#uiSection-center');
+    if (!(sectionEl instanceof HTMLElement) || !(contentEl instanceof HTMLElement)) {
+        throw new Error(
+            '[sim-network-splash.js] #uiSection / #uiSection-center missing after innerHTML mount.'
+        );
+    }
+    overlayEl = sectionEl;
 
     const mainEl = contentEl.querySelector('[data-splash-main]');
     if (!(mainEl instanceof HTMLElement)) {
@@ -273,6 +290,10 @@ export function dispose() {
     teardownSplashGateInput();
     splashSequenceReadyForGate = false;
     splashGateContinueRequested = false;
+    if (backdropEl) {
+        backdropEl.remove();
+        backdropEl = null;
+    }
     if (overlayEl) {
         overlayEl.remove();
         overlayEl = null;

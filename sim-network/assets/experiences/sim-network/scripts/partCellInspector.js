@@ -1,16 +1,18 @@
 /**
- * Sim-network cell inspector — bottom-middle list for interactable device copy,
+ * Sim-network cell inspector — right-docked vertical panel for device copy,
  * cables, and removable player droppables.
  */
 
 import {
     getPartDef,
+    getStampById,
     getStampsAtCell,
     getStampLabel,
     removeStampById,
 } from './layoutAssembler.js';
 import {
     getCablesTouchingCell,
+    getCableEndpointLabels,
     getCableLabel,
     getSelectedCableId,
     isCableModeActive,
@@ -18,6 +20,9 @@ import {
     removeCablesForStamp,
     selectCableById,
     clearCableSelection,
+    CABLE_SELECTION_CHANGED_EVENT,
+    NETWORK_TEST_UI_CHANGED_EVENT,
+    isNetworkTestUiBusy,
     areNetworkEditsLocked,
     countCablesOnStamp,
     maxCablesForPart,
@@ -38,12 +43,14 @@ const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 const SELECT_CLICK_SLOP_PX = 5;
 /** Same-cell second click within this window focuses the camera (ms). */
 const FOCUS_DOUBLE_CLICK_MS = 450;
-/** Max connection rows per Connections column before starting another column. */
-const CONNECTIONS_PER_COLUMN = 2;
 /** @type {((this: Window, ev: Event) => void) | null} */
 let networkEditsLockListener = null;
 /** @type {((this: Window, ev: Event) => void) | null} */
 let cablesChangedListener = null;
+/** @type {((this: Window, ev: Event) => void) | null} */
+let cableSelectionListener = null;
+/** @type {((this: Window, ev: Event) => void) | null} */
+let networkTestUiListener = null;
 
 const CABLES_CHANGED_EVENT = 'sim-network-cables-changed';
 
@@ -110,7 +117,7 @@ function createRemoveButton(ariaLabel, onClick) {
     const removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.className =
-        'btn btn-neutral btn-circle btn-xs tooltip tooltip-left sim-network-cell-inspector__remove';
+        'btn btn-error btn-xs tooltip tooltip-top sim-network-cell-inspector__remove';
     removeBtn.setAttribute('data-tip', 'Remove');
     removeBtn.setAttribute('aria-label', ariaLabel);
     if (typeof host.getIcon === 'function') {
@@ -130,6 +137,31 @@ function createRemoveButton(ariaLabel, onClick) {
         onClick();
     });
     return removeBtn;
+}
+
+/**
+ * Left = device on the inspected cell; right = the other endpoint.
+ * @param {string} cableId
+ * @param {{ x: number, z: number }} cell
+ * @returns {{ leftLabel: string, rightLabel: string }}
+ */
+function getOrderedEndpointLabelsForCell(cableId, cell) {
+    const endpoints = getCableEndpointLabels(cableId);
+    const fromStamp = getStampById(endpoints.fromStampId);
+    const toStamp = getStampById(endpoints.toStampId);
+    const fromAtCell =
+        fromStamp && fromStamp.x === cell.x && fromStamp.z === cell.z;
+    const toAtCell = toStamp && toStamp.x === cell.x && toStamp.z === cell.z;
+    if (toAtCell && !fromAtCell) {
+        return {
+            leftLabel: endpoints.toLabel,
+            rightLabel: endpoints.fromLabel,
+        };
+    }
+    return {
+        leftLabel: endpoints.fromLabel,
+        rightLabel: endpoints.toLabel,
+    };
 }
 
 /** @type {import('@babylonjs/core').Scene | null} */
@@ -184,22 +216,46 @@ function hidePanel() {
 }
 
 /**
- * Mark the selected cable row across all Connections columns (single selection).
+ * Sync connection "on" state: DaisyUI btn-active (filled) vs btn-outline (off).
  */
 function syncSelectedRowClass() {
     if (!panelEl) {
         return;
     }
     const selectedId = getSelectedCableId();
-    for (const row of panelEl.querySelectorAll(
-        '.sim-network-cell-inspector__row[data-cable-id]'
+    for (const btn of panelEl.querySelectorAll(
+        '.sim-network-cell-inspector__connection-btn[data-cable-id]'
     )) {
-        const isSelected = row.dataset.cableId === selectedId;
-        row.classList.toggle(
-            'sim-network-cell-inspector__row--selected',
-            isSelected
-        );
+        const isSelected = btn.dataset.cableId === selectedId;
+        // Off = outline; on = filled primary (DaisyUI btn-active).
+        btn.classList.toggle('btn-outline', !isSelected);
+        btn.classList.toggle('btn-active', isSelected);
+        btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     }
+}
+
+/**
+ * Grey out cable toggles and trash buttons while Test Connection is running.
+ * A passed test still removes trash buttons through the edit lock.
+ */
+function syncInspectorTestLock() {
+    if (!panelEl) {
+        return;
+    }
+    const locked = isNetworkTestUiBusy();
+    const buttons = panelEl.querySelectorAll(
+        '.sim-network-cell-inspector__connection-btn, .sim-network-cell-inspector__remove'
+    );
+    for (const btn of buttons) {
+        if (!(btn instanceof HTMLButtonElement)) {
+            continue;
+        }
+        btn.disabled = locked;
+        btn.setAttribute('aria-disabled', locked ? 'true' : 'false');
+    }
+    console.log(
+        `[partCellInspector.js]: [N/A] - [syncInspectorTestLock] - locked has a value of ${locked}, buttonCount has a value of ${buttons.length}.`
+    ); //This is logged when Test Connection greys out or restores the cell status buttons.
 }
 
 /**
@@ -241,8 +297,8 @@ function renderPanel(cell) {
     panelEl.innerHTML = '';
     panelEl.hidden = false;
 
-    const columns = document.createElement('div');
-    columns.className = 'sim-network-cell-inspector__columns';
+    const stack = document.createElement('div');
+    stack.className = 'sim-network-cell-inspector__stack';
 
     if (interactableStamps.length > 0) {
         const deviceSection = createSection('Device');
@@ -262,6 +318,7 @@ function renderPanel(cell) {
             nameEl.textContent = getStampLabel(stamp);
             deviceBlock.appendChild(nameEl);
 
+            // Description copy stays from kit JSON — designer edits manually.
             const description = getStampDescriptionPlain(stamp);
             if (description) {
                 const descEl = document.createElement('div');
@@ -277,7 +334,7 @@ function renderPanel(cell) {
             connectionsEl.className =
                 'sim-network-cell-inspector__device-connections';
             connectionsEl.append(
-                document.createTextNode('Available connections: '),
+                document.createTextNode('Connected: '),
                 Object.assign(document.createElement('strong'), {
                     textContent: `${currentConnections} / ${totalConnections}`,
                 })
@@ -306,51 +363,61 @@ function renderPanel(cell) {
             deviceList.appendChild(li);
         }
 
-        columns.appendChild(deviceSection);
+        stack.appendChild(deviceSection);
     }
 
     if (cellCables.length > 0) {
-        const cableSection = document.createElement('div');
-        cableSection.className = 'sim-network-cell-inspector__section';
+        const cableSection = createSection('Connections');
+        const cableList = cableSection.querySelector('ul');
 
-        const cableHeading = document.createElement('div');
-        cableHeading.className = 'sim-network-cell-inspector__section-label';
-        cableHeading.textContent = 'Connections';
-        cableSection.appendChild(cableHeading);
-
-        const cableColumns = document.createElement('div');
-        cableColumns.className =
-            'sim-network-cell-inspector__connections-columns';
-
-        /** @type {HTMLUListElement | null} */
-        let currentList = null;
-        for (let i = 0; i < cellCables.length; i++) {
-            if (i % CONNECTIONS_PER_COLUMN === 0) {
-                currentList = document.createElement('ul');
-                currentList.className = 'sim-network-cell-inspector__list';
-                cableColumns.appendChild(currentList);
-            }
-
-            const cable = cellCables[i];
+        for (const cable of cellCables) {
             const li = document.createElement('li');
-            li.className = 'sim-network-cell-inspector__row';
-            li.dataset.cableId = cable.id;
-            const label = document.createElement('button');
-            label.type = 'button';
-            label.className = 'sim-network-cell-inspector__label';
-            label.textContent = getCableLabel(cable.id);
-            label.setAttribute(
+            li.className =
+                'sim-network-cell-inspector__row sim-network-cell-inspector__row--connection';
+
+            const ordered = getOrderedEndpointLabelsForCell(cable.id, cell);
+            const selectBtn = document.createElement('button');
+            selectBtn.type = 'button';
+            selectBtn.className =
+                'btn btn-primary btn-outline btn-sm sim-network-cell-inspector__connection-btn';
+            selectBtn.dataset.cableId = cable.id;
+            selectBtn.setAttribute('aria-pressed', 'false');
+            selectBtn.setAttribute(
                 'aria-label',
                 `Highlight ${getCableLabel(cable.id)}`
             );
-            label.addEventListener('click', () => {
-                selectCableById(cable.id);
+
+            const leftEl = document.createElement('span');
+            leftEl.className =
+                'sim-network-cell-inspector__endpoint sim-network-cell-inspector__endpoint--left';
+            leftEl.textContent = ordered.leftLabel;
+
+            const barEl = document.createElement('progress');
+            barEl.className = 'sim-network-cell-inspector__cable-bar progress progress-info w-full';
+            barEl.setAttribute('aria-hidden', 'true');
+
+            const rightEl = document.createElement('span');
+            rightEl.className =
+                'sim-network-cell-inspector__endpoint sim-network-cell-inspector__endpoint--right';
+            rightEl.textContent = ordered.rightLabel;
+
+            selectBtn.append(leftEl, barEl, rightEl);
+            selectBtn.addEventListener('click', () => {
+                // Toggle: click again clears highlight / "on" state.
+                if (getSelectedCableId() === cable.id) {
+                    clearCableSelection();
+                    console.log(
+                        `[partCellInspector.js]: [N/A] - [renderPanel] - clearedCableId has a value of ${cable.id}.`
+                    ); //This is logged when the player toggles a selected cable button off.
+                } else if (selectCableById(cable.id)) {
+                    console.log(
+                        `[partCellInspector.js]: [N/A] - [renderPanel] - selectedCableId has a value of ${cable.id}.`
+                    ); //This is logged when the player toggles a cable button on to highlight it in 3D.
+                }
                 syncSelectedRowClass();
-                console.log(
-                    `[partCellInspector.js]: [N/A] - [renderPanel] - selectedCableId has a value of ${cable.id}.`
-                ); //This is logged when the player clicks a cable label to highlight it in 3D.
             });
-            li.appendChild(label);
+            li.appendChild(selectBtn);
+
             if (!areNetworkEditsLocked()) {
                 li.appendChild(
                     createRemoveButton(`Remove ${getCableLabel(cable.id)}`, () => {
@@ -359,15 +426,15 @@ function renderPanel(cell) {
                     })
                 );
             }
-            currentList.appendChild(li);
+            cableList.appendChild(li);
         }
 
-        cableSection.appendChild(cableColumns);
-        columns.appendChild(cableSection);
+        stack.appendChild(cableSection);
     }
 
-    panelEl.appendChild(columns);
+    panelEl.appendChild(stack);
     syncSelectedRowClass();
+    syncInspectorTestLock();
 
     console.log(
         `[partCellInspector.js]: [N/A] - [renderPanel] - cell has a value of ${cell.x},${cell.z}, interactableCount has a value of ${interactableStamps.length}, cableCount has a value of ${cellCables.length}.`
@@ -454,20 +521,8 @@ function attachPointerObserver(scene) {
             return;
         }
 
-        // Cable mode owns interactable clicks (start/end). Free play: cell inspector.
-        const meshPick = scene.pick(scene.pointerX, scene.pointerY);
-        let node = meshPick?.pickedMesh || null;
-        let hitInteractable = false;
-        while (node) {
-            if (node.metadata?.simNetworkInteraction) {
-                hitInteractable = true;
-                break;
-            }
-            node = node.parent;
-        }
-        if (hitInteractable && isCableModeActive()) {
-            return;
-        }
+        // Cable mode still starts or finishes a cable on this click. The cell status
+        // panel opens too, including when the click lands on the device itself.
 
         // Same cell already open — skip rebuild (multi-clicks / spam POINTERUP).
         if (
@@ -494,21 +549,21 @@ export function initializePartCellInspector(scene) {
     disposePartCellInspector();
     boundScene = scene;
 
-    const footerCenter = document.getElementById('uiContainer-footer-center');
-    if (!footerCenter) {
+    const centerSlot = document.getElementById('uiContainer-center');
+    if (!centerSlot) {
         console.warn(
-            `[partCellInspector.js]: [N/A] - [initializePartCellInspector] - footerCenterMissing has a value of true.`
-        ); //This is logged when the player frame footer slot is missing.
+            `[partCellInspector.js]: [N/A] - [initializePartCellInspector] - centerSlotMissing has a value of true.`
+        ); //This is logged when the player frame center slot is missing.
         return;
     }
 
     panelEl = document.createElement('div');
     panelEl.className =
-        'sim-network-cell-inspector flex flex-col items-stretch gap-1 min-w-[14rem] bg-base-100/20 backdrop-blur-2xl rounded-2xl p-2 pointer-events-auto select-none absolute bottom-4';
+        'sim-network-cell-inspector pointer-events-auto select-none';
     panelEl.setAttribute('role', 'region');
     panelEl.setAttribute('aria-label', 'Cell device and connections');
     panelEl.hidden = true;
-    footerCenter.appendChild(panelEl);
+    centerSlot.appendChild(panelEl);
 
     networkEditsLockListener = () => {
         refreshOpenPanelForEditLock();
@@ -519,6 +574,16 @@ export function initializePartCellInspector(scene) {
         refreshOpenPanel();
     };
     window.addEventListener(CABLES_CHANGED_EVENT, cablesChangedListener);
+
+    cableSelectionListener = () => {
+        syncSelectedRowClass();
+    };
+    window.addEventListener(CABLE_SELECTION_CHANGED_EVENT, cableSelectionListener);
+
+    networkTestUiListener = () => {
+        syncInspectorTestLock();
+    };
+    window.addEventListener(NETWORK_TEST_UI_CHANGED_EVENT, networkTestUiListener);
 
     attachPointerObserver(scene);
     console.log(
@@ -537,6 +602,20 @@ export function disposePartCellInspector() {
     if (cablesChangedListener) {
         window.removeEventListener(CABLES_CHANGED_EVENT, cablesChangedListener);
         cablesChangedListener = null;
+    }
+    if (cableSelectionListener) {
+        window.removeEventListener(
+            CABLE_SELECTION_CHANGED_EVENT,
+            cableSelectionListener
+        );
+        cableSelectionListener = null;
+    }
+    if (networkTestUiListener) {
+        window.removeEventListener(
+            NETWORK_TEST_UI_CHANGED_EVENT,
+            networkTestUiListener
+        );
+        networkTestUiListener = null;
     }
     clearCableSelection();
     if (boundScene && pointerObserver) {

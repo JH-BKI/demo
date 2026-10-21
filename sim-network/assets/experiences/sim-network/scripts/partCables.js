@@ -24,7 +24,9 @@ import {
 } from './partDrop.js';
 import {
     lockSimNetworkCamera,
+    setSimNetworkCameraLockBanner,
     unlockSimNetworkCamera,
+    TOOL_CAMERA_DRAG_SLOP_PX,
 } from './partCamera.js';
 import { notifyTutorialAction } from './sim-network-tutorial-coach.js';
 import {
@@ -54,22 +56,34 @@ const CABLE_RENDER_GROUP_ON_TOP = 1;
 const CABLE_RADIUS = 0.021;
 const CABLE_RADIUS_SELECTED = 0.03375;
 const CABLE_RADIUS_PREVIEW = 0.0165;
+/** Radial slices on a cable tube. Pulse updates must keep this count. */
+const CABLE_TUBE_TESSELLATION = 8;
+/** One grow-and-shrink of the selected cable (ms). */
+const CABLE_PULSE_PERIOD_MS = 1000;
+/** How far the selected colour moves toward white at the thickest point (0–1). */
+const CABLE_PULSE_LIGHTEN = 0.35;
 /** Match droppable hover tile (fill + checker outline), light-blue. */
 const PATH_OVERLAY_ALPHA = 0.4;
 const PATH_OVERLAY_SCALE = 0.98;
-/** Virtual id so hold–drag preview can take a lane among real cables. */
-const PREVIEW_CABLE_ID = '__preview__';
 /**
- * Sideways lane offsets as a fraction of cellSize (max 5 cables / intermediate cell).
- * Index order matches stable-sorted cable ids in that cell.
+ * Five fixed lanes per cell — same cap as MAX_CABLES_PER_INTERMEDIATE_CELL.
+ * Tweak CABLE_LANE_OFFSETS to spread or tighten the bundle. Each number is a
+ * fraction of one cell (1 = one full tile). Keep them inside about ±0.45 so
+ * the tube stays on the tile. Lane order is left-to-right in world space.
  */
-const LANE_OFFSETS_BY_COUNT = {
-    1: [0],
-    2: [-0.15, 0.15],
-    3: [-0.15, 0, 0.15],
-    4: [-0.225, -0.075, 0.075, 0.225],
-    5: [-0.3, -0.15, 0, 0.15, 0.3],
-};
+const CABLE_LANE_OFFSETS = [-0.36, -0.18, 0, 0.18, 0.36];
+/**
+ * Which lane a new cable takes when several are free.
+ * Center first, then the neighbours, then the outer edges — so two cables
+ * sit apart instead of both hugging one side.
+ */
+const CABLE_LANE_PICK_ORDER = [2, 1, 3, 0, 4];
+/**
+ * How far the floor fan travels from the device centre toward the next cell,
+ * as a fraction of one cell. 0 sits beside the plug. 0.4 is still inside the
+ * device cell, near the edge. The vertical plug itself stays on the centre.
+ */
+const CABLE_LANE_FAN_REACH = 0.4;
 /** Even index = light blue; odd = dark blue. */
 const CABLE_RGB_LIGHT = { r: 0.45, g: 0.72, b: 1.0 };
 const CABLE_RGB_DARK = { r: 0.12, g: 0.35, b: 0.85 };
@@ -83,6 +97,17 @@ let networkTestCableXray = false;
 let pendingStartStampId = null;
 /** @type {string | null} */
 let selectedCableId = null;
+/** Set while Test Connection owns the moving dots. */
+/** @type {null | 'test'} */
+let cableFlowOwner = null;
+/** @type {import('@babylonjs/core').Observer<import('@babylonjs/core').Scene> | null} */
+let cablePulseObserver = null;
+/** @type {import('@babylonjs/core').Scene | null} */
+let cablePulseScene = null;
+/** @type {import('@babylonjs/core').Mesh | null} */
+let cablePulseMesh = null;
+/** @type {import('@babylonjs/core').Vector3[] | null} */
+let cablePulsePath = null;
 /** @type {number} */
 let nextCableSeq = 1;
 /**
@@ -92,6 +117,7 @@ let nextCableSeq = 1;
  *   toStampId: string,
  *   cells: Array<{ x: number, z: number }>,
  *   colorIndex: number,
+ *   laneIndex: number,
  *   mesh: import('@babylonjs/core').Mesh,
  *   material: import('@babylonjs/core').StandardMaterial
  * }>}
@@ -108,6 +134,10 @@ const EXPLORE_SELECTION_EVENT = 'sim-network-explore-selection';
 const CABLE_CELL_FX_EVENT = 'sim-network-cable-cell-fx';
 /** Tell open cell inspector to re-render after cables change (no import cycle). */
 const CABLES_CHANGED_EVENT = 'sim-network-cables-changed';
+/** Tell the open cell inspector to refresh which cable button looks on. */
+export const CABLE_SELECTION_CHANGED_EVENT = 'sim-network-cable-selection-changed';
+/** Tell the open cell inspector to grey out or restore its cable and trash buttons. */
+export const NETWORK_TEST_UI_CHANGED_EVENT = 'sim-network-test-ui-changed';
 
 /**
  * @param {{ x: number, z: number } | null} cell
@@ -157,6 +187,13 @@ let cableGlowLayer = null;
 let dragSession = null;
 /** After a hold–drag ends, skip the following click–click OnPick once. */
 let ignoreNextDevicePick = false;
+/**
+ * Press on empty space while Cable is on. Past the slop, this press orbits.
+ * @type {{ x: number, y: number, orbiting: boolean } | null}
+ */
+let cameraOrbitPress = null;
+/** Press started on a cable device, including one with no free ports. Camera stays still. */
+let cablePressHoldsCamera = false;
 /** @type {import('@babylonjs/core').Observer | null} */
 let pointerObserver = null;
 /** @type {{ mesh: import('@babylonjs/core').Mesh, material: import('@babylonjs/core').StandardMaterial } | null} */
@@ -172,6 +209,23 @@ let cableHoverTile = null;
 let cableHoverMat = null;
 /** @type {{ x: number, z: number } | null} */
 let cableHoverCell = null;
+/** Last cell the click-hover preview tube was built for. */
+let clickPreviewCellKey = null;
+/** Cells already heard for the current click-hover preview, so only new cells play. */
+let clickPreviewPathKeys = new Set();
+/**
+ * Device meshes painted blue while a cable start is in progress.
+ * Separate from the Test-result overlay map so the two clears do not fight.
+ * @type {Set<import('@babylonjs/core').AbstractMesh>}
+ */
+let cableStartOverlayMeshes = new Set();
+/**
+ * Device under the pointer during a cable drag, painted only when letting go would connect.
+ * @type {Set<import('@babylonjs/core').AbstractMesh>}
+ */
+let cableHoverOverlayMeshes = new Set();
+/** @type {string | null} */
+let cableHoverOverlayStampId = null;
 
 /**
  * @returns {object}
@@ -209,6 +263,16 @@ function playSfx(clipId) {
         action: 'play',
         clipId,
     });
+}
+
+/**
+ * One error blip when a cable lay ends without connecting.
+ */
+function playCableLayMissSfx() {
+    playSfx('default-sys-error');
+    console.log(
+        `[partCables.js]: [N/A] - [playCableLayMissSfx] - clipId has a value of default-sys-error.`
+    ); //This is logged when a cable lay is released without a successful connection.
 }
 
 /**
@@ -559,8 +623,7 @@ function updatePreviewCable(cells) {
         return;
     }
     const built = createCableMesh(cells, cables.length, false, CABLE_RADIUS_PREVIEW, {
-        cableId: PREVIEW_CABLE_ID,
-        isPreview: true,
+        laneIndex: chooseLaneIndex(cells),
     });
     if (!built) {
         return;
@@ -570,6 +633,90 @@ function updatePreviewCable(cells) {
     previewCable = built;
 }
 
+/**
+ * Drop the click-hover preview tube. A live drag keeps its own preview.
+ */
+function clearClickHoverPreviewCable() {
+    clickPreviewCellKey = null;
+    clickPreviewPathKeys = new Set();
+    if (!dragSession) {
+        disposePreviewCable();
+    }
+}
+
+/**
+ * Forget the armed click-cable. Blue wash, preview, and hover-lay all stop.
+ */
+function cancelArmedCableLay() {
+    pendingStartStampId = null;
+    clearCablePathOverlay();
+    requestCableSelectedCellFx(null);
+    clearCableStartOverlay();
+    clearClickHoverPreviewCable();
+    playCableLayMissSfx();
+}
+
+/**
+ * After a click has armed a cable, draw the preview tube to the blue hover cell.
+ * Plays drop-cable as the route enters new cells, same as a drag. A held drag owns the preview instead.
+ */
+function syncClickHoverPreviewCable() {
+    if (dragSession) {
+        return;
+    }
+    if (!pendingStartStampId) {
+        clearClickHoverPreviewCable();
+        return;
+    }
+    const startStamp = getStampById(pendingStartStampId);
+    const layout = getActiveLayout();
+    if (!startStamp || !layout || !cableHoverCell) {
+        clearClickHoverPreviewCable();
+        return;
+    }
+    const cellKey = `${cableHoverCell.x},${cableHoverCell.z}`;
+    if (cellKey === clickPreviewCellKey) {
+        return;
+    }
+    clickPreviewCellKey = cellKey;
+    if (cableHoverCell.x === startStamp.x && cableHoverCell.z === startStamp.z) {
+        disposePreviewCable();
+        return;
+    }
+    const path = findGridPath(
+        { x: startStamp.x, z: startStamp.z },
+        { x: cableHoverCell.x, z: cableHoverCell.z },
+        layout.width ?? 0,
+        layout.depth ?? 0
+    );
+    if (!path || path.length < 2) {
+        disposePreviewCable();
+        console.log(
+            `[partCables.js]: [N/A] - [syncClickHoverPreviewCable] - previewCleared has a value of true, cell has a value of ${cellKey}.`
+        ); //This is logged when a click-hover cell has no free cable route, so the preview tube is removed.
+        return;
+    }
+    const prevKeys = clickPreviewPathKeys;
+    /** @type {Set<string>} */
+    const nextKeys = new Set();
+    let newCellSfxCount = 0;
+    for (const entry of path) {
+        const key = `${entry.x},${entry.z}`;
+        nextKeys.add(key);
+        if (!prevKeys.has(key)) {
+            playSfx('drop-cable');
+            newCellSfxCount += 1;
+        }
+    }
+    clickPreviewPathKeys = nextKeys;
+    if (newCellSfxCount > 0) {
+        console.log(
+            `[partCables.js]: [N/A] - [syncClickHoverPreviewCable] - dropCableSfxCount has a value of ${newCellSfxCount}, cell has a value of ${cellKey}.`
+        ); //This is logged when a click-hover preview route enters cells that had not played yet.
+    }
+    updatePreviewCable(path);
+}
+
 function clearDragSession() {
     dragSession = null;
     disposePreviewCable();
@@ -577,6 +724,182 @@ function clearDragSession() {
     if (!pendingStartStampId) {
         clearCablePathOverlay();
     }
+}
+
+/**
+ * Lift the blue sheet off the device under a cable drag. Leaves the start device and any Test wash alone.
+ */
+function clearCableHoverOverlay() {
+    for (const mesh of cableHoverOverlayMeshes) {
+        try {
+            if (
+                !mesh ||
+                mesh.isDisposed?.() ||
+                isNetworkTestResultOverlayMesh(mesh) ||
+                cableStartOverlayMeshes.has(mesh)
+            ) {
+                continue;
+            }
+            mesh.renderOverlay = false;
+        } catch (error) {
+            console.warn(
+                `[partCables.js]: [N/A] - [clearCableHoverOverlay] - clearError has a value of ${error?.message || error}.`
+            ); //This is logged when clearing the drag-hover device wash fails on a disposed mesh.
+        }
+    }
+    cableHoverOverlayMeshes.clear();
+    cableHoverOverlayStampId = null;
+}
+
+/**
+ * Lift the blue sheet off the cable-start device. Also clears the drag-hover wash.
+ * Leaves a Test-result wash alone.
+ */
+function clearCableStartOverlay() {
+    clearCableHoverOverlay();
+    for (const mesh of cableStartOverlayMeshes) {
+        try {
+            if (!mesh || mesh.isDisposed?.() || isNetworkTestResultOverlayMesh(mesh)) {
+                continue;
+            }
+            mesh.renderOverlay = false;
+        } catch (error) {
+            console.warn(
+                `[partCables.js]: [N/A] - [clearCableStartOverlay] - clearError has a value of ${error?.message || error}.`
+            ); //This is logged when clearing the cable-start device wash fails on a disposed mesh.
+        }
+    }
+    cableStartOverlayMeshes.clear();
+}
+
+/**
+ * Same cyan wash the Test uses on a connected device. Only the stamp a cable starts from.
+ * @param {object | null | undefined} stamp
+ */
+function showCableStartOverlay(stamp) {
+    clearCableStartOverlay();
+    const meshes = stamp?.wrap?.getChildMeshes?.(false) || [];
+    if (!meshes.length) {
+        return;
+    }
+    const host = getHost();
+    for (const mesh of meshes) {
+        if (isNetworkTestResultOverlayMesh(mesh)) {
+            continue;
+        }
+        mesh.renderOverlay = true;
+        mesh.overlayColor = new host.Color3(
+            NETWORK_TEST_CONNECTED_RGB.r,
+            NETWORK_TEST_CONNECTED_RGB.g,
+            NETWORK_TEST_CONNECTED_RGB.b
+        );
+        mesh.overlayAlpha = NETWORK_TEST_CONNECTED_ALPHA;
+        cableStartOverlayMeshes.add(mesh);
+    }
+    console.log(
+        `[partCables.js]: [N/A] - [showCableStartOverlay] - stampId has a value of ${stamp.stampId}, meshCount has a value of ${cableStartOverlayMeshes.size}.`
+    ); //This is logged to debug the blue wash on the device a cable starts from.
+}
+
+/**
+ * True when letting go would commit this cable. No toasts — used while the pointer is still down.
+ * @param {object} startStamp
+ * @param {object} endStamp
+ * @param {Array<{ x: number, z: number }> | null | undefined} path
+ * @returns {boolean}
+ */
+function canPreviewCableCommit(startStamp, endStamp, path) {
+    if (!startStamp || !endStamp || startStamp.stampId === endStamp.stampId) {
+        return false;
+    }
+    if (networkEditsLockedAfterPass || !path || path.length < 2) {
+        return false;
+    }
+    const startDef = getPartDef(startStamp.partId);
+    const endDef = getPartDef(endStamp.partId);
+    if (countCablesOnStamp(startStamp.stampId) >= maxCablesForPart(startDef)) {
+        return false;
+    }
+    if (countCablesOnStamp(endStamp.stampId) >= maxCablesForPart(endDef)) {
+        return false;
+    }
+    if (alreadyConnected(startStamp.stampId, endStamp.stampId)) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Blue wash on the device under the pointer during a drag, when release would connect.
+ * @param {object} stamp
+ */
+function showCableHoverOverlay(stamp) {
+    if (!stamp || cableHoverOverlayStampId === stamp.stampId) {
+        return;
+    }
+    clearCableHoverOverlay();
+    const meshes = stamp.wrap?.getChildMeshes?.(false) || [];
+    const host = getHost();
+    for (const mesh of meshes) {
+        if (isNetworkTestResultOverlayMesh(mesh) || cableStartOverlayMeshes.has(mesh)) {
+            continue;
+        }
+        mesh.renderOverlay = true;
+        mesh.overlayColor = new host.Color3(
+            NETWORK_TEST_CONNECTED_RGB.r,
+            NETWORK_TEST_CONNECTED_RGB.g,
+            NETWORK_TEST_CONNECTED_RGB.b
+        );
+        mesh.overlayAlpha = NETWORK_TEST_CONNECTED_ALPHA;
+        cableHoverOverlayMeshes.add(mesh);
+    }
+    cableHoverOverlayStampId = stamp.stampId;
+    console.log(
+        `[partCables.js]: [N/A] - [showCableHoverOverlay] - stampId has a value of ${stamp.stampId}, meshCount has a value of ${cableHoverOverlayMeshes.size}.`
+    ); //This is logged to debug the blue wash on a device a cable drag would connect to.
+}
+
+/**
+ * @param {import('@babylonjs/core').Scene} scene
+ */
+function syncCableHoverTargetOverlay(scene) {
+    if (!dragSession?.becameDrag) {
+        clearCableHoverOverlay();
+        return;
+    }
+    const startStamp = getStampById(dragSession.startStampId);
+    const layout = getActiveLayout();
+    if (!startStamp || !layout) {
+        clearCableHoverOverlay();
+        return;
+    }
+    const { stamp: endStamp } = resolveWiredTargetAtPointer(scene, {
+        excludeStampId: startStamp.stampId,
+    });
+    if (!endStamp) {
+        clearCableHoverOverlay();
+        return;
+    }
+    const path = findGridPath(
+        { x: startStamp.x, z: startStamp.z },
+        { x: endStamp.x, z: endStamp.z },
+        layout.width ?? 0,
+        layout.depth ?? 0
+    );
+    if (!canPreviewCableCommit(startStamp, endStamp, path)) {
+        clearCableHoverOverlay();
+        return;
+    }
+    showCableHoverOverlay(endStamp);
+}
+
+/**
+ * Drop a one-press camera freeze (place/cable gesture). Safe when already free.
+ */
+function releaseToolCameraHold() {
+    cameraOrbitPress = null;
+    cablePressHoldsCamera = false;
+    unlockSimNetworkCamera();
 }
 
 /**
@@ -711,118 +1034,176 @@ function rgbForColorIndex(colorIndex) {
 }
 
 /**
- * @param {number} count
- * @param {number} index
+ * Sideways shift for one lane, as a fraction of a cell.
+ * @param {number} laneIndex
  * @returns {number}
  */
-function laneOffsetFractionFor(count, index) {
-    const n = Math.max(1, Math.min(5, count | 0));
-    const slots = LANE_OFFSETS_BY_COUNT[n];
-    const i = Math.max(0, Math.min(slots.length - 1, index | 0));
-    return slots[i];
+function laneOffsetFraction(laneIndex) {
+    const lastSlot = CABLE_LANE_OFFSETS.length - 1;
+    const index = Math.max(0, Math.min(lastSlot, laneIndex | 0));
+    return CABLE_LANE_OFFSETS[index];
 }
 
 /**
- * Stable peer list for a cell (optional preview id).
- * @param {number} x
- * @param {number} z
- * @param {boolean} includePreview
- * @returns {string[]}
+ * World XZ shift for a lane. An east–west step spreads lanes on Z.
+ * A north–south step spreads them on X. The sign is fixed in the world,
+ * so a cable drawn backwards stays on the same side as its neighbours.
+ * @param {number} stepX
+ * @param {number} stepZ
+ * @param {number} laneIndex
+ * @param {number} cellSize
+ * @returns {{ x: number, z: number }}
  */
-function getLanePeerIds(x, z, includePreview) {
-    const ids = getCablesTouchingCell(x, z).map((cable) => cable.id);
-    if (includePreview) {
-        ids.push(PREVIEW_CABLE_ID);
+function laneWorldOffset(stepX, stepZ, laneIndex, cellSize) {
+    const distance = laneOffsetFraction(laneIndex) * cellSize;
+    if (Math.abs(stepX) >= Math.abs(stepZ) && stepX !== 0) {
+        return { x: 0, z: distance };
     }
-    ids.sort();
-    return ids;
+    if (stepZ !== 0) {
+        return { x: distance, z: 0 };
+    }
+    return { x: 0, z: 0 };
 }
 
 /**
- * Build tube path: rise at start (riser top → floor), run just above floor, rise at end.
- * Endpoints stay on the cell centre (pinned under the device); middle cells keep lane offsets.
+ * One lane for the whole cable. A lane scores higher when a path cell
+ * already holds a cable in that lane. Cells beside a device count more,
+ * so the run just after a switch stays separated. Ties keep the center lane.
+ * @param {Array<{ x: number, z: number }>} cells
+ * @returns {number}
+ */
+function chooseLaneIndex(cells) {
+    const laneCount = CABLE_LANE_OFFSETS.length;
+    const scores = [];
+    for (let lane = 0; lane < laneCount; lane += 1) {
+        scores.push(0);
+    }
+    const last = cells.length - 1;
+    for (let i = 0; i < cells.length; i += 1) {
+        const nearDevice = i <= 2 || i >= last - 2;
+        const weight = nearDevice ? 4 : 1;
+        const cell = cells[i];
+        /** @type {Set<number>} */
+        const seen = new Set();
+        for (const peer of getCablesTouchingCell(cell.x, cell.z)) {
+            const lane = peer.laneIndex;
+            if (typeof lane !== 'number' || seen.has(lane)) {
+                continue;
+            }
+            seen.add(lane);
+            if (lane >= 0 && lane < laneCount) {
+                scores[lane] += weight;
+            }
+        }
+    }
+    let best = CABLE_LANE_PICK_ORDER[0];
+    for (const lane of CABLE_LANE_PICK_ORDER) {
+        if (scores[lane] < scores[best]) {
+            best = lane;
+        }
+    }
+    return best;
+}
+
+/**
+ * Tube path. The vertical plug stays on the device-cell centre.
+ * On the floor, a short fan inside that cell steps out to this cable's lane
+ * before the run leaves the cell. The same lane is used for the whole run.
  * @param {Array<{ x: number, z: number }>} cells
  * @param {number} cellSize
  * @param {number} half
  * @param {object} host
- * @param {string} cableId
- * @param {boolean} isPreview
+ * @param {number} laneIndex
  * @returns {import('@babylonjs/core').Vector3[]}
  */
-function buildLanedPathPoints(cells, cellSize, half, host, cableId, isPreview) {
+function buildLanedPathPoints(cells, cellSize, half, host, laneIndex) {
     /** @type {import('@babylonjs/core').Vector3[]} */
     const points = [];
     if (!cells.length) {
         return points;
     }
-    const last = cells.length - 1;
 
     /**
-     * @param {number} i
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     */
+    function pushPoint(x, y, z) {
+        const prev = points[points.length - 1];
+        if (prev && Math.hypot(prev.x - x, prev.y - y, prev.z - z) < 1e-4) {
+            return;
+        }
+        points.push(new host.Vector3(x, y, z));
+    }
+
+    /**
+     * @param {{ x: number, z: number }} cell
      * @returns {{ x: number, z: number }}
      */
-    function cellWorldXZ(i) {
-        const cell = cells[i];
-        let offsetX = 0;
-        let offsetZ = 0;
-        const isEndpoint = i === 0 || i === last;
-        if (!isEndpoint && cableId) {
-            const peerIds = getLanePeerIds(cell.x, cell.z, isPreview);
-            let laneIndex = peerIds.indexOf(cableId);
-            if (laneIndex < 0) {
-                laneIndex = peerIds.length;
-            }
-            const fraction = laneOffsetFractionFor(
-                Math.max(peerIds.length, laneIndex + 1),
-                laneIndex
-            );
-            if (fraction !== 0) {
-                const prev = cells[i - 1];
-                const next = cells[i + 1];
-                let dx = next.x - prev.x;
-                let dz = next.z - prev.z;
-                let len = Math.hypot(dx, dz);
-                if (len < 1e-6) {
-                    dx = cell.x - prev.x;
-                    dz = cell.z - prev.z;
-                    len = Math.hypot(dx, dz);
-                }
-                if (len >= 1e-6) {
-                    dx /= len;
-                    dz /= len;
-                    // Left of travel in XZ — keeps parallel runs side-by-side.
-                    offsetX = -dz * fraction * cellSize;
-                    offsetZ = dx * fraction * cellSize;
-                }
-            }
-        }
+    function cellCenter(cell) {
         return {
-            x: cell.x * cellSize + half + offsetX,
-            z: cell.z * cellSize + half + offsetZ,
+            x: cell.x * cellSize + half,
+            z: cell.z * cellSize + half,
         };
     }
 
-    const start = cellWorldXZ(0);
-    // Start riser: device height → floor run.
-    points.push(new host.Vector3(start.x, CABLE_RISER_TOP_Y, start.z));
-    points.push(new host.Vector3(start.x, CABLE_Y, start.z));
-
-    // Floor run through remaining cells (skip duplicating start at CABLE_Y).
-    for (let i = 1; i <= last; i += 1) {
-        const p = cellWorldXZ(i);
-        points.push(new host.Vector3(p.x, CABLE_Y, p.z));
+    const last = cells.length - 1;
+    const start = cellCenter(cells[0]);
+    pushPoint(start.x, CABLE_RISER_TOP_Y, start.z);
+    pushPoint(start.x, CABLE_Y, start.z);
+    if (last === 0) {
+        return points;
     }
 
-    const end = cellWorldXZ(last);
-    // End riser: floor → device height.
-    points.push(new host.Vector3(end.x, CABLE_RISER_TOP_Y, end.z));
+    const fanReach = CABLE_LANE_FAN_REACH * cellSize;
+    const exitX = cells[1].x - cells[0].x;
+    const exitZ = cells[1].z - cells[0].z;
+    const exitOffset = laneWorldOffset(exitX, exitZ, laneIndex, cellSize);
+    pushPoint(
+        start.x + exitX * fanReach + exitOffset.x,
+        CABLE_Y,
+        start.z + exitZ * fanReach + exitOffset.z
+    );
 
+    for (let i = 1; i < last; i += 1) {
+        const cell = cells[i];
+        const center = cellCenter(cell);
+        const inX = cell.x - cells[i - 1].x;
+        const inZ = cell.z - cells[i - 1].z;
+        const outX = cells[i + 1].x - cell.x;
+        const outZ = cells[i + 1].z - cell.z;
+        const inOffset = laneWorldOffset(inX, inZ, laneIndex, cellSize);
+        const straight = inX === outX && inZ === outZ;
+        if (straight) {
+            pushPoint(center.x + inOffset.x, CABLE_Y, center.z + inOffset.z);
+        } else {
+            // One bend: where the incoming lane line meets the outgoing lane line.
+            const outOffset = laneWorldOffset(outX, outZ, laneIndex, cellSize);
+            pushPoint(
+                center.x + inOffset.x + outOffset.x,
+                CABLE_Y,
+                center.z + inOffset.z + outOffset.z
+            );
+        }
+    }
+
+    const end = cellCenter(cells[last]);
+    const approachX = cells[last].x - cells[last - 1].x;
+    const approachZ = cells[last].z - cells[last - 1].z;
+    const endOffset = laneWorldOffset(approachX, approachZ, laneIndex, cellSize);
+    pushPoint(
+        end.x - approachX * fanReach + endOffset.x,
+        CABLE_Y,
+        end.z - approachZ * fanReach + endOffset.z
+    );
+    pushPoint(end.x, CABLE_Y, end.z);
+    pushPoint(end.x, CABLE_RISER_TOP_Y, end.z);
     return points;
 }
 
 /**
  * World-space tube path for an existing cable (same points as the mesh).
- * @param {{ id: string, cells: Array<{ x: number, z: number }> }} cable
+ * @param {{ id: string, cells: Array<{ x: number, z: number }>, laneIndex?: number }} cable
  * @returns {import('@babylonjs/core').Vector3[]}
  */
 export function getCableWorldPathPoints(cable) {
@@ -833,14 +1214,9 @@ export function getCableWorldPathPoints(cable) {
     }
     const cellSize = layout.cellSize ?? 1;
     const half = host.layoutCellHalfOffset(cellSize);
-    return buildLanedPathPoints(
-        cable.cells,
-        cellSize,
-        half,
-        host,
-        cable.id,
-        false
-    );
+    const laneIndex =
+        typeof cable.laneIndex === 'number' ? cable.laneIndex : chooseLaneIndex(cable.cells);
+    return buildLanedPathPoints(cable.cells, cellSize, half, host, laneIndex);
 }
 
 /** Unselected tube self-light (fraction of base blue). */
@@ -882,8 +1258,8 @@ function ensureCableGlowLayer() {
  * @param {number} colorIndex
  * @param {boolean} selected
  * @param {number} [radiusOverride]
- * @param {{ cableId?: string, isPreview?: boolean }} [options]
- * @returns {{ mesh: import('@babylonjs/core').Mesh, material: import('@babylonjs/core').StandardMaterial } | null}
+ * @param {{ laneIndex?: number }} [options]
+ * @returns {{ mesh: import('@babylonjs/core').Mesh, material: import('@babylonjs/core').StandardMaterial, path: import('@babylonjs/core').Vector3[] } | null}
  */
 function createCableMesh(cells, colorIndex, selected, radiusOverride, options = {}) {
     const layout = getActiveLayout();
@@ -893,16 +1269,9 @@ function createCableMesh(cells, colorIndex, selected, radiusOverride, options = 
     }
     const cellSize = layout.cellSize ?? 1;
     const half = host.layoutCellHalfOffset(cellSize);
-    const cableId = options.cableId || '';
-    const isPreview = options.isPreview === true;
-    const path = buildLanedPathPoints(
-        cells,
-        cellSize,
-        half,
-        host,
-        cableId,
-        isPreview
-    );
+    const laneIndex =
+        typeof options.laneIndex === 'number' ? options.laneIndex : chooseLaneIndex(cells);
+    const path = buildLanedPathPoints(cells, cellSize, half, host, laneIndex);
     const radius =
         typeof radiusOverride === 'number'
             ? radiusOverride
@@ -914,8 +1283,8 @@ function createCableMesh(cells, colorIndex, selected, radiusOverride, options = 
         {
             path,
             radius,
-            tessellation: 8,
-            updatable: false,
+            tessellation: CABLE_TUBE_TESSELLATION,
+            updatable: selected === true,
         },
         boundScene
     );
@@ -942,7 +1311,7 @@ function createCableMesh(cells, colorIndex, selected, radiusOverride, options = 
     material.specularColor = new host.Color3(0.1, 0.1, 0.1);
     mesh.material = material;
 
-    return { mesh, material };
+    return { mesh, material, path };
 }
 
 /**
@@ -951,7 +1320,7 @@ function createCableMesh(cells, colorIndex, selected, radiusOverride, options = 
  */
 function rebuildCableVisual(cable, selected) {
     const built = createCableMesh(cable.cells, cable.colorIndex, selected, undefined, {
-        cableId: cable.id,
+        laneIndex: cable.laneIndex,
     });
     if (!built) {
         return;
@@ -972,10 +1341,12 @@ function rebuildCableVisual(cable, selected) {
     }
     cable.mesh = built.mesh;
     cable.material = built.material;
+    cable.pathPoints = built.path;
 }
 
 /**
- * Rebuild every cable tube so shared-cell lanes rebalance after add/remove.
+ * Rebuild every cable tube after a cable is added or removed.
+ * Each cable keeps the lane it was given when it was laid.
  */
 function refreshCableLaneVisuals() {
     const glow = cableGlowLayer;
@@ -992,11 +1363,18 @@ function refreshCableLaneVisuals() {
             }
         }
     }
+    stopCablePulse();
     for (const cable of cables) {
         const selected = cable.id === selectedId;
         rebuildCableVisual(cable, selected);
         if (selected && glow && !glow.isDisposed?.() && cable.mesh) {
             glow.addIncludedOnlyMesh(cable.mesh);
+        }
+    }
+    if (selectedId) {
+        const selectedCable = cables.find((entry) => entry.id === selectedId);
+        if (selectedCable) {
+            startCablePulse(selectedCable);
         }
     }
 }
@@ -1009,9 +1387,117 @@ export function getSelectedCableId() {
 }
 
 /**
+ * True while Test Connection progress or its result dialog is active.
+ * @returns {boolean}
+ */
+export function isNetworkTestUiBusy() {
+    return networkTestUiState !== 'idle';
+}
+
+/**
+ * Ask the cell inspector to match its buttons to the Test Connection state.
+ */
+function notifyNetworkTestUiChanged() {
+    window.dispatchEvent(new CustomEvent(NETWORK_TEST_UI_CHANGED_EVENT));
+}
+
+/**
+ * Stop the selected-cable thickness pulse.
+ */
+function stopCablePulse() {
+    const wasRunning = Boolean(cablePulseObserver);
+    if (cablePulseScene && cablePulseObserver) {
+        cablePulseScene.onBeforeRenderObservable.remove(cablePulseObserver);
+    }
+    cablePulseObserver = null;
+    cablePulseScene = null;
+    cablePulseMesh = null;
+    cablePulsePath = null;
+    if (wasRunning) {
+        console.log(
+            `[partCables.js]: [N/A] - [stopCablePulse] - cablePulseObserver has a value of null.`
+        ); //This is logged when the selected cable stops growing and shrinking.
+    }
+}
+
+/**
+ * Move one colour channel toward white by the pulse amount.
+ * @param {number} base
+ * @param {number} wave
+ * @returns {number}
+ */
+function pulseColorChannel(base, wave) {
+    return base + (1 - base) * CABLE_PULSE_LIGHTEN * wave;
+}
+
+/**
+ * Grow and shrink one selected cable, and lighten its colour in step.
+ * @param {{ id: string, mesh?: import('@babylonjs/core').Mesh, material?: import('@babylonjs/core').StandardMaterial, pathPoints?: import('@babylonjs/core').Vector3[] }} cable
+ */
+function startCablePulse(cable) {
+    stopCablePulse();
+    if (!boundScene || !cable?.mesh || !cable.pathPoints || cable.pathPoints.length < 2) {
+        return;
+    }
+    const scene = boundScene;
+    const host = getHost();
+    cablePulseScene = scene;
+    cablePulseMesh = cable.mesh;
+    cablePulsePath = cable.pathPoints;
+    const diffuse = cable.material?.diffuseColor;
+    const emissive = cable.material?.emissiveColor;
+    const baseDiffuse = diffuse
+        ? { r: diffuse.r, g: diffuse.g, b: diffuse.b }
+        : null;
+    const baseEmissive = emissive
+        ? { r: emissive.r, g: emissive.g, b: emissive.b }
+        : null;
+    const startedAt = performance.now();
+    cablePulseObserver = scene.onBeforeRenderObservable.add(() => {
+        if (!cablePulseMesh || cablePulseMesh.isDisposed?.() || !cablePulsePath) {
+            stopCablePulse();
+            return;
+        }
+        const cycle =
+            ((performance.now() - startedAt) % CABLE_PULSE_PERIOD_MS) /
+            CABLE_PULSE_PERIOD_MS;
+        const wave = 0.5 - 0.5 * Math.cos(cycle * Math.PI * 2);
+        const radius =
+            CABLE_RADIUS + (CABLE_RADIUS_SELECTED - CABLE_RADIUS) * wave;
+        host.MeshBuilder.CreateTube(cablePulseMesh.name, {
+            path: cablePulsePath,
+            radius,
+            tessellation: CABLE_TUBE_TESSELLATION,
+            instance: cablePulseMesh,
+        });
+        if (baseDiffuse && diffuse) {
+            diffuse.r = pulseColorChannel(baseDiffuse.r, wave);
+            diffuse.g = pulseColorChannel(baseDiffuse.g, wave);
+            diffuse.b = pulseColorChannel(baseDiffuse.b, wave);
+        }
+        if (baseEmissive && emissive) {
+            emissive.r = pulseColorChannel(baseEmissive.r, wave);
+            emissive.g = pulseColorChannel(baseEmissive.g, wave);
+            emissive.b = pulseColorChannel(baseEmissive.b, wave);
+        }
+    });
+    console.log(
+        `[partCables.js]: [N/A] - [startCablePulse] - cableId has a value of ${cable.id}.`
+    ); //This is logged when a selected cable starts pulsing its thickness and colour.
+}
+
+/**
+ * Ask the cell status panel to show every cable button as off or on.
+ */
+function notifyCableSelectionChanged() {
+    window.dispatchEvent(new CustomEvent(CABLE_SELECTION_CHANGED_EVENT));
+}
+
+/**
  * Clear 3D glow / thickness selection (does not close the inspector UI).
  */
 export function clearCableSelection() {
+    stopCablePulse();
     if (!selectedCableId) {
         return;
     }
@@ -1031,6 +1517,7 @@ export function clearCableSelection() {
     if (cable) {
         rebuildCableVisual(cable, false);
     }
+    notifyCableSelectionChanged();
 }
 
 /**
@@ -1039,6 +1526,12 @@ export function clearCableSelection() {
  * @returns {boolean}
  */
 export function selectCableById(cableId) {
+    if (isNetworkTestUiBusy()) {
+        console.log(
+            `[partCables.js]: [N/A] - [selectCableById] - blockedByNetworkTest has a value of true, cableId has a value of ${cableId}.`
+        ); //This is logged when a cable button click is ignored because Test Connection is running.
+        return false;
+    }
     const cable = cables.find((entry) => entry.id === cableId);
     if (!cable) {
         return false;
@@ -1047,6 +1540,7 @@ export function selectCableById(cableId) {
         return true;
     }
 
+    stopCablePulse();
     const previousId = selectedCableId;
     if (previousId) {
         const previous = cables.find((entry) => entry.id === previousId);
@@ -1071,6 +1565,8 @@ export function selectCableById(cableId) {
     if (glow) {
         glow.addIncludedOnlyMesh(cable.mesh);
     }
+    startCablePulse(cable);
+    notifyCableSelectionChanged();
     return true;
 }
 
@@ -1138,6 +1634,7 @@ export function setCableMode(active, options = {}) {
             clearCablePathOverlay();
             clearCableHover();
             requestCableSelectedCellFx(null);
+            clearCableStartOverlay();
             ignoreNextDevicePick = false;
         }
         syncCableToggleButton(cableMode);
@@ -1150,7 +1647,9 @@ export function setCableMode(active, options = {}) {
     clearCablePathOverlay();
     clearCableHover();
     requestCableSelectedCellFx(null);
+    clearCableStartOverlay();
     ignoreNextDevicePick = false;
+    releaseToolCameraHold();
     syncCableToggleButton(cableMode);
     syncCableRenderGroups();
 
@@ -1159,15 +1658,11 @@ export function setCableMode(active, options = {}) {
         if (boundScene) {
             ensureCableHoverTile(boundScene);
         }
-        lockSimNetworkCamera();
         showDropToast(
             'Click and drag cables along the grid to connect devices.'
         );
-    } else {
-        unlockSimNetworkCamera();
-        if (clearExploreOnExit) {
-            requestExploreCellSelection(null);
-        }
+    } else if (clearExploreOnExit) {
+        requestExploreCellSelection(null);
     }
 
     console.log(
@@ -1268,6 +1763,7 @@ function notifyNetworkEditsLockChanged() {
  * Exit place/cable tools, unlock camera, go home, and disable palette toggles.
  */
 function prepareSceneForNetworkTest() {
+    clearCableSelection();
     clearDropSelection();
     setCableMode(false);
     unlockSimNetworkCamera();
@@ -1308,12 +1804,14 @@ function tryCommitCable(startStamp, endStamp, path, source) {
 
     const colorIndex = cables.length;
     const id = `cable_${nextCableSeq++}`;
+    const laneIndex = chooseLaneIndex(path);
     cables.push({
         id,
         fromStampId: startStamp.stampId,
         toStampId: endStamp.stampId,
         cells: path.map((cell) => ({ x: cell.x, z: cell.z })),
         colorIndex,
+        laneIndex,
         mesh: null,
         material: null,
     });
@@ -1327,9 +1825,9 @@ function tryCommitCable(startStamp, endStamp, path, source) {
         return false;
     }
     clearCablePathOverlay();
-    // Keep Cable mode on and camera locked so the next cable can run without re-toggling.
+    // Cable mode stays on so the next cable can run without re-toggling. Camera does not stay frozen.
     console.log(
-        `[partCables.js]: [N/A] - [tryCommitCable] - cableId has a value of ${id}, source has a value of ${source}, cellCount has a value of ${path.length}, colorIndex has a value of ${colorIndex}, cableModeStaysOn has a value of ${cableMode}.`
+        `[partCables.js]: [N/A] - [tryCommitCable] - cableId has a value of ${id}, source has a value of ${source}, cellCount has a value of ${path.length}, colorIndex has a value of ${colorIndex}, laneIndex has a value of ${laneIndex}, cableModeStaysOn has a value of ${cableMode}.`
     ); //This is logged when a wired cable is committed from click–click or hold–drag.
     notifyTutorialAction({
         type: 'cable',
@@ -1393,24 +1891,22 @@ function handleCableStampPick(stamp) {
             return;
         }
         pendingStartStampId = stamp.stampId;
+        clickPreviewCellKey = null;
+        clickPreviewPathKeys = new Set();
         clearCablePathOverlay();
         requestCableSelectedCellFx({ x: stamp.x, z: stamp.z });
-        lockSimNetworkCamera();
+        showCableStartOverlay(stamp);
         return;
     }
 
     if (pendingStartStampId === stamp.stampId) {
-        pendingStartStampId = null;
-        clearCablePathOverlay();
-        requestCableSelectedCellFx(null);
+        cancelArmedCableLay();
         return;
     }
 
     const startStamp = getStampById(pendingStartStampId);
     if (!startStamp) {
-        pendingStartStampId = null;
-        clearCablePathOverlay();
-        requestCableSelectedCellFx(null);
+        cancelArmedCableLay();
         return;
     }
 
@@ -1428,16 +1924,19 @@ function handleCableStampPick(stamp) {
     );
     if (!path || path.length < 2) {
         showDropToast('No free cable path between those devices.');
-        pendingStartStampId = null;
-        clearCablePathOverlay();
-        requestCableSelectedCellFx(null);
+        cancelArmedCableLay();
         return;
     }
 
-    tryCommitCable(startStamp, stamp, path, 'click-click');
+    const committed = tryCommitCable(startStamp, stamp, path, 'click-click');
     pendingStartStampId = null;
     clearCablePathOverlay();
     requestCableSelectedCellFx(null);
+    clearCableStartOverlay();
+    clearClickHoverPreviewCable();
+    if (!committed) {
+        playCableLayMissSfx();
+    }
 }
 
 /**
@@ -1484,9 +1983,13 @@ function updateDragPathToCell(cell) {
     dragSession.cells = path.map((entry) => ({ x: entry.x, z: entry.z }));
     dragSession.lastBlockedKey = null;
     if (path.length > 1) {
+        const justBecameDrag = !dragSession.becameDrag;
         dragSession.becameDrag = true;
         pendingStartStampId = null;
         requestCableSelectedCellFx(null);
+        if (justBecameDrag) {
+            showCableStartOverlay(startStamp);
+        }
     }
 
     // Play drop-cable once per newly covered cell while hold-dragging (not on hover rebuild of same path).
@@ -1524,14 +2027,18 @@ function finishHoldDrag(scene) {
         const { stamp, cell } = resolveWiredTargetAtPointer(scene);
         if (stamp) {
             handleCableStampPick(stamp);
+        } else {
+            clearCableStartOverlay();
         }
         return;
     }
 
+    clearCableStartOverlay();
     ignoreNextDevicePick = true;
     const startStamp = getStampById(session.startStampId);
     if (!startStamp) {
         clearDragSession();
+        playCableLayMissSfx();
         return;
     }
 
@@ -1541,12 +2048,14 @@ function finishHoldDrag(scene) {
 
     if (!endStamp || endStamp.stampId === startStamp.stampId) {
         clearDragSession();
+        playCableLayMissSfx();
         return;
     }
 
     const layout = getActiveLayout();
     if (!layout) {
         clearDragSession();
+        playCableLayMissSfx();
         return;
     }
     const path = findGridPath(
@@ -1558,11 +2067,15 @@ function finishHoldDrag(scene) {
     if (!path || path.length < 2) {
         showDropToast('No free cable path between those devices.');
         clearDragSession();
+        playCableLayMissSfx();
         return;
     }
 
-    tryCommitCable(startStamp, endStamp, path, 'hold-drag');
+    const committed = tryCommitCable(startStamp, endStamp, path, 'hold-drag');
     clearDragSession();
+    if (!committed) {
+        playCableLayMissSfx();
+    }
 }
 
 /**
@@ -1578,6 +2091,11 @@ function attachCablePointerObserver(scene) {
 
     ensureCableHoverTile(scene);
 
+    function refreshCableHover() {
+        const cell = pickCellAtPointer(scene.pointerX, scene.pointerY);
+        setCableHoverCell(cell);
+    }
+
     pointerObserver = scene.onPointerObservable.add((pointerInfo) => {
         if (!cableMode) {
             return;
@@ -1585,43 +2103,136 @@ function attachCablePointerObserver(scene) {
         const type = pointerInfo.type;
 
         if (type === host.PointerEventTypes.POINTERMOVE) {
-            const cell = pickCellAtPointer(scene.pointerX, scene.pointerY);
-            setCableHoverCell(cell);
-            if (dragSession && cell) {
-                updateDragPathToCell(cell);
+            if (cablePressHoldsCamera) {
+                refreshCableHover();
+                if (dragSession && cableHoverCell) {
+                    updateDragPathToCell(cableHoverCell);
+                    if (dragSession.becameDrag) {
+                        setSimNetworkCameraLockBanner(true);
+                    }
+                }
+                syncCableHoverTargetOverlay(scene);
+                return;
             }
+            if (cameraOrbitPress?.orbiting) {
+                return;
+            }
+            if (cameraOrbitPress && !cameraOrbitPress.orbiting) {
+                const dx = scene.pointerX - cameraOrbitPress.x;
+                const dy = scene.pointerY - cameraOrbitPress.y;
+                if (Math.hypot(dx, dy) >= TOOL_CAMERA_DRAG_SLOP_PX) {
+                    cameraOrbitPress.orbiting = true;
+                    unlockSimNetworkCamera();
+                    clearCableHover();
+                    clearClickHoverPreviewCable();
+                    console.log(
+                        `[partCables.js]: [N/A] - [attachCablePointerObserver] - cameraOrbitDrag has a value of true.`
+                    ); //This is logged to debug a cable-tool drag on an empty cell that turns the camera.
+                    return;
+                }
+            }
+            refreshCableHover();
+            if (dragSession && cableHoverCell) {
+                updateDragPathToCell(cableHoverCell);
+                if (dragSession.becameDrag) {
+                    setSimNetworkCameraLockBanner(true);
+                }
+            }
+            syncClickHoverPreviewCable();
             return;
         }
 
         if (type === host.PointerEventTypes.POINTERDOWN) {
+            cameraOrbitPress = null;
             const { stamp } = resolveWiredTargetAtPointer(scene);
-            if (!stamp) {
+            if (stamp) {
+                cablePressHoldsCamera = true;
+                lockSimNetworkCamera({ showBanner: false });
+                console.log(
+                    `[partCables.js]: [N/A] - [attachCablePointerObserver] - cablePressHoldsCamera has a value of true, stampId has a value of ${stamp.stampId}.`
+                ); //This is logged to debug a cable-tool press that keeps the camera still.
+                const partDef = getPartDef(stamp.partId);
+                if (countCablesOnStamp(stamp.stampId) >= maxCablesForPart(partDef)) {
+                    showDropToast('That device has no free cable ports.');
+                    return;
+                }
+                dragSession = {
+                    startStampId: stamp.stampId,
+                    cells: [{ x: stamp.x, z: stamp.z }],
+                    becameDrag: false,
+                    lastBlockedKey: null,
+                };
+                setCablePathOverlay([{ x: stamp.x, z: stamp.z }]);
+                const pendingIsOtherDevice =
+                    Boolean(pendingStartStampId) && pendingStartStampId !== stamp.stampId;
+                if (!pendingIsOtherDevice) {
+                    showCableStartOverlay(stamp);
+                }
                 return;
             }
-            const partDef = getPartDef(stamp.partId);
-            if (countCablesOnStamp(stamp.stampId) >= maxCablesForPart(partDef)) {
-                showDropToast('That device has no free cable ports.');
-                return;
-            }
-            dragSession = {
-                startStampId: stamp.stampId,
-                cells: [{ x: stamp.x, z: stamp.z }],
-                becameDrag: false,
-                lastBlockedKey: null,
+            cablePressHoldsCamera = false;
+            cameraOrbitPress = {
+                x: scene.pointerX,
+                y: scene.pointerY,
+                orbiting: false,
             };
-            setCablePathOverlay([{ x: stamp.x, z: stamp.z }]);
-            // Same as droppable place cycle / click–click first device: lock for this cable run.
-            lockSimNetworkCamera();
+            lockSimNetworkCamera({ showBanner: false });
             return;
         }
 
         if (type === host.PointerEventTypes.POINTERUP) {
-            if (!dragSession) {
-                return;
+            const orbiting = cameraOrbitPress?.orbiting === true;
+            const hadDrag = Boolean(dragSession);
+            if (dragSession) {
+                finishHoldDrag(scene);
             }
-            finishHoldDrag(scene);
+            releaseToolCameraHold();
+            if (!orbiting && !hadDrag && pendingStartStampId) {
+                cancelArmedCableLay();
+            }
+            if (orbiting && cableMode) {
+                refreshCableHover();
+            }
+            return;
+        }
+
+        if (type === host.PointerEventTypes.POINTERCAPTURELOST) {
+            if (dragSession) {
+                const keepPendingStart =
+                    !dragSession.becameDrag &&
+                    Boolean(pendingStartStampId) &&
+                    pendingStartStampId !== dragSession.startStampId;
+                clearDragSession();
+                if (!keepPendingStart) {
+                    clearCableStartOverlay();
+                }
+            }
+            releaseToolCameraHold();
         }
     });
+}
+
+/**
+ * Endpoint names for a cable (cell inspector 3-column row).
+ * @param {string} cableId
+ * @returns {{ fromLabel: string, toLabel: string, fromStampId: string, toStampId: string }}
+ */
+export function getCableEndpointLabels(cableId) {
+    const cable = cables.find((entry) => entry.id === cableId);
+    if (!cable) {
+        return {
+            fromLabel: 'Cable',
+            toLabel: '',
+            fromStampId: '',
+            toStampId: '',
+        };
+    }
+    return {
+        fromLabel: getStampLabel(getStampById(cable.fromStampId)),
+        toLabel: getStampLabel(getStampById(cable.toStampId)),
+        fromStampId: cable.fromStampId,
+        toStampId: cable.toStampId,
+    };
 }
 
 /**
@@ -1630,13 +2241,11 @@ function attachCablePointerObserver(scene) {
  * @returns {string}
  */
 export function getCableLabel(cableId) {
-    const cable = cables.find((entry) => entry.id === cableId);
-    if (!cable) {
-        return 'Cable';
+    const endpoints = getCableEndpointLabels(cableId);
+    if (!endpoints.toLabel) {
+        return endpoints.fromLabel;
     }
-    const fromLabel = getStampLabel(getStampById(cable.fromStampId));
-    const toLabel = getStampLabel(getStampById(cable.toStampId));
-    return `${fromLabel} ↔ ${toLabel}`;
+    return `${endpoints.fromLabel} ↔ ${endpoints.toLabel}`;
 }
 
 /**
@@ -1714,6 +2323,7 @@ export function removeCablesForStamp(stampId) {
  * @param {import('@babylonjs/core').Scene} scene
  */
 export function initializePartCables(scene) {
+    stopCablePulse();
     clearCableSelection();
     clearDragSession();
     ignoreNextDevicePick = false;
@@ -1785,9 +2395,12 @@ export function initializePartCables(scene) {
  * Tear down cables and mode state. Does not remove the Cable button (palette owns that).
  */
 export function disposePartCables() {
+    stopCablePulse();
     clearCableSelection();
     clearDragSession();
     ignoreNextDevicePick = false;
+    clearCableStartOverlay();
+    releaseToolCameraHold();
     if (boundScene && pointerObserver) {
         boundScene.onPointerObservable.remove(pointerObserver);
     }
@@ -2129,11 +2742,15 @@ function startNetworkTestCableFlow(result) {
     playCableFlowWaves(boundScene, waveA, waveB, {
         progressMs: NETWORK_TEST_PROGRESS_MS,
     });
+    cableFlowOwner = 'test';
 }
 
 /** Hard-clear Test cable-flow particles + cable x-ray (dialog exit / dispose / re-test). */
 function clearNetworkTestCableFlow() {
     stopCableFlowFx();
+    if (cableFlowOwner === 'test') {
+        cableFlowOwner = null;
+    }
     setNetworkTestCableXray(false);
 }
 
@@ -2688,6 +3305,7 @@ function resetNetworkTestControl() {
     cancelNetworkTestProgressAnimation();
     networkTestPendingResult = null;
     networkTestUiState = 'idle';
+    notifyNetworkTestUiChanged();
     setNetworkTestPaletteWide(false);
     if (networkTestAlertEl) {
         networkTestAlertEl.hidden = true;
@@ -2752,6 +3370,7 @@ function startNetworkTestProgressMorph(result) {
     cancelNetworkTestProgressAnimation();
     networkTestPendingResult = result;
     networkTestUiState = 'testing';
+    notifyNetworkTestUiChanged();
     const targetPercent = getNetworkTestProgressTargetPercent(result);
     if (networkTestBtn) {
         networkTestBtn.hidden = true;
@@ -2795,6 +3414,13 @@ function runNetworkTest() {
     prepareSceneForNetworkTest();
     clearNetworkTestCableFlow();
     const result = evaluateNetworkTest();
+    notifyTutorialAction({
+        type: 'networkTest',
+        result: result.passed ? 'pass' : 'fail',
+    });
+    console.log(
+        `[partCables.js]: [N/A] - [runNetworkTest] - tutorialNotifyResult has a value of ${result.passed ? 'pass' : 'fail'}.`
+    ); //This is logged when the network test result is known and reported to the tutorial coach.
     playSfx('test-connection');
     console.log(
         `[partCables.js]: [N/A] - [runNetworkTest] - testConnectionSfxDispatched has a value of true.`

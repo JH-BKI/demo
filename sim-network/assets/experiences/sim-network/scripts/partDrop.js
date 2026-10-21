@@ -22,6 +22,7 @@ import { mountCableToggle, setCableMode } from './partCables.js';
 import {
     lockSimNetworkCamera,
     unlockSimNetworkCamera,
+    TOOL_CAMERA_DRAG_SLOP_PX,
 } from './partCamera.js';
 import { notifyTutorialAction } from './sim-network-tutorial-coach.js';
 
@@ -47,7 +48,6 @@ const DEFAULT_DROP_ROTATION_Y = 270;
 const MIRRORED_LAYER2_ROTATION_Y_EXTRA = 180;
 /** Used when the drop cell has no layer-3 part with droppableYOffset. */
 const DEFAULT_DROP_Y_OFFSET = 0;
-const SELECT_CLICK_SLOP_PX = 5;
 const HOVER_LAYER_RGB = { r: 0.7, g: 0.35, b: 0.95 };
 /** Hover tint when the cell blocks player drops. */
 const HOVER_BLOCKED_RGB = { r: 0.95, g: 0.25, b: 0.2 };
@@ -832,8 +832,6 @@ function selectDroppable(partId) {
         });
     }
 
-    lockSimNetworkCamera();
-
     if (partId === 'router') {
         showDropToast('Click on a cell to place a Modem/Router');
     } else if (partId === 'switch') {
@@ -989,6 +987,45 @@ function buildGridHelpers(scene, layout, host) {
  */
 function attachPointerObserver(scene) {
     const host = getHost();
+
+    function syncHoverAtPointer() {
+        const cell = pickCellAtPointer(scene.pointerX, scene.pointerY);
+        if (!cell) {
+            clearHover();
+            return;
+        }
+        if (!hoverCell || hoverCell.x !== cell.x || hoverCell.z !== cell.z) {
+            hoverCell = cell;
+            const allowed = isCellDropAllowed(cell.x, cell.z);
+            setHoverAllowedLook(allowed);
+            // Old wash + dashed outlines stay disabled; Phase 2.2 purple/red FX instead.
+            positionMarker(hoverTile, null);
+            requestDroppableCellFx(hoverCell, allowed ? 'purple' : 'red');
+            updateGhostAtHover();
+        }
+    }
+
+    function endPress(placeIfClick) {
+        if (!pointerDownInfo) {
+            return;
+        }
+        const orbiting = pointerDownInfo.orbiting === true;
+        const dx = scene.pointerX - pointerDownInfo.x;
+        const dy = scene.pointerY - pointerDownInfo.y;
+        const moved = Math.hypot(dx, dy);
+        const downCell = pointerDownInfo.cell;
+        pointerDownInfo = null;
+        unlockSimNetworkCamera();
+        if (orbiting) {
+            syncHoverAtPointer();
+            return;
+        }
+        if (!placeIfClick || moved >= TOOL_CAMERA_DRAG_SLOP_PX || !downCell) {
+            return;
+        }
+        tryPlaceAtCell(downCell);
+    }
+
     pointerObserver = scene.onPointerObservable.add((pointerInfo) => {
         if (!selectedPartId) {
             return;
@@ -996,20 +1033,23 @@ function attachPointerObserver(scene) {
         const type = pointerInfo.type;
 
         if (type === host.PointerEventTypes.POINTERMOVE) {
-            const cell = pickCellAtPointer(scene.pointerX, scene.pointerY);
-            if (!cell) {
-                clearHover();
+            if (pointerDownInfo?.orbiting) {
                 return;
             }
-            if (!hoverCell || hoverCell.x !== cell.x || hoverCell.z !== cell.z) {
-                hoverCell = cell;
-                const allowed = isCellDropAllowed(cell.x, cell.z);
-                setHoverAllowedLook(allowed);
-                // Old wash + dashed outlines stay disabled; Phase 2.2 purple/red FX instead.
-                positionMarker(hoverTile, null);
-                requestDroppableCellFx(hoverCell, allowed ? 'purple' : 'red');
-                updateGhostAtHover();
+            if (pointerDownInfo && !pointerDownInfo.orbiting) {
+                const dx = scene.pointerX - pointerDownInfo.x;
+                const dy = scene.pointerY - pointerDownInfo.y;
+                if (Math.hypot(dx, dy) >= TOOL_CAMERA_DRAG_SLOP_PX) {
+                    pointerDownInfo.orbiting = true;
+                    unlockSimNetworkCamera();
+                    clearHover();
+                    console.log(
+                        `[partDrop.js]: [N/A] - [attachPointerObserver] - cameraOrbitDrag has a value of true.`
+                    ); //This is logged to debug a place-tool drag that turns the camera instead of dropping a part.
+                    return;
+                }
             }
+            syncHoverAtPointer();
             return;
         }
 
@@ -1019,25 +1059,19 @@ function attachPointerObserver(scene) {
                 x: scene.pointerX,
                 y: scene.pointerY,
                 cell,
+                orbiting: false,
             };
+            lockSimNetworkCamera({ showBanner: false });
             return;
         }
 
         if (type === host.PointerEventTypes.POINTERUP) {
-            if (!pointerDownInfo) {
-                return;
-            }
-            const dx = scene.pointerX - pointerDownInfo.x;
-            const dy = scene.pointerY - pointerDownInfo.y;
-            const moved = Math.hypot(dx, dy);
-            const downCell = pointerDownInfo.cell;
-            pointerDownInfo = null;
-            if (moved > SELECT_CLICK_SLOP_PX || !downCell) {
-                return;
-            }
+            endPress(true);
+            return;
+        }
 
-            // Any object in the cell counts as that cell (desk/wall/device).
-            tryPlaceAtCell(downCell);
+        if (type === host.PointerEventTypes.POINTERCAPTURELOST) {
+            endPress(false);
         }
     });
 }

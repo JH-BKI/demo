@@ -11,7 +11,7 @@
       "kind": "html",
       "startTime": 2,
       "html": {
-        "selector": "#sim-network-flow-overlay .sim-network-flow-overlay__panel--complete",
+        "selector": ".sim-network-complete-overlay .sim-network-flow-overlay__panel--complete",
         "durationSeconds": 0,
         "mode": "class",
         "className": "html-clip-anim-fade-up",

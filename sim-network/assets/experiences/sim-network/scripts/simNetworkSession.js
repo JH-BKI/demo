@@ -5,7 +5,7 @@
  */
 
 /** @typedef {{ id: string, kind: string, title: string, url: string, description?: string, sequenceFileName?: string }} SimNetworkMapEntry */
-/** @typedef {{ id: string, title: string, sortOrder: number, comingSoon: boolean, maps: SimNetworkMapEntry[] }} SimNetworkDifficulty */
+/** @typedef {{ id: string, title: string, sortOrder: number, comingSoon: boolean, shortLabel: string, chapterTitle: string, description: string, image: string, maps: SimNetworkMapEntry[] }} SimNetworkDifficulty */
 
 /** @type {{ selectedDifficultyId: string | null, mapIndex: number, completedDifficulties: Set<string>, completedMaps: Set<string> }} */
 const session = {
@@ -89,6 +89,10 @@ export function parseDifficulties(indexDoc) {
                 sortOrder: typeof entry.sortOrder === 'number' ? entry.sortOrder : 99,
                 // comingSoon = track is visible in level-select but not playable yet.
                 comingSoon: entry.comingSoon === true,
+                shortLabel: typeof entry.shortLabel === 'string' ? entry.shortLabel : '',
+                chapterTitle: typeof entry.chapterTitle === 'string' ? entry.chapterTitle : '',
+                description: typeof entry.description === 'string' ? entry.description : '',
+                image: typeof entry.image === 'string' ? entry.image : '',
                 maps
             };
         })

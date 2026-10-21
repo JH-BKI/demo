@@ -10,7 +10,7 @@
       "kind": "html",
       "startTime": 1,
       "html": {
-        "selector": "#sim-network-instructions-overlay .sim-network-split",
+        "selector": ".sim-network-level-select-overlay .sim-network-split",
         "durationSeconds": 0,
         "mode": "class",
         "className": "html-clip-anim-fade-up",
@@ -30,7 +30,7 @@
     {
       "type": "emit",
       "id": "emit-2",
-      "time": 20,
+      "time": 6.5,
       "event": "event:hide-dialogue",
       "label": "hide-instructions-level-select-01",
       "subLane": 1,
@@ -45,7 +45,7 @@
       "label": "03-level-select scene timeline",
       "color": "#ff8800",
       "startTime": 0,
-      "endTime": 20
+      "endTime": 7
     }
   ],
   "regions": [
@@ -61,7 +61,7 @@
       "label": "level select",
       "color": "#4488ff",
       "startTime": 1.5,
-      "endTime": 20
+      "endTime": 7
     }
   ],
   "rowOrder": [

@@ -9,13 +9,13 @@
       "type": "clip",
       "id": "clip-1",
       "kind": "html",
-      "startTime": 2.5,
+      "startTime": 3.5,
       "html": {
-        "selector": "#sim-network-instructions-overlay .sim-network-split__card",
+        "selector": ".sim-network-instructions-overlay",
         "durationSeconds": 0,
         "mode": "class",
-        "className": "html-clip-anim-fade-up",
-        "classAction": "add"
+        "className": "hidden",
+        "classAction": "remove"
       }
     },
     {
@@ -31,17 +31,18 @@
     {
       "type": "wait",
       "id": "gate-1",
-      "time": 0.4,
+      "time": 1,
       "trigger": {
         "kind": "event",
         "name": "event:dialogue-complete-instructions-01"
       },
-      "label": "wait for dialogue Next"
+      "label": "wait for dialogue Next",
+      "subLane": 1
     },
     {
       "type": "emit",
       "id": "emit-2",
-      "time": 0.5,
+      "time": 2,
       "event": "event:hide-dialogue",
       "label": "hide-instructions-dialogue-01",
       "detail": {
@@ -52,7 +53,7 @@
     {
       "type": "emit",
       "id": "emit-3",
-      "time": 1.5,
+      "time": 2.6,
       "event": "event:show-dialogue",
       "label": "show-instructions-02",
       "detail": {
@@ -62,12 +63,77 @@
     {
       "type": "emit",
       "id": "emit-4",
-      "time": 10,
+      "time": 6.5,
       "event": "event:hide-dialogue",
       "label": "hide-instructions-dialogue-01",
-      "subLane": 1,
+      "subLane": 0,
       "detail": {
         "contentKey": "instructions-01"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "html",
+      "html": {
+        "selector": "#instructions-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "remove"
+      },
+      "startTime": 0.9
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "startTime": 1.1,
+      "kind": "html",
+      "html": {
+        "selector": "#instructions-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "startTime": 4.5,
+      "kind": "html",
+      "html": {
+        "selector": "#instructions-continue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "remove"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "startTime": 2.1,
+      "kind": "html",
+      "html": {
+        "selector": "#instructions-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "startTime": 2.4,
+      "kind": "html",
+      "html": {
+        "selector": "#instructions-continue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "remove"
       }
     }
   ],
@@ -86,20 +152,20 @@
       "label": "dialogue 01",
       "color": "#4488ff",
       "startTime": 0,
-      "endTime": 1.5
+      "endTime": 2.5
     },
     {
       "id": "region-2",
       "label": "dialogue 02",
       "color": "#4488ff",
-      "startTime": 1.5,
-      "endTime": 2.5
+      "startTime": 2.5,
+      "endTime": 3.5
     },
     {
       "id": "region-3",
       "label": "how to play",
       "color": "#4488ff",
-      "startTime": 2.5,
+      "startTime": 3.5,
       "endTime": 10
     }
   ],
@@ -108,6 +174,15 @@
       "clip-1"
     ],
     [],
+    [
+      "clip-2",
+      "clip-4",
+      "clip-6"
+    ],
+    [
+      "clip-3",
+      "clip-5"
+    ],
     [],
     [],
     []

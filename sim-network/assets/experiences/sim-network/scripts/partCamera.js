@@ -1,6 +1,8 @@
 /**
- * Sim-network custom camera — grid-center home, cell-click focus, place/cable lock.
+ * Sim-network custom camera — grid-center home, cell-click focus, short press-freeze.
  * Player only. Keeps scene JSON orbit limits; panning stays off.
+ * A place/cable press can freeze orbit for that gesture. A real drag releases it,
+ * except a cable drag that starts on a device (that one stays frozen).
  */
 
 import { getActiveLayout } from './layoutAssembler.js';
@@ -12,14 +14,11 @@ const HOME_TARGET_Y = 0.5;
 const LOCKED_ANGULAR_SENSIBILITY = 1e12;
 const DEFAULT_LERP_MS = 1000;
 const BANNER_ID = 'sim-network-camera-locked-banner';
-/** Decent swipe before we treat a locked drag as “trying to rotate”. */
-const ORBIT_DRAG_SLOP_PX = 40;
-/** How long the unlock hint stays fully visible. */
-const UNLOCK_HINT_HOLD_MS = 2000;
-/** Fade-out duration after the hold (matches CSS). */
-const UNLOCK_HINT_FADE_MS = 250;
-const UNLOCK_HINT_TEXT =
-    'Un-check the selected networking component to unlock the camera';
+/**
+ * How far a press must move before it is a camera drag instead of a tool click.
+ * Shared by the place tool and Cable-on-empty-cell. A shaky tap stays a click.
+ */
+export const TOOL_CAMERA_DRAG_SLOP_PX = 10;
 
 /** @type {import('@babylonjs/core').Scene | null} */
 let boundScene = null;
@@ -56,16 +55,6 @@ let lockObserver = null;
 let lerpObserver = null;
 /** @type {HTMLElement | null} */
 let bannerEl = null;
-/** @type {HTMLElement | null} */
-let unlockHintEl = null;
-/** @type {import('@babylonjs/core').Observer | null} */
-let unlockHintPointerObserver = null;
-/** @type {{ x: number, y: number, onInteractable: boolean, hintShown: boolean } | null} */
-let unlockHintDrag = null;
-/** @type {number | null} */
-let unlockHintHoldTimerId = null;
-/** @type {number | null} */
-let unlockHintFadeTimerId = null;
 /** @type {((event: Event) => void) | null} */
 let onPluginsSummary = null;
 /** @type {((event: Event) => void) | null} */
@@ -138,71 +127,6 @@ function cellWorldCenter(cell, layout) {
     };
 }
 
-/**
- * @param {import('@babylonjs/core').PickingInfo | null | undefined} pickInfo
- * @returns {boolean}
- */
-function pickHitsInteractable(pickInfo) {
-    let node = pickInfo?.pickedMesh || null;
-    while (node) {
-        if (node.metadata?.simNetworkInteraction) {
-            return true;
-        }
-        node = node.parent;
-    }
-    return false;
-}
-
-function clearUnlockHintTimers() {
-    if (unlockHintHoldTimerId != null) {
-        window.clearTimeout(unlockHintHoldTimerId);
-        unlockHintHoldTimerId = null;
-    }
-    if (unlockHintFadeTimerId != null) {
-        window.clearTimeout(unlockHintFadeTimerId);
-        unlockHintFadeTimerId = null;
-    }
-}
-
-function hideUnlockHintImmediate() {
-    clearUnlockHintTimers();
-    unlockHintDrag = null;
-    if (unlockHintEl) {
-        unlockHintEl.classList.remove('is-visible');
-        unlockHintEl.hidden = true;
-    }
-}
-
-/**
- * Show / restart the unlock hint (1s hold, then ~250ms fade).
- */
-function showUnlockHint() {
-    ensureBanner();
-    if (!unlockHintEl) {
-        return;
-    }
-    clearUnlockHintTimers();
-    unlockHintEl.hidden = false;
-    // Restart CSS fade if we were mid-fade: snap off then on.
-    unlockHintEl.classList.remove('is-visible');
-    void unlockHintEl.offsetWidth;
-    unlockHintEl.classList.add('is-visible');
-
-    unlockHintHoldTimerId = window.setTimeout(() => {
-        unlockHintHoldTimerId = null;
-        if (!unlockHintEl) {
-            return;
-        }
-        unlockHintEl.classList.remove('is-visible');
-        unlockHintFadeTimerId = window.setTimeout(() => {
-            unlockHintFadeTimerId = null;
-            if (unlockHintEl && !unlockHintEl.classList.contains('is-visible')) {
-                unlockHintEl.hidden = true;
-            }
-        }, UNLOCK_HINT_FADE_MS);
-        }, UNLOCK_HINT_HOLD_MS);
-}
-
 function ensureBanner() {
     if (bannerEl) {
         return;
@@ -221,18 +145,11 @@ function ensureBanner() {
     titleEl.textContent = 'Camera locked';
     bannerEl.appendChild(titleEl);
 
-    unlockHintEl = document.createElement('div');
-    unlockHintEl.className = 'sim-network-camera-locked-banner__hint';
-    unlockHintEl.textContent = UNLOCK_HINT_TEXT;
-    unlockHintEl.hidden = true;
-    bannerEl.appendChild(unlockHintEl);
-
     root.appendChild(bannerEl);
 }
 
 function showBanner(visible) {
     if (!visible) {
-        hideUnlockHintImmediate();
         if (bannerEl) {
             bannerEl.hidden = true;
         }
@@ -242,72 +159,6 @@ function showBanner(visible) {
     if (bannerEl) {
         bannerEl.hidden = false;
     }
-}
-
-function attachUnlockHintPointerObserver(scene) {
-    if (unlockHintPointerObserver) {
-        return;
-    }
-    const host = getHost();
-    unlockHintPointerObserver = scene.onPointerObservable.add((pointerInfo) => {
-        if (!locked) {
-            unlockHintDrag = null;
-            return;
-        }
-        const type = pointerInfo.type;
-
-        if (type === host.PointerEventTypes.POINTERDOWN) {
-            const meshPick = scene.pick(scene.pointerX, scene.pointerY);
-            unlockHintDrag = {
-                x: scene.pointerX,
-                y: scene.pointerY,
-                onInteractable: pickHitsInteractable(meshPick),
-                hintShown: false,
-            };
-            return;
-        }
-
-        if (!unlockHintDrag) {
-            return;
-        }
-
-        if (type === host.PointerEventTypes.POINTERMOVE) {
-            if (unlockHintDrag.onInteractable || unlockHintDrag.hintShown) {
-                return;
-            }
-            const dx = scene.pointerX - unlockHintDrag.x;
-            const dy = scene.pointerY - unlockHintDrag.y;
-            if (Math.hypot(dx, dy) < ORBIT_DRAG_SLOP_PX) {
-                return;
-            }
-            unlockHintDrag.hintShown = true;
-            showUnlockHint();
-            return;
-        }
-
-        if (
-            type === host.PointerEventTypes.POINTERUP ||
-            type === host.PointerEventTypes.POINTERCAPTURELOST
-        ) {
-            // Another decent swipe after the first can restart the hint mid hold/fade.
-            if (
-                unlockHintDrag &&
-                !unlockHintDrag.onInteractable &&
-                unlockHintDrag.hintShown
-            ) {
-                // leave timers running; next down+drag will restart via showUnlockHint
-            }
-            unlockHintDrag = null;
-        }
-    });
-}
-
-function detachUnlockHintPointerObserver() {
-    if (boundScene && unlockHintPointerObserver) {
-        boundScene.onPointerObservable.remove(unlockHintPointerObserver);
-    }
-    unlockHintPointerObserver = null;
-    unlockHintDrag = null;
 }
 
 function cancelTargetLerp() {
@@ -409,8 +260,10 @@ export function isSimNetworkCameraLocked() {
 
 /**
  * Freeze orbit (alpha/beta) and target; zoom (radius) still allowed within scene limits.
+ * The banner stays hidden unless `showBanner` is true. A cable drag turns it on later.
+ * @param {{ showBanner?: boolean }} [options]
  */
-export function lockSimNetworkCamera() {
+export function lockSimNetworkCamera(options = {}) {
     if (!boundCamera) {
         return;
     }
@@ -434,7 +287,19 @@ export function lockSimNetworkCamera() {
     boundCamera.inertialPanningX = 0;
     boundCamera.inertialPanningY = 0;
     attachLockObserver();
-    showBanner(true);
+    showBanner(options.showBanner === true);
+}
+
+/**
+ * Show or hide the Camera locked banner while orbit is frozen.
+ * @param {boolean} visible
+ */
+export function setSimNetworkCameraLockBanner(visible) {
+    if (!locked) {
+        showBanner(false);
+        return;
+    }
+    showBanner(visible === true);
 }
 
 /**
@@ -553,7 +418,6 @@ export function initializePartCamera(scene, layout) {
     camera.target.z = homeTarget.z;
 
     ensureBanner();
-    attachUnlockHintPointerObserver(scene);
     registerPluginHomeSync();
     // Early publish; PLUGINS_SUMMARY will republish after resetView seeds from JSON.
     publishResetHome();
@@ -570,13 +434,10 @@ export function disposePartCamera() {
     cancelTargetLerp();
     unlockSimNetworkCamera();
     detachLockObserver();
-    detachUnlockHintPointerObserver();
-    hideUnlockHintImmediate();
     unregisterPluginHomeSync();
 
     bannerEl?.remove();
     bannerEl = null;
-    unlockHintEl = null;
     boundScene = null;
     boundCamera = null;
     homeTarget = null;

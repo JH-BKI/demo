@@ -1,5 +1,5 @@
 {
-  "id": "tutorial-02",
+  "id": "1-2-tutorial",
   "cellSize": 1,
   "width": 6,
   "depth": 7,
@@ -289,14 +289,14 @@
       "x": 1,
       "z": 1,
       "layer": 3,
-      "rotationY": -90
+      "rotationY": 180
     },
     {
       "part": "office-chair",
       "x": 2,
       "z": 5,
       "layer": 3,
-      "rotationY": -180
+      "rotationY": 0
     },
     {
       "part": "desktop-pc",
