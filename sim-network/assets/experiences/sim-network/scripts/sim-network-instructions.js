@@ -73,7 +73,7 @@ function buildInstructionStripItems() {
             <div class="equal-split">
             <div class="split-card__media">
                     <div class="badge badge-lg badge-accent btn-circle font-bold text-2xl animate-pulse">1</div>
-                    <img src="public/assets/experiences/sim-network/02-instructions/images/instructions-01.png" alt="instructions-01-image" decoding="async">
+                    <img src="./assets/experiences/sim-network/02-instructions/images/instructions-01.png" alt="instructions-01-image" decoding="async">
                 </div>
                 <div class="split-card__body text-center">
                     <p class="text-lg lg:text-xl font-bold">Many sites to explore!</p>
@@ -85,7 +85,7 @@ function buildInstructionStripItems() {
             <div class="equal-split">
                 <div class="split-card__media">
                     <div class="badge badge-lg badge-accent btn-circle font-bold text-2xl animate-pulse">2</div>
-                    <img src="public/assets/experiences/sim-network/02-instructions/images/instructions-02.png" alt="instructions-02-image" decoding="async">
+                    <img src="./assets/experiences/sim-network/02-instructions/images/instructions-02.png" alt="instructions-02-image" decoding="async">
                 </div>
                 <div class="split-card__body text-center">
                     <p class="text-lg lg:text-xl font-bold">Use the tools!</p>
@@ -97,7 +97,7 @@ function buildInstructionStripItems() {
             <div class="equal-split">
                 <div class="split-card__media">
                     <div class="badge badge-lg badge-accent btn-circle font-bold text-2xl animate-pulse">3</div>
-                    <img src="public/assets/experiences/sim-network/02-instructions/images/instructions-03.png" alt="instructions-03-image" decoding="async">
+                    <img src="./assets/experiences/sim-network/02-instructions/images/instructions-03.png" alt="instructions-03-image" decoding="async">
                 </div>
                 <div class="split-card__body text-center">
                     <p class="text-lg lg:text-xl font-bold">Wired, wireless and hybrid!</p>
@@ -109,7 +109,7 @@ function buildInstructionStripItems() {
             <div class="equal-split">
                 <div class="split-card__media">
                     <div class="badge badge-lg badge-accent btn-circle font-bold text-2xl animate-pulse">4</div>
-                    <img src="public/assets/experiences/sim-network/02-instructions/images/instructions-04.png" alt="instructions-04-image" decoding="async">
+                    <img src="./assets/experiences/sim-network/02-instructions/images/instructions-04.png" alt="instructions-04-image" decoding="async">
                 </div>
                 <div class="split-card__body text-center">
                     <p class="text-lg lg:text-xl font-bold">Make a connection!</p>
@@ -121,7 +121,7 @@ function buildInstructionStripItems() {
             <div class="equal-split">
                 <div class="split-card__media">
                     <div class="badge badge-lg badge-accent btn-circle font-bold text-2xl animate-pulse">5</div>
-                    <img src="public/assets/experiences/sim-network/02-instructions/images/instructions-05.png" alt="Album" decoding="async">
+                    <img src="./assets/experiences/sim-network/02-instructions/images/instructions-05.png" alt="Album" decoding="async">
                 </div>
                 <div class="split-card__body text-center">
                     <p class="text-lg lg:text-xl font-bold">Impress the trainer!</p>
