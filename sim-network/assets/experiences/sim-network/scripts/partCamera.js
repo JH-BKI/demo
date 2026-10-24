@@ -377,6 +377,72 @@ export function focusSimNetworkCell(cell) {
 }
 
 /**
+ * Shortest turn from one orbit angle to another, so the camera does not spin the long way.
+ * @param {number} from
+ * @param {number} to
+ * @param {number} t
+ * @returns {number}
+ */
+function lerpAngle(from, to, t) {
+    const tau = Math.PI * 2;
+    let delta = to - from;
+    delta = ((delta % tau) + tau) % tau;
+    if (delta > Math.PI) {
+        delta -= tau;
+    }
+    return from + delta * t;
+}
+
+/**
+ * Move to a steep overhead view of the grid centre.
+ * Uses the camera's own lowest up-down angle, the saved home distance, and the saved compass direction.
+ * No-op while the camera is locked. Does not press Reset view.
+ */
+export function focusSimNetworkOverview() {
+    if (locked || !boundCamera || !boundScene || !homeTarget) {
+        return;
+    }
+    const host = getHost();
+    const goalBeta =
+        typeof boundCamera.lowerBetaLimit === 'number' ? boundCamera.lowerBetaLimit : homeBeta;
+    cancelTargetLerp();
+    const startTarget = boundCamera.target.clone();
+    const goalTarget = new host.Vector3(homeTarget.x, homeTarget.y, homeTarget.z);
+    const startAlpha = boundCamera.alpha;
+    const startBeta = boundCamera.beta;
+    const startRadius = boundCamera.radius;
+    const goalRadius = homeRadius;
+    const startTime = performance.now();
+    const duration = lerpDurationMs;
+    boundCamera.inertialAlphaOffset = 0;
+    boundCamera.inertialBetaOffset = 0;
+    boundCamera.inertialRadiusOffset = 0;
+    console.log(
+        `[partCamera.js]: [N/A] - [focusSimNetworkOverview] - goalBeta has a value of ${goalBeta}, goalRadius has a value of ${goalRadius}.`
+    ); //This is logged when the results HUD asks for the overhead camera home.
+    lerpObserver = boundScene.onBeforeRenderObservable.add(() => {
+        if (!boundCamera) {
+            cancelTargetLerp();
+            return;
+        }
+        const t = Math.min(1, (performance.now() - startTime) / duration);
+        boundCamera.target.x = startTarget.x + (goalTarget.x - startTarget.x) * t;
+        boundCamera.target.y = startTarget.y + (goalTarget.y - startTarget.y) * t;
+        boundCamera.target.z = startTarget.z + (goalTarget.z - startTarget.z) * t;
+        boundCamera.alpha = lerpAngle(startAlpha, homeAlpha, t);
+        boundCamera.beta = startBeta + (goalBeta - startBeta) * t;
+        boundCamera.radius = startRadius + (goalRadius - startRadius) * t;
+        if (t >= 1) {
+            boundCamera.target.copyFrom(goalTarget);
+            boundCamera.alpha = homeAlpha;
+            boundCamera.beta = goalBeta;
+            boundCamera.radius = goalRadius;
+            cancelTargetLerp();
+        }
+    });
+}
+
+/**
  * @param {import('@babylonjs/core').Scene} scene
  * @param {object} layout
  */

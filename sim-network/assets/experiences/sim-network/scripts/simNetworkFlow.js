@@ -306,7 +306,13 @@ async function startPlay(entry) {
     initializePartCellHighlight(boundScene, layout);
     initializePartCellInspector(boundScene);
     initializePartNetworkTest(boundScene, { stageRole: mapKind });
-    initExitButton();
+    const levelNumber = typeof entry.title === 'string' ? entry.title.trim() : '';
+    initExitButton({
+        label: 'HOME',
+        iconName: 'icon_arrow_left',
+        iconPosition: 'before',
+        title: levelNumber ? `Leave ${levelNumber} and go back?` : 'Leave this level?',
+    });
     bindTestFlowListener();
     playActive = true;
     startSimNetworkPerfProbe(boundScene, {

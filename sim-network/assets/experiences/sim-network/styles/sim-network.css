@@ -9,168 +9,162 @@
    IN-GAME PLAY UI
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   Sim-network droppable palette (player only) — mid-left inside #uiContainer
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   IN-GAME: TOOLBAR — style C "Refined stack" (replaces .sim-network-drop-palette)
+   Layout only. Button colours come from DaisyUI classes in the markup
+   (btn-primary, btn-info, menu-active). The dark card reuses the values
+   already in this file (volume popover, palette chip, empty trigger).
+   ========================================================================== */
 
-.sim-network-drop-palette {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+#uiContainer > .sim-network-toolbar {
+    position: absolute;            /* never fixed: stays out of the gutters */
+    left: 50%;
+    bottom: 1rem;
+    translate: -50% 0;
     z-index: 6;
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
     gap: 0.5rem;
-    max-width: min(14rem, 45%);
     pointer-events: auto;
-    overflow: visible;
+}
+#uiContainer > .sim-network-toolbar[hidden] {
+    display: none;
 }
 
-/* Same spirit as .sim-network-cell-inspector__title — simple bold label. */
-.sim-network-drop-palette__title {
-    color: #f8fafc;
-    font-weight: 600;
-    opacity: 0.9;
-    padding: 0.15rem 0.25rem;
-    line-height: 1.25;
-}
-
-.sim-network-drop-palette__btn {
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+/* ---- Slot: shows the active tool, opens the menu ------------------------ */
+.sim-network-toolbar__slot {
+    height: 3rem;
+    min-width: 9rem;
+    max-width: 12rem;
     justify-content: flex-start;
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+}
+.sim-network-toolbar__slot-text {
+    flex: 1;
+    min-width: 0;
     text-align: left;
-    white-space: normal;
-    line-height: 1.2;
-    height: auto;
-    min-height: 3rem;
-    padding-block: 0.5rem;
-}
-
-.sim-network-drop-palette__btn-label {
-    flex: 1 1 auto;
-    text-align: left;
-}
-
-.sim-network-drop-palette__btn-icon {
-    display: inline-flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Optional kit-parts buttonImage — 128px desktop, 64px phone. */
-.sim-network-drop-palette__btn-image {
-    width: 128px;
-    height: 128px;
-    flex-shrink: 0;
-    object-fit: contain;
-    pointer-events: none;
-}
-
-@media (max-width: 767px) {
-    .sim-network-drop-palette__btn-image {
-        width: 64px;
-        height: 64px;
-    }
-}
-
-/*
- * Palette toggles: idle ≈ 50% darker; selected (btn-active / aria-pressed) = full colour.
- * Purple on-colour matches cell hover HOVER_LAYER_RGB (0.7, 0.35, 0.95) → rgb(179 89 242).
- */
-.sim-network-drop-palette__btn--cable.btn-primary {
-    --btn-color: color-mix(in oklch, var(--color-primary) 50%, black);
-    --btn-fg: var(--color-primary-content);
-}
-
-.sim-network-drop-palette__btn--cable.btn-primary.btn-active,
-.sim-network-drop-palette__btn--cable.btn-primary[aria-pressed='true'] {
-    --btn-color: var(--color-primary);
-}
-
-.btn-sim-network-droppable {
-    --btn-color: rgb(90 45 121);
-    --btn-fg: oklch(100% 0 0);
-}
-
-.btn-sim-network-droppable.btn-active,
-.btn-sim-network-droppable[aria-pressed='true'] {
-    --btn-color: rgb(179 89 242);
-}
-
-/*
- * Toggle ON badge — real <span>, slides out when aria-pressed / btn-active.
- * (Do not use ::after — Daisy .tooltip owns ::before/::after.)
- */
-.sim-network-drop-palette__btn--toggle {
-    position: relative;
-    overflow: visible;
-}
-
-.sim-network-drop-palette__on-badge {
-    position: absolute;
-    left: 100%;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-width: 2.5rem;
-    padding: 0 0.65rem;
-    margin-left: 0.3rem;
-    border-radius: var(--radius-field, 0.25rem);
-    background-color: var(--btn-color);
-    color: var(--btn-fg, #fff);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1;
     white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateX(-120%);
-    transition:
-        transform 200ms ease,
-        opacity 200ms ease;
+    overflow: hidden;
+    text-overflow: ellipsis;       /* "Wi-Fi Extender" fits at 12rem; ellipsis on phone */
+}
+.sim-network-toolbar__slot--empty {
+    background: oklch(100% 0 0 / 0.08);
+    border-style: dashed;
+    border-color: oklch(100% 0 0 / 0.45);
+    color: oklch(100% 0 0 / 0.9);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+.sim-network-toolbar.is-open .sim-network-toolbar__slot--empty {
+    background: oklch(0% 0 0 / 0.55);
+    border-style: solid;
+    border-color: oklch(100% 0 0 / 0.6);
+}
+/* button.btn later in this file forces an outset border. Restate the empty look so it wins. */
+button.btn.sim-network-toolbar__slot--empty,
+button.btn.sim-network-toolbar__slot--empty:hover,
+button.btn.sim-network-toolbar__slot--empty:active {
+    background: oklch(100% 0 0 / 0.08);
+    border-style: dashed;
+    border-color: oklch(100% 0 0 / 0.45);
+    color: oklch(100% 0 0 / 0.9);
+}
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty,
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty:hover,
+.sim-network-toolbar.is-open button.btn.sim-network-toolbar__slot--empty:active {
+    background: oklch(0% 0 0 / 0.55);
+    border-style: solid;
+    border-color: oklch(100% 0 0 / 0.6);
+    color: oklch(100% 0 0 / 0.9);
+}
+.sim-network-toolbar__chevron { transition: rotate 180ms ease; }
+.sim-network-toolbar.is-open .sim-network-toolbar__chevron { rotate: 180deg; }
+
+/* ---- Test: separate action ---------------------------------------------- */
+.sim-network-toolbar__test {
+    height: 3rem;
+    gap: 0.375rem;
+    padding-inline: 1rem;
 }
 
-.sim-network-drop-palette__btn--toggle.btn-active .sim-network-drop-palette__on-badge,
-.sim-network-drop-palette__btn--toggle[aria-pressed='true']
-    .sim-network-drop-palette__on-badge {
+/* ---- Menu card ---------------------------------------------------------- */
+.sim-network-toolbar__menu {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.5rem);
+    translate: -50% 0;
+    width: 15rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.375rem;
+    border-radius: 0.5rem;
+    background: oklch(0% 0 0 / 0.72);
+    border: 1px solid oklch(100% 0 0 / 0.18);
+    box-shadow: 0 4px 16px oklch(0% 0 0 / 0.35);
+    color: #f8fafc;
+    /* DaisyUI 5 paints menu-active with neutral (black). Point it at primary so the ticked row is the theme blue. */
+    --menu-active-bg: var(--color-primary);
+    --menu-active-fg: var(--color-primary-content);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 180ms ease, visibility 180ms ease;   /* matches palette row open */
+}
+.sim-network-toolbar.is-open .sim-network-toolbar__menu {
     opacity: 1;
-    transform: translateX(0);
+    visibility: visible;
+}
+.sim-network-toolbar__menu > li { min-width: 0; }
+/* A timeline hide (hud-control-hidden or the hidden attribute) drops that row. */
+.sim-network-toolbar__menu > li:has(.hud-control-hidden),
+.sim-network-toolbar__menu > li:has([hidden]) {
+    display: none;
 }
 
-.sim-network-drop-palette__btn--toggle:disabled .sim-network-drop-palette__on-badge,
-.sim-network-drop-palette__btn--toggle[aria-disabled='true']
-    .sim-network-drop-palette__on-badge {
-    opacity: 0;
-    transform: translateX(-120%);
+.sim-network-toolbar__row {
+    min-height: 2.75rem;            /* 44px touch target */
+    gap: 0.625rem;
+    padding-inline: 0.375rem 0.625rem;
+}
+.sim-network-toolbar__label {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sim-network-toolbar__dot {
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 9999px;
+    background: oklch(0% 0 0);
+    border: 1px solid oklch(100% 0 0 / 0.3);
+}
+.sim-network-toolbar__row.menu-active .sim-network-toolbar__dot {
+    background: oklch(100% 0 0 / 0.22);
+    border-color: transparent;
 }
 
-/*
- * Disabled palette tools (Test lock) — grey bg + muted text/icons so they
- * no longer read as bright clickable white-on-colour buttons.
- */
-.sim-network-drop-palette__btn:disabled,
-.sim-network-drop-palette__btn[aria-disabled='true'] {
-    --btn-color: oklch(55% 0 0);
-    --btn-fg: oklch(78% 0 0);
-    opacity: 0.55;
-    cursor: not-allowed;
-    transform: none;
-    pointer-events: none;
+/* ---- Phone portrait: group is 13rem wide, clears the ⋮ speed dial -------- */
+@media (max-width: 767px) {
+    .sim-network-toolbar__slot { min-width: 7rem; max-width: 7rem; }
+    .sim-network-toolbar__test { padding-inline: 0.75rem; }
+    .sim-network-toolbar__menu { width: 13rem; }            /* = slot + gap + Test */
 }
 
-.sim-network-drop-palette__btn:disabled:hover,
-.sim-network-drop-palette__btn[aria-disabled='true']:hover {
-    transform: none;
+/* ---- Short landscape: 3 across, stays under the centred zoom indicator --- */
+@media (max-height: 500px) {
+    .sim-network-toolbar__menu { width: auto; grid-template-columns: repeat(3, 9.75rem); }
+    .sim-network-toolbar__row { min-height: 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sim-network-toolbar__menu,
+    .sim-network-toolbar__chevron { transition: none; }
 }
 
 .sim-network-drop-toast {
@@ -189,16 +183,17 @@
    Sim-network Test Connection — Daisy alert + progress (anchored to palette)
    -------------------------------------------------------------------------- */
 
-.sim-network-drop-palette--wide-test {
-    max-width: min(20rem, 90%);
-}
-
-.sim-network-test-control {
-    width: 100%;
-}
-
-.sim-network-test-alert {
+/* Testing, fail, and success all use this one panel. It sits on the bottom button and catches clicks so that button cannot be pressed while a result is showing. */
+#uiContainer > .sim-network-test-alert {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    translate: -50% 0;
     z-index: 8;
+    width: min(22rem, calc(100% - 2rem));
+    min-width: 0;
+    max-width: calc(100% - 2rem);
+    pointer-events: auto;
 }
 
 /* Keep Daisy progress readable on any alert tone — black fill, light track. */
@@ -208,46 +203,6 @@
     --progress-color: #000;
     color: #000;
     background-color: oklch(100% 0 0 / 0.35);
-}
-
-.sim-network-test-dialog__status {
-    margin: 0 0 0.75rem;
-    font-weight: 600;
-}
-
-.sim-network-test-dialog__status--pass {
-    color: #15803d;
-}
-
-.sim-network-test-dialog__status--fail {
-    color: #b91c1c;
-}
-
-.sim-network-test-dialog__heading {
-    margin: 0.75rem 0 0.35rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-}
-
-.sim-network-test-dialog__list {
-    margin: 0;
-    padding-left: 1.1rem;
-}
-
-.sim-network-test-dialog__meta {
-    opacity: 0.75;
-    font-weight: 400;
-}
-
-.sim-network-test-dialog__empty {
-    margin: 0;
-    opacity: 0.75;
-}
-
-.sim-network-test-dialog__notes {
-    margin: 0.5rem 0 0;
-    padding-left: 1.1rem;
-    color: #b91c1c;
 }
 
 /* --------------------------------------------------------------------------
@@ -262,6 +217,10 @@
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+}
+
+.sim-network-exit-button__btn--compact > span {
+    display: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -558,6 +517,143 @@
     z-index: 1;
     overflow: hidden;
     pointer-events: none;
+}
+
+/* Complete-screen fanfare. Lives inside the backdrop, so it stays under dialogue. */
+.sim-network-complete-fireworks {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sim-network-firework {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.sim-network-firework__spoke {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    height: var(--travel, 80px);
+    margin-left: -1.5px;
+    border-radius: 999px;
+    background: linear-gradient(to top, transparent, currentColor 40%, #fff);
+    box-shadow: 0 0 10px currentColor;
+    transform-origin: center bottom;
+    opacity: 0;
+    animation: sim-network-firework-spoke 1.1s ease-out forwards;
+}
+
+.sim-network-firework__dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+    opacity: 0;
+    animation: sim-network-firework-dot 1.35s ease-out forwards;
+}
+
+.sim-network-firework__core {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 16px 6px currentColor;
+    animation: sim-network-firework-core 0.7s ease-out forwards;
+}
+
+@keyframes sim-network-firework-spoke {
+    0% {
+        opacity: 0;
+        transform: rotate(var(--angle)) scaleY(0.08);
+    }
+    18% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(var(--angle)) scaleY(1);
+    }
+}
+
+@keyframes sim-network-firework-dot {
+    0% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(calc(var(--travel) * -0.4)) scale(0.35);
+    }
+    22% {
+        opacity: 0.95;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(calc(-1 * var(--travel))) scale(1);
+    }
+}
+
+@keyframes sim-network-firework-core {
+    0% {
+        opacity: 1;
+        transform: scale(0.3);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2.2);
+    }
+}
+
+/* Paper scraps. The field is the measured box so each scrap can fall its full height. */
+.sim-network-confetti-field {
+    position: absolute;
+    inset: 0;
+    container-type: size;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sim-network-confetti {
+    position: absolute;
+    top: -4%;
+    border-radius: 1px;
+    pointer-events: none;
+    animation-name: sim-network-confetti-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes sim-network-confetti-fall {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(var(--sway, 12px), 55cqh, 0) rotate(calc(var(--spin, 180deg) * 0.5));
+    }
+    100% {
+        transform: translate3d(calc(var(--sway, 12px) * -0.35), 108cqh, 0) rotate(var(--spin, 180deg));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sim-network-firework__spoke,
+    .sim-network-firework__dot,
+    .sim-network-firework__core,
+    .sim-network-confetti {
+        animation: none;
+    }
 }
 
 .sim-network-flow-overlay__panel {
@@ -1680,7 +1776,8 @@
 /*
  * Finished step: green circle, white tick, and a green line up to the current step.
  * Current step: blue circle with a question mark (step-primary).
- * A step you cannot play: dark circle with a small padlock.
+ * A step you cannot play yet: dark circle with a small padlock.
+ * A coming-soon step: same dark circle, with a no symbol instead of the padlock.
  */
 .sim-network-level-steps__list .sim-network-level-steps__step--complete:before,
 .sim-network-level-steps__list .sim-network-level-steps__step--current:before {
@@ -1729,6 +1826,12 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 0.85rem;
+}
+
+/* Coming-soon steps keep the dark circle. The mark is a circle with one diagonal line. */
+.sim-network-level-steps__list .sim-network-level-steps__step--coming-soon:after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M6.7 6.7 L17.3 17.3'/%3E%3C/svg%3E");
+    background-size: 1.15rem;
 }
 
 #renderCanvas.sim-network-canvas-hidden {
@@ -2070,7 +2173,7 @@
 }
 
 .dialogue__title {
-
+    text-shadow: 1px 1px 0px white;
 }
 
 /* ==========================================================================
@@ -2253,3 +2356,419 @@
       transform: scale(1.25);
     }
   }
+
+
+
+
+.oldskool,
+.sim-network-2d-surface,
+.dialogue.dialogue--look-full .dialogue__avatar, .dialogue.dialogue--look-full .dialogue__panel,
+.dialogue.dialogue--look-compact .dialogue__stack, .dialogue.dialogue--look-compact .dialogue__avatar,
+.generic-dialog-panel-modal-box,
+.sim-network-test-hud__group, .sim-network-test-hud__device,
+.sim-network-chapter-card.sim-network-chapter--active {
+        border-width: 4px;
+        border-style: groove;
+        border-color: rgba(255, 255, 255, 0.85);
+        border-top-width: 6px;
+        border-left-width: 6px;
+}
+
+
+.oldskool-override
+{
+    border-top-width: 0px;
+    border-left-width: 0px;
+}
+
+
+
+button.btn {
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgb(255 255 255 / 40%);
+}
+
+button.btn:hover, button.btn:active {
+    transform: scale(1.05);
+}
+
+button.btn:active {
+ border-style: inset;
+ border-color: rgb(255 255 255 / 70%);
+}
+
+button.btn.btn-ghost {
+    background: rgb(0 0 0 / 13%);
+}
+/* =====================================================================
+   IN-GAME UI · Network test results HUD
+   ---------------------------------------------------------------------
+   Replaces the floating results dialog that partCables.js opens after
+   the progress alert.
+
+   Two pieces, both mounted inside the player frame (never document.body,
+   never position: fixed):
+     .sim-network-test-hud__device  → in #uiContainer-header-center, top centre
+     .sim-network-test-hud__bar     → in #uiContainer-footer-center
+
+   Layout only. Colours come from DaisyUI corporate classes in the markup.
+   Font is inherited (IBM Plex Mono); sizes are rem so help text-scale works.
+
+   Breakpoints:
+     ≥1024px wide, or short landscape (max-height: 500px) → one-row device panel
+     <1024px (and taller than 500px)                      → two-row device panel
+     ≤767px                                               → icon-only action buttons
+   ===================================================================== */
+
+/* ---------- Device panel (top) ---------- */
+
+.sim-network-test-hud__device {
+  pointer-events: auto;
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  max-width: calc(100% - 2rem);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem 0.75rem 1rem;
+  transition: opacity 250ms ease;
+}
+.sim-network-test-hud__device.hidden { display: none; }
+.sim-network-test-hud__device.is-fading { opacity: 0; }
+
+.sim-network-test-hud__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 15rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.sim-network-test-hud__num {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.sim-network-test-hud__num--sm {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  display: grid;
+  place-items: center;
+}
+
+.sim-network-test-hud__type {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__type svg { width: 1.5rem; height: 1.5rem; }
+
+.sim-network-test-hud__name {
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sim-network-test-hud__chain {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sim-network-test-hud__hop {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__hop svg { width: 1rem; height: 1rem; }
+
+.sim-network-test-hud__link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 4rem;
+}
+.sim-network-test-hud__line {
+  flex: 1 1 0;
+  min-width: 0.25rem;
+  height: 0;
+  border-top-width: 2px;
+}
+.sim-network-test-hud__link-icon {
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__link-icon svg { width: 1rem; height: 1rem; }
+.sim-network-test-hud__break {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+}
+.sim-network-test-hud__break svg { width: 0.75rem; height: 0.75rem; }
+
+.sim-network-test-hud__device svg,
+.sim-network-test-hud__bar svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Camera home uses the same card as a device. Text stays dark so it reads on the light panel. */
+.sim-network-test-hud__home-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  min-height: 2.75rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  color: inherit;
+}
+.sim-network-test-hud__status-icon {
+  width: 4rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__status-icon svg {
+  width: 3rem;
+  height: 3rem;
+}
+.sim-network-test-hud__home-icon svg {
+  fill: currentColor;
+  stroke: none;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@media (max-width: 1023px) and (min-height: 501px) {
+  .sim-network-test-hud__device {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    width: calc(100% - 1.5rem);
+    max-width: 32rem;
+  }
+  .sim-network-test-hud__identity { width: auto; }
+  .sim-network-test-hud__num { width: 2.25rem; height: 2.25rem; font-size: 1rem; }
+  .sim-network-test-hud__type { width: 2.25rem; height: 2.25rem; }
+  .sim-network-test-hud__type svg { width: 1.25rem; height: 1.25rem; }
+  .sim-network-test-hud__home-status { min-height: 2.25rem; font-size: 1.125rem; }
+  .sim-network-test-hud__status-icon { width: 3.5rem; height: 2rem; }
+  .sim-network-test-hud__status-icon svg { width: 2em; height: 2rem; }
+  .sim-network-test-hud__chain { width: 100%; padding: 0 0.25rem; }
+  .sim-network-test-hud__hop { width: 2rem; height: 2rem; }
+  .sim-network-test-hud__link { width: auto; flex: 1 1 0; min-width: 1.75rem; gap: 0.125rem; }
+}
+
+@media (max-width: 400px) {
+  .sim-network-test-hud__device { padding: 0.75rem; }
+  .sim-network-test-hud__hop { width: 1.75rem; height: 1.75rem; }
+  .sim-network-test-hud__link { min-width: 1.5rem; }
+  .sim-network-test-hud__link-icon svg { width: 0.875rem; height: 0.875rem; }
+}
+
+@media (max-width: 340px) {
+  .sim-network-test-hud__link { min-width: 1.125rem; gap: 0; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .sim-network-test-hud__device { top: 0.5rem; gap: 1rem; padding: 0.5rem 0.75rem; }
+  .sim-network-test-hud__identity { width: 12rem; }
+  .sim-network-test-hud__num { width: 2.25rem; height: 2.25rem; font-size: 1rem; }
+  .sim-network-test-hud__link { width: 3.25rem; }
+}
+
+/* ---------- Result bar (bottom) ---------- */
+
+.sim-network-test-hud__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 0.25rem;
+  transition: opacity 250ms ease;
+}
+.sim-network-test-hud__bar.hidden { display: none; }
+.sim-network-test-hud__bar.is-fading { opacity: 0; }
+
+/* The footer rule paints pointer-events on this bar. Turn them off so the
+   result line does not block the camera, and let the footer grow past 4rem
+   while the two-line bar is on screen. The speed dial stays in footer-end. */
+#uiContainer-footer:has(.sim-network-test-hud__bar:not(.hidden)) {
+  max-height: none;
+  overflow: visible;
+  align-items: flex-end;
+}
+#uiContainer-footer > * > .sim-network-test-hud__bar {
+  pointer-events: none;
+}
+#uiContainer-footer > * > .sim-network-test-hud__bar .sim-network-test-hud__group {
+  pointer-events: auto;
+}
+.sim-network-test-hud__bar.is-fading .sim-network-test-hud__group {
+  pointer-events: none;
+}
+
+.sim-network-test-hud__result {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.85);
+}
+.sim-network-test-hud__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__sep { opacity: 0.6; }
+
+.sim-network-test-hud__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sim-network-test-hud__group {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-box);
+}
+button.btn.sim-network-test-hud__toggle {
+  width: 5rem;
+  min-width: 5rem;
+  max-width: 5rem;
+  gap: 0.25rem;
+  padding-inline: 0.35rem;
+  justify-content: center;
+  height: 3.5rem;
+}
+.sim-network-test-hud__toggle-chevron {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.sim-network-test-hud__toggle-chevron svg {
+  width: 1rem;
+  height: 1rem;
+}
+.sim-network-test-hud__nav,
+.sim-network-test-hud__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+.sim-network-test-hud__split {
+  width: 1px;
+  align-self: stretch;
+  margin-block: 0.35rem;
+  background: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+
+@media (max-width: 767px) {
+  .sim-network-test-hud__controls { gap: 0.5rem; }
+  .sim-network-test-hud__bar .sim-network-test-hud__action {
+    width: 2.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+  }
+  .sim-network-test-hud__action-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .sim-network-test-hud__bar {
+    width: 100%;
+    align-self: stretch;
+  }
+  .sim-network-test-hud__controls,
+  .sim-network-test-hud__group {
+    width: 100%;
+  }
+  .sim-network-test-hud__split {
+    margin-left: auto;
+  }
+}
+
+
+.sim-network-chapter-card--coming-soon { 
+
+    .sim-network-chapter-card__copy{
+        opacity: 0.3;
+    }
+
+
+}
+.sim-network-chapter-card--progress-locked { }
+.sim-network-level-steps__step--coming-soon { 
+
+    button {
+        opacity: 0.3;
+    }
+
+}
+
+.sim-network-level-steps__step--coming-soon::after{
+    opacity: 0.75;
+}
+
+.sim-network-level-steps-slice:has(.sim-network-level-steps__step--coming-soon) {
+    opacity: 0.75;
+}
+
+.sim-network-level-steps__step--progress-locked { }
+
+
+
+.sim-network-chapter-card.sim-network-chapter--active {
+    background: rgb(218 0 255 / 51%);
+    border-color: rgb(49 8 69 / 85%);
+}

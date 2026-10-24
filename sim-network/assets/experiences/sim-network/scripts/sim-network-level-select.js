@@ -371,6 +371,37 @@ function syncStepBridges(slices) {
 }
 
 /**
+ * Active = this chapter owns the current level (unlocked, not finished).
+ * Completed = every level in this chapter is finished. Coming-soon chapters stay unmarked.
+ * When every playable level is finished, nothing is active.
+ * @param {ReturnType<typeof parseDifficulties>[number]} difficulty
+ * @param {ReturnType<typeof parseDifficulties>} difficulties
+ * @returns {{ active: boolean, completed: boolean }}
+ */
+function chapterFlags(difficulty, difficulties) {
+    const maps = Array.isArray(difficulty.maps) ? difficulty.maps : [];
+    const comingSoon = difficulty.comingSoon === true;
+    const completed = !comingSoon
+        && maps.length > 0
+        && maps.every((map) => isMapComplete(map.id));
+    const currentId = getCurrentProgressMapId(difficulties);
+    const active = typeof currentId === 'string'
+        && maps.some((map) => map.id === currentId);
+    return { active, completed };
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {ReturnType<typeof parseDifficulties>[number]} difficulty
+ * @param {ReturnType<typeof parseDifficulties>} difficulties
+ */
+function applyChapterFlags(el, difficulty, difficulties) {
+    const flags = chapterFlags(difficulty, difficulties);
+    el.classList.toggle('sim-network-chapter--active', flags.active);
+    el.classList.toggle('sim-network-chapter--completed', flags.completed);
+}
+
+/**
  * One poster card per group. Locked when the player has not reached that group.
  * @param {ReturnType<typeof parseDifficulties>[number]} difficulty
  * @param {ReturnType<typeof parseDifficulties>} difficulties
@@ -380,7 +411,15 @@ function buildChapterCard(difficulty, difficulties) {
     const card = document.createElement('article');
     card.className = 'sim-network-chapter-card';
     const locked = !isDifficultyUnlocked(difficulties, difficulty.id);
+    const comingSoon = difficulty.comingSoon === true;
     if (locked) card.classList.add('sim-network-chapter-card--locked');
+    /* Same lock look. The extra class is the reason, so CSS can tell them apart. */
+    if (comingSoon) card.classList.add('sim-network-chapter-card--coming-soon');
+    else if (locked) card.classList.add('sim-network-chapter-card--progress-locked');
+    applyChapterFlags(card, difficulty, difficulties);
+    console.log(
+        `[sim-network-level-select.js]: [N/A] - [buildChapterCard] - difficultyId has a value of ${difficulty.id}, chapterActive has a value of ${card.classList.contains('sim-network-chapter--active')}, chapterCompleted has a value of ${card.classList.contains('sim-network-chapter--completed')}, lockReason has a value of ${comingSoon ? 'coming-soon' : locked ? 'progress' : 'none'}.`
+    ); //This is logged when a chapter card is built so we can see which chapter is active, finished, or why it is locked.
 
     const index = document.createElement('div');
     index.className = 'sim-network-chapter-card__index';
@@ -429,7 +468,7 @@ function buildChapterCard(difficulty, difficulties) {
     if (difficulty.comingSoon) {
         const soon = document.createElement('span');
         soon.className = 'sim-network-level-column__soon-banner';
-        soon.textContent = 'COMING SOON!';
+        soon.textContent = 'COMING NOV 2026!';
         lock.appendChild(soon);
     }
     lock.appendChild(inner);
@@ -467,6 +506,7 @@ function buildStepSlice(difficulty, difficulties, currentId) {
     const slice = document.createElement('div');
     slice.className = 'sim-network-level-steps-slice';
     slice.dataset.difficulty = difficulty.id;
+    applyChapterFlags(slice, difficulty, difficulties);
 
     const list = document.createElement('ul');
     list.className = 'steps steps-horizontal sim-network-level-steps__list';
@@ -487,6 +527,12 @@ function buildStepSlice(difficulty, difficulties, currentId) {
         } else {
             step.dataset.content = '';
             step.classList.add('sim-network-level-steps__step--locked');
+            step.classList.add(comingSoon
+                ? 'sim-network-level-steps__step--coming-soon'
+                : 'sim-network-level-steps__step--progress-locked');
+            console.log(
+                `[sim-network-level-select.js]: [N/A] - [buildStepSlice] - mapId has a value of ${map.id}, lockReason has a value of ${comingSoon ? 'coming-soon' : 'progress'}.`
+            ); //This is logged when a step circle is locked so we can see whether it is waiting on progress or marked coming soon.
         }
 
         const button = document.createElement('button');
@@ -713,6 +759,9 @@ export async function createScene(scene, sceneId) {
         title: 'Start again?',
         message: 'Are you sure you want to go back to the start?',
         clearCurrentTrack: false,
+        label: 'BACK',
+        iconName: 'icon_arrow_left',
+        iconPosition: 'before',
     });
     initTutorialDialogue();
 

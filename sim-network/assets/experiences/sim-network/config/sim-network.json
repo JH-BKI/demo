@@ -167,7 +167,14 @@
           ]
         },
         "plugins": [
-          "audioVolume"
+          "audioVolume",
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the bottom-centre palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Box.</li><li>If the test fails, press <strong>Retry</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+            }
+          }
         ],
         "attribution": [
           "Placeholder attribution — Sim Network model pack (replace with real credits)."
@@ -223,7 +230,7 @@
             "name": "help",
             "config": {
               "showHudButton": true,
-              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the left palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Cupboard.</li><li>If the test fails, press <strong>Try again</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the bottom-centre palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Box.</li><li>If the test fails, press <strong>Retry</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
             }
           }
         ],
@@ -277,7 +284,14 @@
           ]
         },
         "plugins": [
-          "audioVolume"
+          "audioVolume",
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the bottom-centre palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Box.</li><li>If the test fails, press <strong>Retry</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+            }
+          }
         ],
         "attribution": [
           "Placeholder attribution — Sim Network model pack (replace with real credits)."
@@ -357,7 +371,7 @@
             "name": "help",
             "config": {
               "showHudButton": true,
-              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the left palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Cupboard.</li><li>If the test fails, press <strong>Try again</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the bottom-centre palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Box.</li><li>If the test fails, press <strong>Retry</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
             }
           }
         ],
@@ -860,7 +874,14 @@
           ]
         },
         "plugins": [
-          "audioVolume"
+          "audioVolume",
+          {
+            "name": "help",
+            "config": {
+              "showHudButton": true,
+              "scene-help-content": "<p>You are an IT network technician. The company \"eNetworks\" is setting up a new office and you are tasked with bringing internet connectivity to all devices.</p><p>In this immersive scenario, place devices, connect cables, and check your networking skills with the <strong>Test Connection</strong> button.</p><ol><li>Use the bottom-centre palette to place network devices on the grid.</li><li>Use <strong>Cable</strong> mode to connect devices along the floor.</li><li>Press <strong>Test</strong> to check connectivity from the Comms Box.</li><li>If the test fails, press <strong>Retry</strong> and keep troubleshooting.</li><li>Click on cells that contain devices and cables for more information and options.</li></ol>"
+            }
+          }
         ],
         "attribution": [
           "Placeholder attribution — Sim Network model pack (replace with real credits)."
@@ -875,6 +896,15 @@
           "path": "./assets/experiences/sim-network/audio/Celebration-converted.ogg",
           "tag": "music",
           "loop": false,
+          "volume": 0.6,
+          "autoplay": false,
+          "maxInstances": 1
+        },
+        {
+          "id": "music-title",
+          "path": "./assets/experiences/sim-network/audio/music-title-converted.ogg",
+          "tag": "music",
+          "loop": true,
           "volume": 0.3,
           "autoplay": true,
           "maxInstances": 1

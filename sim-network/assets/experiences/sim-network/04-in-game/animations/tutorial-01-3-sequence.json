@@ -8,20 +8,40 @@
     {
       "type": "emit",
       "id": "emit-1",
-      "time": 0.1,
+      "time": 1,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-1",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-1"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 8,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 1,
       "event": "event:tutorial-arm-goal",
       "label": "arm-drop-router",
       "subLane": 1,
       "detail": {
         "type": "drop",
         "partId": "router",
-        "timeSkip": 10
+        "timeSkip": 18
       }
     },
     {
       "type": "emit",
-      "id": "emit-2",
-      "time": 1,
+      "id": "emit-4",
+      "time": 8.5,
       "event": "hudControl",
       "label": "ping router button",
       "subLane": 1,
@@ -32,19 +52,19 @@
     },
     {
       "type": "emit",
-      "id": "emit-3",
-      "time": 1,
+      "id": "emit-5",
+      "time": 9,
       "event": "event:show-dialogue",
-      "label": "show-step-level-01-tutorial-02-1",
+      "label": "show-step-level-01-tutorial-03-2",
       "subLane": 0,
       "detail": {
-        "contentKey": "level-01-tutorial-02-1"
+        "contentKey": "level-01-tutorial-03-2"
       }
     },
     {
       "type": "emit",
-      "id": "emit-4",
-      "time": 8,
+      "id": "emit-6",
+      "time": 16,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -53,7 +73,7 @@
     {
       "type": "wait",
       "id": "gate-1",
-      "time": 9.7,
+      "time": 17.7,
       "trigger": {
         "kind": "event",
         "name": "event:continue-animation"
@@ -63,8 +83,8 @@
     },
     {
       "type": "emit",
-      "id": "emit-5",
-      "time": 10,
+      "id": "emit-7",
+      "time": 18,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -72,8 +92,8 @@
     },
     {
       "type": "emit",
-      "id": "emit-6",
-      "time": 10.1,
+      "id": "emit-8",
+      "time": 18.1,
       "event": "hudControl",
       "label": "hide router ping",
       "subLane": 0,
@@ -84,45 +104,44 @@
     },
     {
       "type": "emit",
-      "id": "emit-7",
-      "time": 10.1,
-      "event": "event:tutorial-arm-goal",
-      "label": "arm-cable-router-pc-1",
-      "subLane": 1,
-      "detail": {
-        "type": "cable",
-        "aPartId": "router",
-        "bPartId": "desktop-pc",
-        "timeSkip": 20
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-8",
-      "time": 10.2,
-      "event": "hudControl",
-      "label": "ping cable button",
-      "subLane": 1,
-      "detail": {
-        "action": "showPing",
-        "selector": ".sim-network-drop-palette__btn--cable"
-      }
-    },
-    {
-      "type": "emit",
       "id": "emit-9",
-      "time": 10.2,
-      "event": "event:show-dialogue",
-      "label": "show-step-level-01-tutorial-02-2",
-      "subLane": 0,
+      "time": 18.1,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-drop-switch",
+      "subLane": 1,
       "detail": {
-        "contentKey": "level-01-tutorial-02-2"
+        "type": "drop",
+        "partId": "switch",
+        "timeSkip": 28
       }
     },
     {
       "type": "emit",
       "id": "emit-10",
-      "time": 18,
+      "time": 18.2,
+      "event": "hudControl",
+      "label": "ping switch button",
+      "subLane": 1,
+      "detail": {
+        "action": "showPing",
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"switch\"]"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-11",
+      "time": 18.2,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-03-3",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-03-3"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-12",
+      "time": 26,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -131,18 +150,18 @@
     {
       "type": "wait",
       "id": "gate-2",
-      "time": 19.7,
+      "time": 27.7,
       "trigger": {
         "kind": "event",
         "name": "event:continue-animation"
       },
-      "label": "Wait for cable router to first PC",
+      "label": "Wait for switch drop",
       "subLane": 0
     },
     {
       "type": "emit",
-      "id": "emit-11",
-      "time": 20,
+      "id": "emit-13",
+      "time": 28,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -150,34 +169,34 @@
     },
     {
       "type": "emit",
-      "id": "emit-12",
-      "time": 20.1,
+      "id": "emit-14",
+      "time": 28.1,
       "event": "hudControl",
-      "label": "hide cable ping",
+      "label": "hide switch ping",
       "subLane": 1,
       "detail": {
         "action": "hidePing",
-        "selector": ".sim-network-drop-palette__btn--cable"
+        "selector": ".sim-network-drop-palette__btn[data-part-id=\"switch\"]"
       }
     },
     {
       "type": "emit",
-      "id": "emit-13",
-      "time": 20.1,
+      "id": "emit-15",
+      "time": 28.1,
       "event": "event:tutorial-arm-goal",
-      "label": "arm-cable-router-pc-2",
+      "label": "arm-cable-switch-router",
       "subLane": 1,
       "detail": {
         "type": "cable",
-        "aPartId": "router",
-        "bPartId": "desktop-pc",
-        "timeSkip": 30
+        "aPartId": "switch",
+        "bPartId": "router",
+        "timeSkip": 38
       }
     },
     {
       "type": "emit",
-      "id": "emit-14",
-      "time": 20.2,
+      "id": "emit-16",
+      "time": 28.2,
       "event": "hudControl",
       "label": "ping cable button",
       "subLane": 1,
@@ -188,19 +207,19 @@
     },
     {
       "type": "emit",
-      "id": "emit-15",
-      "time": 20.2,
+      "id": "emit-17",
+      "time": 28.2,
       "event": "event:show-dialogue",
-      "label": "show-step-level-01-tutorial-02-3",
+      "label": "show-step-level-01-tutorial-03-4",
       "subLane": 0,
       "detail": {
-        "contentKey": "level-01-tutorial-02-3"
+        "contentKey": "level-01-tutorial-03-4"
       }
     },
     {
       "type": "emit",
-      "id": "emit-16",
-      "time": 28,
+      "id": "emit-18",
+      "time": 36,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -209,18 +228,18 @@
     {
       "type": "wait",
       "id": "gate-3",
-      "time": 29.7,
+      "time": 37.7,
       "trigger": {
         "kind": "event",
         "name": "event:continue-animation"
       },
-      "label": "Wait for cable router to second PC",
+      "label": "Wait for cable switch to router",
       "subLane": 0
     },
     {
       "type": "emit",
-      "id": "emit-17",
-      "time": 30,
+      "id": "emit-19",
+      "time": 38,
       "event": "event:hide-dialogue",
       "label": "hide-dialogue",
       "subLane": 0,
@@ -228,8 +247,8 @@
     },
     {
       "type": "emit",
-      "id": "emit-18",
-      "time": 30.1,
+      "id": "emit-20",
+      "time": 38.1,
       "event": "hudControl",
       "label": "hide cable ping",
       "subLane": 1,
@@ -239,1688 +258,88 @@
       }
     },
     {
-      "type": "emit",
-      "id": "emit-19",
-      "time": 31,
-      "event": "event:tutorial-arm-goal",
-      "label": "arm-network-test-pass-fail",
-      "subLane": 1,
-      "detail": {
-        "type": "networkTest",
-        "outcomes": [
-          {
-            "result": "pass",
-            "timeSkip": 40
-          },
-          {
-            "result": "fail",
-            "timeSkip": 45
-          }
-        ]
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-20",
-      "time": 31,
-      "event": "hudControl",
-      "label": "ping test button",
-      "subLane": 0,
-      "detail": {
-        "action": "showPing",
-        "selector": ".sim-network-test-control__btn"
-      }
+      "type": "wait",
+      "id": "gate-4",
+      "time": 40,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "End of tutorial",
+      "subLane": 1
     },
     {
       "type": "emit",
       "id": "emit-21",
-      "time": 30.5,
-      "event": "event:show-dialogue",
-      "label": "show-step-level-01-tutorial-02-4",
-      "subLane": 0,
-      "detail": {
-        "contentKey": "level-01-tutorial-02-4"
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-22",
-      "time": 38,
-      "event": "event:hide-dialogue",
-      "label": "hide-dialogue",
-      "subLane": 0,
-      "detail": {}
-    },
-    {
-      "type": "wait",
-      "id": "gate-4",
-      "time": 39.9,
-      "trigger": {
-        "kind": "event",
-        "name": "event:continue-animation"
-      },
-      "label": "Wait for network test pass",
-      "subLane": 1
-    },
-    {
-      "type": "emit",
-      "id": "emit-23",
-      "time": 40.1,
-      "event": "event:hide-dialogue",
-      "label": "hide-dialogue",
-      "subLane": 0,
-      "detail": {}
-    },
-    {
-      "type": "emit",
-      "id": "emit-24",
-      "time": 40.1,
+      "time": 9.5,
       "event": "hudControl",
-      "label": "hide test ping",
+      "label": "ping router button",
       "subLane": 1,
       "detail": {
-        "action": "hidePing",
-        "selector": ".sim-network-test-control__btn"
-      }
-    },
-    {
-      "type": "wait",
-      "id": "gate-5",
-      "time": 43.4,
-      "trigger": {
-        "kind": "event",
-        "name": "event:continue-animation"
-      },
-      "label": "End of timeline",
-      "subLane": 1
-    },
-    {
-      "type": "clip",
-      "id": "clip-1",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "office-counter_5_2_L3"
-        }
-      ],
-      "startTime": 5,
-      "highlight": {
-        "durationSeconds": 5,
-        "fade": false,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 0.5,
-          "pulse": {
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#6e2d7b",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-2",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "office-counter_5_2_L3"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-3",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "desktop-pc_0_1_L5"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-4",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_5_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-5",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_4_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-6",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_3_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-7",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-8",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_1_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-9",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_0_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-10",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_0_1_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-11",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "office-counter_5_2_L3"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-12",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "desktop-pc_0_1_L5"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-13",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_5_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-14",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_4_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-15",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_3_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-16",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-17",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_1_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-18",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_0_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-19",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_0_1_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-20",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "desktop-pc_2_6_L5"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-21",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_2_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-22",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_2_3_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-23",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_4_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-24",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_2_5_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-25",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_6_L1"
-        }
-      ],
-      "startTime": 11,
-      "highlight": {
-        "durationSeconds": 4,
-        "fade": true,
-        "glow": {
-          "enabled": false,
-          "color": "#82d0ff",
-          "blurSize": 2,
-          "pulse": {
-            "enabled": false,
-            "intervalSeconds": 2,
-            "minBlurSize": 0.25,
-            "continueDuringWait": false
-          }
-        },
-        "overlay": {
-          "enabled": true,
-          "color": "#82d0ff",
-          "alpha": 0.5,
-          "xray": false,
-          "pulse": {
-            "enabled": true,
-            "intervalSeconds": 2,
-            "minAlpha": 0.25,
-            "continueDuringWait": true
-          }
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-26",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "office-counter_5_2_L3"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-27",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "desktop-pc_2_6_L5"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      }
-    },
-    {
-      "type": "clip",
-      "id": "clip-28",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_5_2_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-29",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_5_3_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-30",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_5_4_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-31",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_5_5_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-32",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_4_5_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-33",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_3_5_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-34",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "dark-green-floor-1_2_5_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "clip",
-      "id": "clip-35",
-      "kind": "highlight",
-      "targets": [
-        {
-          "modelId": "light-green-floor-1_2_6_L1"
-        }
-      ],
-      "startTime": 19,
-      "highlight": {
-        "durationSeconds": 1,
-        "fade": true,
-        "glow": {
-          "color": "#82d0ff",
-          "blurSize": 1,
-          "pulse": {
-            "continueDuringWait": false,
-            "intervalSeconds": 0.5,
-            "minBlurSize": 0.125,
-            "enabled": false
-          },
-          "enabled": false
-        },
-        "overlay": {
-          "alpha": 0.5,
-          "color": "#82d0ff",
-          "xray": false,
-          "pulse": {
-            "minAlpha": 0.1,
-            "continueDuringWait": true,
-            "intervalSeconds": 2,
-            "enabled": true
-          },
-          "enabled": true
-        }
-      },
-      "disabled": true
-    },
-    {
-      "type": "emit",
-      "id": "emit-25",
-      "time": 45,
-      "event": "event:hide-dialogue",
-      "label": "hide-dialogue",
-      "subLane": 0,
-      "detail": {}
-    },
-    {
-      "type": "emit",
-      "id": "emit-26",
-      "time": 49,
-      "event": "event:show-dialogue",
-      "label": "show-step-level-01-tutorial-02-try-again",
-      "subLane": 0,
-      "detail": {
-        "contentKey": "level-01-tutorial-02-try-again"
-      }
-    },
-    {
-      "type": "emit",
-      "id": "emit-27",
-      "time": 54.5,
-      "event": "event:replay-from-seconds",
-      "label": "jump back to network test",
-      "detail": {
-        "seconds": 30.9
-      },
-      "subLane": 1
-    },
-    {
-      "type": "emit",
-      "id": "emit-28",
-      "time": 54,
-      "event": "event:hide-dialogue",
-      "label": "hide-dialogue",
-      "subLane": 0,
-      "detail": {}
-    },
-    {
-      "type": "emit",
-      "id": "emit-29",
-      "time": 45.1,
-      "event": "event:tutorial-arm-goal",
-      "label": "arm-network-test-pass-fail",
-      "subLane": 1,
-      "detail": {
-        "type": "networkTest",
-        "outcomes": [
-          {
-            "result": "pass",
-            "timeSkip": 40
-          },
-          {
-            "result": "fail",
-            "timeSkip": 45
-          }
-        ]
+        "action": "showPing",
+        "selector": ".sim-network-toolbar__slot"
       }
     }
   ],
   "chapters": [
     {
+      "id": "chapter-1",
+      "label": "Now entering...",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 5
+    },
+    {
+      "id": "chapter-2",
       "label": "Device placement",
       "color": "#f5a623",
-      "endTime": 10,
-      "id": "chapter-1",
-      "startTime": 8
+      "startTime": 16,
+      "endTime": 18
     },
     {
-      "label": "Lay the cable",
-      "color": "#f5a623",
-      "endTime": 20,
-      "id": "chapter-2",
-      "startTime": 18
-    },
-    {
-      "label": "Lay the cable",
-      "color": "#f5a623",
-      "endTime": 30,
       "id": "chapter-3",
-      "startTime": 28
+      "label": "Add a switch",
+      "color": "#f5a623",
+      "startTime": 26,
+      "endTime": 28
     },
     {
-      "label": "Ready to test",
-      "color": "#f5a623",
-      "endTime": 40,
       "id": "chapter-4",
-      "startTime": 38
-    },
-    {
-      "label": "Job Completed!",
+      "label": "Lay the cable",
       "color": "#f5a623",
-      "endTime": 43.5,
-      "id": "chapter-5",
-      "startTime": 40
-    },
-    {
-      "id": "chapter-6",
-      "label": "Testing for connectivity",
-      "color": "#f5a623",
-      "startTime": 45,
-      "endTime": 54.5
+      "startTime": 36,
+      "endTime": 38
     }
   ],
   "regions": [
     {
+      "id": "region-1",
       "label": "Drop a router in the office.",
       "color": "#4a90d9",
-      "endTime": 10,
-      "id": "region-1",
-      "startTime": 8
+      "startTime": 16,
+      "endTime": 18
     },
     {
-      "label": "Connect the first PC to the router.",
-      "color": "#4a90d9",
-      "endTime": 20,
       "id": "region-2",
-      "startTime": 18
+      "label": "Drop a switch in the office.",
+      "color": "#4a90d9",
+      "startTime": 26,
+      "endTime": 28
     },
     {
-      "label": "Connect the second PC to the router.",
-      "color": "#4a90d9",
-      "endTime": 30,
       "id": "region-3",
-      "startTime": 28
+      "label": "Connect the switch to the router.",
+      "color": "#4a90d9",
+      "startTime": 36,
+      "endTime": 38
     },
     {
-      "label": "Validate the connection.",
-      "color": "#4a90d9",
-      "endTime": 40,
       "id": "region-4",
-      "startTime": 38
-    },
-    {
-      "label": "Let's continue...",
+      "label": "LAN: 1-3",
       "color": "#4a90d9",
-      "endTime": 43.5,
-      "id": "region-5",
-      "startTime": 40
-    },
-    {
-      "id": "region-6",
-      "label": "Try again...",
-      "color": "#4a90d9",
-      "startTime": 45,
-      "endTime": 54.5
+      "startTime": 0,
+      "endTime": 5
     }
   ],
-  "rowOrder": [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [
-      "clip-1"
-    ],
-    [
-      "clip-2",
-      "clip-11"
-    ],
-    [
-      "clip-3",
-      "clip-12"
-    ],
-    [
-      "clip-20",
-      "clip-27"
-    ],
-    [
-      "clip-4",
-      "clip-13"
-    ],
-    [
-      "clip-5",
-      "clip-14"
-    ],
-    [
-      "clip-6",
-      "clip-15"
-    ],
-    [
-      "clip-7",
-      "clip-16"
-    ],
-    [
-      "clip-8",
-      "clip-17"
-    ],
-    [
-      "clip-9",
-      "clip-18"
-    ],
-    [
-      "clip-10",
-      "clip-19"
-    ],
-    [
-      "clip-26",
-      "clip-21"
-    ],
-    [
-      "clip-28",
-      "clip-22"
-    ],
-    [
-      "clip-29",
-      "clip-23"
-    ],
-    [
-      "clip-30",
-      "clip-24"
-    ],
-    [
-      "clip-31",
-      "clip-25"
-    ],
-    [
-      "clip-32"
-    ],
-    [
-      "clip-33"
-    ],
-    [
-      "clip-34"
-    ],
-    [
-      "clip-35"
-    ],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
-  ]
+  "rowOrder": []
 }

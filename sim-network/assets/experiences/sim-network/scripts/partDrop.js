@@ -1,5 +1,5 @@
 /**
- * Sim-network player droppables — left palette, cell hover/select, ghost preview, place on layer 5.
+ * Sim-network player droppables — bottom-center Tools toolbar, cell hover/select, ghost preview, place on layer 5.
  * Player only (not the layout editor).
  */
 
@@ -28,8 +28,9 @@ import { notifyTutorialAction } from './sim-network-tutorial-coach.js';
 
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 /**
- * Hardcoded left-palette tooltips (Daisy tooltip-right).
+ * Hardcoded palette tooltips (Daisy tooltip-top, so they sit above the circle).
  * Kept next to the UI builders — Cable / Test are not kit-parts entries.
+ * data-tip values are tutorial selectors. Do not rename them.
  */
 export const PALETTE_BUTTON_TOOLTIPS = {
     cable: 'Connect cables.',
@@ -91,6 +92,8 @@ let pointerDownInfo = null;
 let pointerObserver = null;
 /** @type {number | null} */
 let toastTimerId = null;
+/** @type {((event: PointerEvent) => void) | null} */
+let paletteDialPointerDown = null;
 
 /**
  * @returns {object}
@@ -104,6 +107,7 @@ function getHost() {
         typeof host.Color3 !== 'function' ||
         !host.PointerEventTypes ||
         typeof host.getPlayerUiRoot !== 'function' ||
+        typeof host.button !== 'function' ||
         typeof host.TransformNode !== 'function' ||
         typeof host.Vector3 !== 'function' ||
         typeof host.layoutCellHalfOffset !== 'function' ||
@@ -145,7 +149,8 @@ function partLabel(partDef) {
 }
 
 /**
- * Daisy right-facing tooltip on a palette control (no tip if text is empty).
+ * Store the lesson-selector tip on the button without showing a hover bubble.
+ * The name already sits beside the circle. data-tip must stay — tutorials click it.
  * @param {HTMLElement} el
  * @param {string | null | undefined} tipText
  */
@@ -154,62 +159,280 @@ export function applyPaletteButtonTooltip(el, tipText) {
     if (!el || !tip) {
         return;
     }
-    el.classList.add('tooltip', 'tooltip-right');
+    el.classList.remove('tooltip', 'tooltip-top', 'tooltip-right');
     el.setAttribute('data-tip', tip);
 }
 
+/** Icons for player-dropped parts. Unknown ids fall back to the add-device icon. */
+const DROP_TOOL_ICONS = {
+    router: 'icon_router',
+    switch: 'icon_switch',
+};
+
 /**
- * Real DOM "ON" badge (not ::after — Daisy tooltips own ::before/::after).
- * @param {HTMLElement} btn
+ * @param {string} partId
+ * @returns {string}
  */
-export function appendPaletteOnBadge(btn) {
-    if (!btn || btn.querySelector('.sim-network-drop-palette__on-badge')) {
-        return;
-    }
-    const badge = document.createElement('span');
-    badge.className = 'sim-network-drop-palette__on-badge';
-    badge.textContent = 'ON';
-    badge.setAttribute('aria-hidden', 'true');
-    btn.appendChild(badge);
+function dropToolIconName(partId) {
+    return DROP_TOOL_ICONS[partId] || 'icon_add_device';
 }
 
 /**
- * Optional left image + label + optional trailing SVG icon for palette buttons.
- * @param {HTMLButtonElement} btn
- * @param {{ label: string, imagePath?: string | null, trailingIconHtml?: string }} options
+ * Toolbox button, taken out of its wrapper so it can sit in the toolbar.
+ * Hover and click sounds stay on the button. The click action is added here.
+ * @param {string} id
+ * @param {string} variant
+ * @param {string} iconName
+ * @param {string} text
+ * @param {(() => void) | null} onClick
+ * @returns {HTMLButtonElement}
  */
-function fillPaletteButtonContent(btn, options) {
-    const label = String(options?.label || '');
-    const imagePath =
-        typeof options?.imagePath === 'string' ? options.imagePath.trim() : '';
-    const trailingIconHtml =
-        typeof options?.trailingIconHtml === 'string'
-            ? options.trailingIconHtml
-            : '';
+export function createToolbarFactoryButton(id, variant, iconName, text, onClick) {
+    const host = getHost();
+    const wrap = host.button(
+        id,
+        variant,
+        { iconName, iconOnly: false, iconPosition: 'before' },
+        { text, tooltipPosition: 'top' },
+        null
+    );
+    const buttonEl = wrap.querySelector('button');
+    if (!(buttonEl instanceof HTMLButtonElement)) {
+        wrap.remove();
+        throw new Error(`Toolbar button factory did not return a button for ${id}.`);
+    }
+    buttonEl.type = 'button';
+    buttonEl.id = id;
+    buttonEl.remove();
+    wrap.remove();
+    if (onClick) {
+        buttonEl.addEventListener('click', onClick);
+    }
+    console.log(
+        `[partDrop.js]: [N/A] - [createToolbarFactoryButton] - id has a value of ${id}.`
+    ); //This is logged when a toolbar button is built with the shared button factory.
+    return buttonEl;
+}
 
+/**
+ * Paint one menu row: dark icon dot, name, and room for the tick.
+ * @param {HTMLButtonElement} btn
+ * @param {string} iconName
+ * @param {string} labelText
+ */
+function fillToolbarRow(btn, iconName, labelText) {
+    const host = getHost();
     btn.replaceChildren();
+    btn.className = 'sim-network-toolbar__row sim-network-drop-palette__btn';
+    btn.setAttribute('data-tool-icon', iconName);
+    btn.setAttribute('aria-pressed', 'false');
 
-    if (imagePath) {
-        const img = document.createElement('img');
-        img.className = 'sim-network-drop-palette__btn-image';
-        img.src = imagePath;
-        img.alt = '';
-        img.setAttribute('aria-hidden', 'true');
-        btn.appendChild(img);
+    const dot = document.createElement('span');
+    dot.className = 'sim-network-toolbar__dot';
+    dot.setAttribute('aria-hidden', 'true');
+    const icon = document.createElement('span');
+    icon.innerHTML = host.getIcon(iconName, 'h-5 w-5');
+    dot.appendChild(icon);
+
+    const label = document.createElement('span');
+    label.className = 'sim-network-toolbar__label';
+    label.textContent = labelText;
+    btn.append(dot, label);
+}
+
+/**
+ * Tick the active row. Clear the tick when that tool is off.
+ * menu-active is not combined with btn — DaisyUI ignores menu-active on a btn.
+ * @param {HTMLElement | null} btn
+ * @param {boolean} active
+ */
+export function setPaletteToolRowActive(btn, active) {
+    if (!(btn instanceof HTMLElement)) {
+        return;
+    }
+    const on = active === true;
+    btn.classList.toggle('menu-active', on);
+    btn.classList.toggle('is-on', on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    const existing = btn.querySelector('.sim-network-toolbar__check');
+    if (!on) {
+        existing?.remove();
+        return;
+    }
+    if (existing) {
+        return;
+    }
+    const host = getHost();
+    const check = document.createElement('span');
+    check.className = 'sim-network-toolbar__check';
+    check.setAttribute('aria-hidden', 'true');
+    check.innerHTML = host.getIcon('icon_check', 'h-4 w-4');
+    btn.appendChild(check);
+}
+
+/**
+ * @param {boolean} open
+ */
+function setPaletteTriggerExpanded(open) {
+    const slot = paletteEl?.querySelector('.sim-network-toolbar__slot');
+    if (slot instanceof HTMLElement) {
+        slot.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+}
+
+/**
+ * Show the tool circles. Only the player clicking the bottom button does this.
+ */
+function openPaletteDial() {
+    if (!paletteEl || paletteEl.classList.contains('is-open')) {
+        return;
+    }
+    paletteEl.classList.add('is-open');
+    setPaletteTriggerExpanded(true);
+    console.log(
+        `[partDrop.js]: [N/A] - [openPaletteDial] - isOpen has a value of true.`
+    ); //This is logged when the player opens the Actions dial.
+}
+
+/**
+ * Hide the tool circles. The bottom button stays.
+ */
+function closePaletteDial() {
+    if (!paletteEl) {
+        return;
+    }
+    paletteEl.classList.remove('is-open');
+    setPaletteTriggerExpanded(false);
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && paletteEl.contains(active)) {
+        active.blur();
+    }
+    console.log(
+        `[partDrop.js]: [N/A] - [closePaletteDial] - isOpen has a value of false.`
+    ); //This is logged when the Actions dial closes after a tool pick, a second click, or a click on the scene.
+}
+
+/**
+ * Copy the selected tool onto the slot. Nothing selected shows "Tools".
+ */
+export function refreshPaletteTrigger() {
+    const slot = paletteEl?.querySelector('.sim-network-toolbar__slot');
+    if (!(slot instanceof HTMLButtonElement)) {
+        return;
+    }
+    const host = getHost();
+    const expanded = slot.getAttribute('aria-expanded') === 'true';
+    const active = paletteEl.querySelector(
+        '.sim-network-drop-palette__btn[aria-pressed="true"]'
+    );
+    const chevron = document.createElement('span');
+    chevron.className = 'sim-network-toolbar__chevron';
+    chevron.setAttribute('aria-hidden', 'true');
+    chevron.innerHTML = host.getIcon('icon_chevron_up', 'h-4 w-4');
+
+    slot.replaceChildren();
+    slot.className = 'btn sim-network-toolbar__slot';
+    if (!(active instanceof HTMLElement)) {
+        slot.classList.add('sim-network-toolbar__slot--empty');
+        const text = document.createElement('span');
+        text.className = 'sim-network-toolbar__slot-text';
+        text.textContent = 'Tools';
+        slot.append(text, chevron);
+        slot.setAttribute('aria-label', 'Choose a tool');
+        slot.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        console.log(
+            `[partDrop.js]: [N/A] - [refreshPaletteTrigger] - activeName has a value of empty.`
+        ); //This is logged when the slot returns to the empty Tools look.
+        return;
     }
 
-    const labelEl = document.createElement('span');
-    labelEl.className = 'sim-network-drop-palette__btn-label';
-    labelEl.textContent = label;
-    btn.appendChild(labelEl);
-
-    if (trailingIconHtml) {
-        const iconWrap = document.createElement('span');
-        iconWrap.className = 'sim-network-drop-palette__btn-icon';
-        iconWrap.setAttribute('aria-hidden', 'true');
-        iconWrap.innerHTML = trailingIconHtml;
-        btn.appendChild(iconWrap);
+    slot.classList.add('btn-primary');
+    const iconName = active.getAttribute('data-tool-icon') || '';
+    if (iconName) {
+        const icon = document.createElement('span');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = host.getIcon(iconName, 'h-5 w-5');
+        slot.appendChild(icon);
     }
+    const name =
+        active.querySelector('.sim-network-toolbar__label')?.textContent?.trim() ||
+        '';
+    const text = document.createElement('span');
+    text.className = 'sim-network-toolbar__slot-text';
+    text.textContent = name;
+    slot.append(text, chevron);
+    slot.setAttribute(
+        'aria-label',
+        name ? `Tool: ${name}. Change tool` : 'Choose a tool'
+    );
+    slot.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    console.log(
+        `[partDrop.js]: [N/A] - [refreshPaletteTrigger] - activeName has a value of ${name || 'empty'}.`
+    ); //This is logged when the slot copies the selected tool.
+}
+
+/**
+ * Close the dial when the player clicks the scene. The menu does not open by itself.
+ * @param {HTMLElement} palette
+ */
+function bindPaletteDial(palette) {
+    unbindPaletteDial();
+    paletteDialPointerDown = (event) => {
+        if (!paletteEl || !paletteEl.classList.contains('is-open')) {
+            return;
+        }
+        if (event.target instanceof Node && paletteEl.contains(event.target)) {
+            return;
+        }
+        closePaletteDial();
+    };
+    document.addEventListener('pointerdown', paletteDialPointerDown);
+    palette.addEventListener('keydown', onPaletteDialKeydown);
+}
+
+/**
+ * @param {KeyboardEvent} event
+ */
+function onPaletteDialKeydown(event) {
+    if (event.key === 'Escape') {
+        closePaletteDial();
+    }
+}
+
+/**
+ * Drop dial listeners. Called when the palette is removed.
+ */
+function unbindPaletteDial() {
+    if (paletteDialPointerDown) {
+        document.removeEventListener('pointerdown', paletteDialPointerDown);
+        paletteDialPointerDown = null;
+    }
+    paletteEl?.removeEventListener('keydown', onPaletteDialKeydown);
+}
+
+/**
+ * Put a tool button in the menu. The button keeps its classes and data attributes.
+ * @param {HTMLElement} palette
+ * @param {HTMLButtonElement} button
+ * @param {string} labelText
+ * @returns {HTMLElement | null}
+ */
+export function appendPaletteToolButton(palette, button, labelText) {
+    const menu = palette?.querySelector('.sim-network-toolbar__menu');
+    if (!menu || !(button instanceof HTMLButtonElement)) {
+        return null;
+    }
+    const row = document.createElement('li');
+    row.appendChild(button);
+    button.addEventListener('click', () => {
+        closePaletteDial();
+    });
+    menu.appendChild(row);
+    const rowCount = menu.querySelectorAll(':scope > li').length;
+    console.log(
+        `[partDrop.js]: [N/A] - [appendPaletteToolButton] - labelText has a value of ${labelText}, rowCount has a value of ${rowCount}.`
+    ); //This is logged when a tool joins the toolbar menu so the order can be checked.
+    return row;
 }
 
 /**
@@ -222,9 +445,34 @@ function syncDroppableButtonSelection(activePartId) {
     }
     for (const btn of paletteEl.querySelectorAll('button[data-part-id]')) {
         const active = btn.getAttribute('data-part-id') === activePartId;
-        btn.classList.toggle('btn-active', active);
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        setPaletteToolRowActive(btn, active);
     }
+    refreshPaletteTrigger();
+}
+
+/**
+ * Close the menu and hide the whole toolbar (test running, or results open).
+ */
+export function hideDropPalette() {
+    closePaletteDial();
+    if (paletteEl) {
+        paletteEl.hidden = true;
+    }
+    console.log(
+        `[partDrop.js]: [N/A] - [hideDropPalette] - hidden has a value of true.`
+    ); //This is logged when the toolbar hides for the connection test or the results panel.
+}
+
+/**
+ * Show the toolbar again. The menu stays closed.
+ */
+export function showDropPalette() {
+    if (paletteEl) {
+        paletteEl.hidden = false;
+    }
+    console.log(
+        `[partDrop.js]: [N/A] - [showDropPalette] - hidden has a value of false.`
+    ); //This is logged when the toolbar returns after the results panel closes.
 }
 
 /**
@@ -1083,47 +1331,57 @@ function buildPalette(droppableParts) {
     const host = getHost();
     const root = host.getPlayerUiRoot();
     paletteEl = document.createElement('div');
-    // Frost glass matches cell inspector: bg-base-100/20 backdrop-blur-2xl rounded-2xl p-2
-    paletteEl.className =
-        'sim-network-drop-palette bg-base-100/20 backdrop-blur-2xl rounded-2xl p-2';
+    paletteEl.className = 'sim-network-toolbar';
     paletteEl.setAttribute('role', 'toolbar');
-    paletteEl.setAttribute('aria-label', 'Network parts and cables');
+    paletteEl.setAttribute('aria-label', 'Build tools');
+
+    const menu = document.createElement('ul');
+    menu.className = 'menu sim-network-toolbar__menu';
+    menu.id = 'sim-network-toolbar-menu';
+    paletteEl.appendChild(menu);
+
+    const slot = createToolbarFactoryButton(
+        'sim-network-toolbar-slot',
+        'primary',
+        'icon_chevron_up',
+        'Tools',
+        () => {
+            if (paletteEl?.classList.contains('is-open')) {
+                closePaletteDial();
+                return;
+            }
+            openPaletteDial();
+        }
+    );
+    slot.className = 'btn sim-network-toolbar__slot sim-network-toolbar__slot--empty';
+    slot.setAttribute('aria-expanded', 'false');
+    slot.setAttribute('aria-controls', 'sim-network-toolbar-menu');
+    slot.setAttribute('aria-label', 'Choose a tool');
+    slot.removeAttribute('data-tip');
+    paletteEl.appendChild(slot);
 
     mountCableToggle(paletteEl);
 
-    // Heading above Cable (prepend after cable so order is Actions → Cable → …).
-    const heading = document.createElement('div');
-    heading.className = 'sim-network-drop-palette__title';
-    heading.textContent = 'Actions';
-    paletteEl.prepend(heading);
-
-    const trailingIconHtml = host.getIcon(
-        'icon_arrow_down_tray',
-        'size-5 shrink-0'
-    );
-
     for (const part of droppableParts) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className =
-            'btn btn-lg sim-network-drop-palette__btn btn-sim-network-droppable sim-network-drop-palette__btn--toggle';
-        const imagePath =
-            typeof part.buttonImage === 'string' ? part.buttonImage.trim() : '';
-        fillPaletteButtonContent(btn, {
-            label: partLabel(part),
-            imagePath: imagePath || null,
-            trailingIconHtml,
-        });
-        const tipText = PALETTE_BUTTON_TOOLTIPS[part.id];
-        applyPaletteButtonTooltip(btn, tipText);
-        appendPaletteOnBadge(btn);
+        const label = partLabel(part);
+        const btn = createToolbarFactoryButton(
+            `sim-network-toolbar-${part.id}`,
+            'primary',
+            dropToolIconName(part.id),
+            label,
+            () => {
+                selectDroppable(part.id);
+            }
+        );
+        fillToolbarRow(btn, dropToolIconName(part.id), label);
+        btn.setAttribute('aria-label', label);
         btn.setAttribute('data-part-id', part.id);
-        btn.setAttribute('aria-pressed', 'false');
-        btn.addEventListener('click', () => {
-            selectDroppable(part.id);
-        });
-        paletteEl.appendChild(btn);
+        applyPaletteButtonTooltip(btn, PALETTE_BUTTON_TOOLTIPS[part.id]);
+        appendPaletteToolButton(paletteEl, btn, label);
     }
+
+    refreshPaletteTrigger();
+    bindPaletteDial(paletteEl);
 
     toastEl = document.createElement('div');
     toastEl.className = 'alert alert-warning sim-network-drop-toast';
@@ -1173,6 +1431,7 @@ export function disposePartDrop() {
         toastTimerId = null;
     }
 
+    unbindPaletteDial();
     paletteEl?.remove();
     paletteEl = null;
     toastEl?.remove();

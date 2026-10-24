@@ -9,46 +9,295 @@
       "type": "clip",
       "id": "clip-1",
       "kind": "html",
-      "startTime": 2,
+      "startTime": 5.9,
       "html": {
         "selector": ".sim-network-complete-overlay .sim-network-flow-overlay__panel--complete",
         "durationSeconds": 0,
         "mode": "class",
-        "className": "html-clip-anim-fade-up",
-        "classAction": "add"
+        "className": "invisible",
+        "classAction": "remove"
       }
-    },
-    {
-      "type": "wait",
-      "id": "gate-1",
-      "time": 0.5,
-      "trigger": {
-        "kind": "event",
-        "name": "event:dialogue-complete-complete-01"
-      },
-      "label": "",
-      "subLane": 0
     },
     {
       "type": "emit",
       "id": "emit-1",
       "time": 0.2,
       "event": "event:show-dialogue",
-      "label": "",
+      "label": "show-complete-01",
       "detail": {
         "contentKey": "complete-01"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 1,
+      "trigger": {
+        "kind": "event",
+        "name": "event:dialogue-complete-complete-01"
+      },
+      "label": "wait for trainer Next",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 3,
+      "event": "event:show-dialogue",
+      "label": "show-complete-02",
+      "detail": {
+        "contentKey": "complete-02"
+      },
+      "subLane": 1
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 3.4,
+      "trigger": {
+        "kind": "event",
+        "name": "event:dialogue-complete-complete-02"
+      },
+      "label": "wait for CEO Next",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 4,
+      "event": "audioControl",
+      "label": "",
+      "detail": {
+        "action": "play",
+        "clipId": "music-title",
+        "loop": true,
+        "volume": 0.3
+      },
+      "subLane": 0
+    },
+    {
+      "type": "clip",
+      "id": "clip-2",
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "remove"
+      },
+      "startTime": 0.9
+    },
+    {
+      "type": "clip",
+      "id": "clip-3",
+      "startTime": 1.1,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-4",
+      "startTime": 3.3,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "remove"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-5",
+      "startTime": 3.3,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "remove"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-6",
+      "startTime": 3.5,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-7",
+      "startTime": 13,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-play-again",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "invisible",
+        "classAction": "remove"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-8",
+      "startTime": 1.5,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-9",
+      "startTime": 4.5,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-skip-dialogue",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "add"
+      }
+    },
+    {
+      "type": "clip",
+      "id": "clip-10",
+      "startTime": 6.9,
+      "kind": "html",
+      "html": {
+        "selector": "#complete-play-again",
+        "durationSeconds": 0,
+        "mode": "class",
+        "className": "hidden",
+        "classAction": "remove"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-4",
+      "time": 7,
+      "event": "event:show-dialogue",
+      "label": "show-complete-03",
+      "detail": {
+        "contentKey": "complete-03"
       },
       "subLane": 0
     },
     {
       "type": "emit",
-      "id": "emit-2",
-      "time": 1,
+      "id": "emit-5",
+      "time": 14.5,
+      "event": "event:show-dialogue",
+      "label": "show-complete-04",
+      "subLane": 1,
+      "detail": {
+        "contentKey": "complete-04"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-6",
+      "time": 13.9,
       "event": "event:hide-dialogue",
+      "label": "hide-complete-dialogue-02",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "complete-02"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-7",
+      "time": 3,
+      "event": "audioControl",
       "label": "",
       "subLane": 0,
       "detail": {
-        "contentKey": "complete-01"
+        "action": "play",
+        "clipId": "music-complete",
+        "loop": false,
+        "volume": 0.6
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-8",
+      "time": 1.1,
+      "event": "event:hide-dialogue",
+      "label": "hide-complete-dialogue-02",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "complete-02"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-9",
+      "time": 21.5,
+      "event": "event:hide-dialogue",
+      "label": "hide-complete-dialogue-02",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "complete-02"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-10",
+      "time": 1.1,
+      "event": "event:start-celebration",
+      "label": "complete-start-celebration",
+      "subLane": 1,
+      "detail": {
+        "contentKey": "start-everything"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-11",
+      "time": 1.2,
+      "event": "audioControl",
+      "label": "success sfx",
+      "subLane": 0,
+      "detail": {
+        "action": "play",
+        "clipId": "default-sys-success",
+        "loop": false,
+        "volume": 1
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-12",
+      "time": 3.5,
+      "event": "audioControl",
+      "label": "success sfx",
+      "subLane": 0,
+      "detail": {
+        "action": "play",
+        "clipId": "default-sys-success",
+        "loop": false,
+        "volume": 1
       }
     }
   ],
@@ -57,6 +306,27 @@
   "rowOrder": [
     [
       "clip-1"
+    ],
+    [
+      "clip-7"
+    ],
+    [
+      "clip-2",
+      "clip-4",
+      "clip-10"
+    ],
+    [
+      "clip-3",
+      "clip-8",
+      "clip-6",
+      "clip-9"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "clip-5"
     ]
   ]
 }

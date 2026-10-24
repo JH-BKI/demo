@@ -19,15 +19,23 @@ import {
     setDroppableButtonsEnabled,
     getDropPaletteElement,
     applyPaletteButtonTooltip,
-    appendPaletteOnBadge,
+    appendPaletteToolButton,
+    createToolbarFactoryButton,
+    refreshPaletteTrigger,
+    setPaletteToolRowActive,
+    hideDropPalette,
+    showDropPalette,
     PALETTE_BUTTON_TOOLTIPS,
 } from './partDrop.js';
 import {
+    focusSimNetworkCell,
+    focusSimNetworkOverview,
     lockSimNetworkCamera,
     setSimNetworkCameraLockBanner,
     unlockSimNetworkCamera,
     TOOL_CAMERA_DRAG_SLOP_PX,
 } from './partCamera.js';
+import { SpatialLabel } from '../../../../../src/core/spatial/spatialLabel.js';
 import { notifyTutorialAction } from './sim-network-tutorial-coach.js';
 import {
     disposeCableFlowFx,
@@ -1577,11 +1585,8 @@ function syncCableToggleButton(active) {
     if (!cableToggleBtn) {
         return;
     }
-    // Cable stays btn-primary; pressed state uses Daisy btn-active + aria-pressed.
-    cableToggleBtn.classList.add('btn-primary');
-    cableToggleBtn.classList.remove('btn-neutral');
-    cableToggleBtn.classList.toggle('btn-active', active);
-    cableToggleBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    setPaletteToolRowActive(cableToggleBtn, active);
+    refreshPaletteTrigger();
 }
 
 /**
@@ -1674,42 +1679,40 @@ export function setCableMode(active, options = {}) {
  * @param {HTMLElement} paletteEl
  */
 export function mountCableToggle(paletteEl) {
-    const host = globalThis[HOST_KEY];
-    const trailingIconHtml =
-        typeof host?.getIcon === 'function'
-            ? host.getIcon('icon_arrows_right_left', 'size-5 shrink-0')
-            : '';
-
-    cableToggleBtn = document.createElement('button');
-    cableToggleBtn.type = 'button';
-    cableToggleBtn.className =
-        'btn btn-primary btn-lg sim-network-drop-palette__btn sim-network-drop-palette__btn--cable sim-network-drop-palette__btn--toggle';
-    cableToggleBtn.replaceChildren();
-
-    const labelEl = document.createElement('span');
-    labelEl.className = 'sim-network-drop-palette__btn-label';
-    labelEl.textContent = 'Cable';
-    cableToggleBtn.appendChild(labelEl);
-
-    if (trailingIconHtml) {
-        const iconWrap = document.createElement('span');
-        iconWrap.className = 'sim-network-drop-palette__btn-icon';
-        iconWrap.setAttribute('aria-hidden', 'true');
-        iconWrap.innerHTML = trailingIconHtml;
-        cableToggleBtn.appendChild(iconWrap);
-    }
-
-    applyPaletteButtonTooltip(cableToggleBtn, PALETTE_BUTTON_TOOLTIPS.cable);
-    appendPaletteOnBadge(cableToggleBtn);
-    cableToggleBtn.setAttribute('data-cable-toggle', 'true');
-    cableToggleBtn.setAttribute('aria-pressed', 'false');
-    cableToggleBtn.addEventListener('click', () => {
-        if (cableToggleBtn?.disabled || networkEditsLockedAfterPass) {
-            return;
+    cableToggleBtn = createToolbarFactoryButton(
+        'sim-network-toolbar-cable',
+        'primary',
+        'icon_cable',
+        'Cable',
+        () => {
+            if (cableToggleBtn?.disabled || networkEditsLockedAfterPass) {
+                return;
+            }
+            setCableMode(!cableMode);
         }
-        setCableMode(!cableMode);
-    });
-    paletteEl.prepend(cableToggleBtn);
+    );
+    cableToggleBtn.className =
+        'sim-network-toolbar__row sim-network-drop-palette__btn sim-network-drop-palette__btn--cable';
+    cableToggleBtn.setAttribute('aria-label', 'Cable');
+    cableToggleBtn.setAttribute('data-tool-icon', 'icon_cable');
+    cableToggleBtn.setAttribute('data-cable-toggle', 'true');
+    const host = globalThis[HOST_KEY];
+    const dot = document.createElement('span');
+    dot.className = 'sim-network-toolbar__dot';
+    dot.setAttribute('aria-hidden', 'true');
+    const icon = document.createElement('span');
+    icon.innerHTML =
+        typeof host?.getIcon === 'function'
+            ? host.getIcon('icon_cable', 'h-5 w-5')
+            : '';
+    dot.appendChild(icon);
+    const label = document.createElement('span');
+    label.className = 'sim-network-toolbar__label';
+    label.textContent = 'Cable';
+    cableToggleBtn.replaceChildren(dot, label);
+    cableToggleBtn.setAttribute('aria-pressed', 'false');
+    applyPaletteButtonTooltip(cableToggleBtn, PALETTE_BUTTON_TOOLTIPS.cable);
+    appendPaletteToolButton(paletteEl, cableToggleBtn, 'Cable');
 }
 
 /**
@@ -2456,8 +2459,6 @@ export function disposePartCables() {
    does not depend on a separate public script URL that was 404ing in browser.
    -------------------------------------------------------------------------- */
 
-const NETWORK_TEST_DIALOG_ID = 'sim-network-network-test-dialog';
-
 /**
  * Flow listens for this after a successful Test.
  * Actions: map-passed | retry | continue | go-back
@@ -2472,19 +2473,14 @@ const NETWORK_TEST_CONNECTED_RGB = { r: 0.25, g: 0.55, b: 1.0 };
 const NETWORK_TEST_CONNECTED_ALPHA = 0.55;
 /** Progress morph duration (button → filled bar) before results show. */
 const NETWORK_TEST_PROGRESS_MS = 3000;
-const NETWORK_TEST_LABEL_IDLE = 'Test Connection';
 const NETWORK_TEST_LABEL_TESTING = 'Testing connectivity...';
 const NETWORK_TEST_LABEL_PASS = 'All devices reachable.';
 const NETWORK_TEST_LABEL_FAIL = 'Unreachable devices found...';
 const NETWORK_TEST_PCT_COMPLETED_SUFFIX = ' - test completed.';
 const NETWORK_TEST_PCT_FAIL_SUFFIX = ' devices connected.';
-/** Idle Test Connection button sizing (Daisy btn-lg). */
-const NETWORK_TEST_BTN_LAYOUT_CLASSES =
-    'btn btn-lg btn-block h-auto min-h-14 whitespace-normal';
 const NETWORK_TEST_ALERT_BASE_CLASSES =
-    'alert alert-vertical sm:alert-horizontal sim-network-test-alert min-w-[300px] w-full pointer-events-none';
+    'alert alert-vertical sm:alert-horizontal sim-network-test-alert min-w-[300px] w-full';
 const NETWORK_TEST_PROGRESS_BASE_CLASSES = 'progress w-full h-3 mt-2';
-const PALETTE_WIDE_TEST_CLASS = 'sim-network-drop-palette--wide-test';
 
 /** @type {HTMLElement | null} */
 let networkTestControlEl = null;
@@ -2504,14 +2500,85 @@ let networkTestUiState = 'idle';
 let networkTestProgressRafId = null;
 /** @type {ReturnType<typeof evaluateNetworkTest> | null} */
 let networkTestPendingResult = null;
-/** @type {{ open: Function, close: Function, dispose: Function, getDialogElement: Function } | null} */
-let networkTestDialogApi = null;
-/** @type {((this: HTMLDialogElement, ev: Event) => void) | null} */
-let networkTestDialogCloseHandler = null;
-/** @type {{ open: Function, close: Function, dispose: Function, getDialogElement?: Function } | null} */
-let networkTestGoBackConfirmApi = null;
+/** How long the results HUD fades in and out. Matches the player HUD fade. */
+const NETWORK_TEST_HUD_FADE_MS = 250;
+/** Connection path shows at most this many device tiles. */
+const NETWORK_TEST_HUD_MAX_TILES = 5;
+/** Status icons rest at 1.5m and bob by 0.1m. The number sits above that. */
+const NETWORK_TEST_BADGE_Y = 2.85;
+/** Same circle for 1–9 and 10–99. Numbers never go past two digits. */
+const NETWORK_TEST_BADGE_FRAME_PX = 360;
+const NETWORK_TEST_BADGE_CONNECTED_HEX = '#408cff';
+const NETWORK_TEST_BADGE_FAIL_HEX = '#d1141a';
+/** Part id → outline icon in the shared icon list. */
+const NETWORK_TEST_HUD_PART_ICONS = {
+    'comms-cupboard': 'icon_server',
+    router: 'icon_router',
+    switch: 'icon_switch',
+    'access-point': 'icon_wifi',
+    'desktop-pc': 'icon_computer_desktop',
+    laptop: 'icon_computer_desktop',
+    nas: 'icon_server',
+    printer: 'icon_printer',
+    tv: 'icon_tv',
+    tablet: 'icon_wifi',
+    'wifi-extender': 'icon_wifi',
+};
+/** @type {HTMLElement | null} */
+let testHudDeviceEl = null;
+/** @type {HTMLElement | null} */
+let testHudBarEl = null;
+/** @type {HTMLOListElement | null} */
+let testHudChainEl = null;
+/** @type {HTMLElement | null} */
+let testHudNameEl = null;
+/** @type {HTMLElement | null} */
+let testHudNumEl = null;
+/** @type {HTMLElement | null} */
+let testHudTypeEl = null;
+/** @type {HTMLElement | null} */
+let testHudResultTextEl = null;
+/** @type {HTMLElement | null} */
+let testHudDotEl = null;
+/** @type {HTMLElement | null} */
+let testHudTallyEl = null;
+/** @type {HTMLButtonElement | null} */
+let testHudToggleBtn = null;
+/** @type {HTMLElement | null} */
+let testHudToggleNumEl = null;
+/** @type {HTMLElement | null} */
+let testHudToggleValueEl = null;
+/** @type {HTMLElement | null} */
+let testHudToggleIconEl = null;
+/** @type {HTMLElement | null} */
+let testHudActionsEl = null;
+/** @type {HTMLButtonElement | null} */
+let testHudPrevBtn = null;
+/** @type {HTMLButtonElement | null} */
+let testHudNextBtn = null;
+/** @type {HTMLElement | null} */
+let testHudOpenTipEl = null;
+/** @type {Array<object>} */
+let testHudEntries = [];
+/** @type {number} */
+let testHudIndex = 0;
 /** @type {boolean} */
-let networkTestGoBackConfirmOpen = false;
+let testHudPanelOpen = true;
+/** @type {number | null} */
+let testHudFadeTimer = null;
+/** @type {HTMLElement | null} */
+let testHudIdentityEl = null;
+/** @type {HTMLElement | null} */
+let testHudHomeStatusEl = null;
+/** @type {HTMLElement | null} */
+let testHudHomeTextEl = null;
+/** @type {HTMLElement | null} */
+let testHudHomeTallyEl = null;
+/** @type {HTMLElement | null} */
+let testHudHomeDotEl = null;
+/** Runtime number badges. Not scene-JSON annotations. */
+/** @type {SpatialLabel[]} */
+let testHudNumberLabels = [];
 /**
  * Meshes tinted for the open Test result (fail red / connected blue).
  * Explore hover must not clear these until Try again / Retry / Continue / Go Back.
@@ -2532,7 +2599,8 @@ function getNetworkTestHost() {
     const host = globalThis[HOST_KEY];
     if (
         !host ||
-        typeof host.createGenericDialogPanel !== 'function' ||
+        typeof host.getUIContainerSlot !== 'function' ||
+        typeof host.getIcon !== 'function' ||
         typeof host.getPlayerUiRoot !== 'function' ||
         typeof host.Color3 !== 'function' ||
         typeof host.dispatchAppEvent !== 'function' ||
@@ -2943,63 +3011,6 @@ function applyNetworkTestResultOverlays(result) {
 }
 
 /**
- * @param {string} text
- * @returns {string}
- */
-function escapeNetworkTestHtml(text) {
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
-/**
- * @param {object[]} stamps
- * @returns {string}
- */
-function networkTestStampListHtml(stamps) {
-    if (!stamps.length) {
-        return '<p class="sim-network-test-dialog__empty">None</p>';
-    }
-    const items = stamps
-        .map((stamp) => {
-            const label = getStampLabel(stamp);
-            return `<li><strong>${escapeNetworkTestHtml(label)}</strong></li>`;
-        })
-        .join('');
-    return `<ul class="sim-network-test-dialog__list">${items}</ul>`;
-}
-
-function ensureNetworkTestDialog() {
-    const host = getNetworkTestHost();
-    if (!networkTestDialogApi) {
-        networkTestDialogApi = host.createGenericDialogPanel({
-            id: NETWORK_TEST_DIALOG_ID,
-            allowBackdropClose: false,
-            closeOnEscape: false,
-            hideCloseButton: true,
-            footerAlign: 'end',
-            nonBlocking: true,
-            position: 'right',
-            collapsible: true,
-        });
-        const dialogEl = networkTestDialogApi.getDialogElement?.();
-        if (dialogEl) {
-            networkTestDialogCloseHandler = () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                // Fail: unlock palette after Try again. Success: stay locked until Retry/Continue/Back to title.
-                if (!lastNetworkTestPassed) {
-                    setNetworkPaletteToolsEnabled(true);
-                }
-            };
-            dialogEl.addEventListener('close', networkTestDialogCloseHandler);
-        }
-    }
-}
-
-/**
  * @param {'retry' | 'continue' | 'go-back' | 'map-passed'} action
  */
 function dispatchNetworkTestFlowAction(action) {
@@ -3011,209 +3022,1324 @@ function dispatchNetworkTestFlowAction(action) {
 }
 
 /**
- * Blocking confirm for Go Back on the pass footer (same copy as EXIT).
- * @param {object} host
- * @param {() => void} onYes
+ * Cupboard counts as one device so the progress alert and the HUD tally match.
+ * @param {ReturnType<typeof evaluateNetworkTest>} result
+ * @returns {{ ok: number, total: number }}
  */
-function openNetworkTestGoBackConfirm(host, onYes) {
-    if (networkTestGoBackConfirmOpen) {
-        console.log(
-            `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmOpen has a value of true.`
-        ); //This is logged when Go Back is clicked while the leave confirm is already open.
+function networkTestHudTally(result) {
+    const connectedCount = Array.isArray(result?.connected) ? result.connected.length : 0;
+    const missingCount = Array.isArray(result?.missing) ? result.missing.length : 0;
+    const cupboard = result?.startStamp ? 1 : 0;
+    const ok = connectedCount + (result?.hasDirectRouter ? 1 : 0);
+    return { ok, total: connectedCount + missingCount + cupboard };
+}
+
+/**
+ * Shortest cable path. `allowed` limits which stamps may be visited.
+ * @param {Map<string, Set<string>>} adj
+ * @param {string} startId
+ * @param {string} goalId
+ * @param {Set<string> | null} [allowed]
+ * @returns {string[] | null}
+ */
+function bfsPath(adj, startId, goalId, allowed) {
+    if (!startId || !goalId) {
+        return null;
+    }
+    if (allowed && (!allowed.has(startId) || !allowed.has(goalId))) {
+        return null;
+    }
+    if (startId === goalId) {
+        return [startId];
+    }
+    /** @type {Map<string, string | null>} */
+    const prev = new Map();
+    /** @type {string[]} */
+    const queue = [startId];
+    prev.set(startId, null);
+    while (queue.length > 0) {
+        const id = queue.shift();
+        for (const next of adj.get(id) || []) {
+            if (prev.has(next)) {
+                continue;
+            }
+            if (allowed && !allowed.has(next)) {
+                continue;
+            }
+            prev.set(next, id);
+            if (next === goalId) {
+                /** @type {string[]} */
+                const path = [];
+                let cur = goalId;
+                while (cur) {
+                    path.push(cur);
+                    cur = prev.get(cur);
+                }
+                path.reverse();
+                return path;
+            }
+            queue.push(next);
+        }
+    }
+    return null;
+}
+
+/**
+ * Stamps you can walk to, without stepping into `blocked`.
+ * @param {Map<string, Set<string>>} adj
+ * @param {string} startId
+ * @param {Set<string> | null} blocked
+ * @returns {Set<string>}
+ */
+function collectComponent(adj, startId, blocked) {
+    /** @type {Set<string>} */
+    const seen = new Set();
+    if (!startId || (blocked && blocked.has(startId))) {
+        return seen;
+    }
+    /** @type {string[]} */
+    const queue = [startId];
+    seen.add(startId);
+    while (queue.length > 0) {
+        const id = queue.shift();
+        for (const next of adj.get(id) || []) {
+            if (seen.has(next) || (blocked && blocked.has(next))) {
+                continue;
+            }
+            seen.add(next);
+            queue.push(next);
+        }
+    }
+    return seen;
+}
+
+/**
+ * @param {Map<string, Set<string>>} adj
+ * @param {string} originId
+ * @param {string[]} candidateIds
+ * @param {Set<string>} allowed
+ * @param {(candidateId: string, bestId: string) => boolean} isBetterTie
+ * @returns {string | null}
+ */
+function pickFarthest(adj, originId, candidateIds, allowed, isBetterTie) {
+    /** @type {string | null} */
+    let best = null;
+    let bestDist = -1;
+    for (const id of candidateIds) {
+        const path = bfsPath(adj, originId, id, allowed);
+        if (!path) {
+            continue;
+        }
+        const dist = path.length - 1;
+        const betterTie = best != null && dist === bestDist && isBetterTie(id, best);
+        if (best == null || dist > bestDist || betterTie) {
+            best = id;
+            bestDist = dist;
+        }
+    }
+    return best;
+}
+
+/**
+ * @param {string[]} ids
+ * @param {Map<string, number>} numbersById
+ * @returns {string | null}
+ */
+function pickLowestNumberId(ids, numbersById) {
+    /** @type {string | null} */
+    let best = null;
+    let bestNum = Infinity;
+    for (const id of ids) {
+        const num = numbersById.get(id) ?? 9999;
+        if (num < bestNum) {
+            best = id;
+            bestNum = num;
+        }
+    }
+    return best;
+}
+
+/**
+ * Same router the test accepts: learner-placed, cabled straight to the cupboard.
+ * @param {object} startStamp
+ * @param {Map<string, Set<string>>} adj
+ * @returns {string[]}
+ */
+function directPlayerRouterIds(startStamp, adj) {
+    /** @type {string[]} */
+    const ids = [];
+    for (const neighbourId of adj.get(startStamp?.stampId) || []) {
+        const neighbour = getStampById(neighbourId);
+        if (
+            neighbour?.playerDrop === true &&
+            neighbour.partId === NETWORK_TEST_ROUTER_PART_ID
+        ) {
+            ids.push(neighbourId);
+        }
+    }
+    return ids;
+}
+
+/**
+ * @param {object} startStamp
+ * @param {string[]} directIds
+ * @param {Map<string, Set<string>>} adj
+ * @returns {Set<string>}
+ */
+function liveNetworkIds(startStamp, directIds, adj) {
+    const live = new Set(collectReachableFrom(directIds, adj));
+    if (startStamp?.stampId) {
+        live.add(startStamp.stampId);
+    }
+    return live;
+}
+
+/**
+ * @param {string} candidateId
+ * @param {string} bestId
+ * @param {Map<string, number>} numbersById
+ * @returns {boolean}
+ */
+function isBetterHudAnchor(candidateId, bestId, numbersById) {
+    const rank = (id) =>
+        getStampById(id)?.partId === NETWORK_TEST_ROUTER_PART_ID ? 0 : 1;
+    const byKind = rank(candidateId) - rank(bestId);
+    if (byKind !== 0) {
+        return byKind < 0;
+    }
+    return (numbersById.get(candidateId) ?? 9999) < (numbersById.get(bestId) ?? 9999);
+}
+
+/**
+ * A placed router, or a faded stand-in when the map has none.
+ * @param {Map<string, number>} numbersById
+ * @returns {{ stamp?: object, ghost?: boolean, partId?: string, label?: string }}
+ */
+function routerStandIn(numbersById) {
+    const id = pickLowestNumberId(
+        [...numbersById.keys()].filter(
+            (stampId) => getStampById(stampId)?.partId === NETWORK_TEST_ROUTER_PART_ID
+        ),
+        numbersById
+    );
+    if (id) {
+        return { stamp: getStampById(id) };
+    }
+    return {
+        ghost: true,
+        partId: NETWORK_TEST_ROUTER_PART_ID,
+        label: 'Router (not placed)',
+    };
+}
+
+/**
+ * @param {string[]} ids
+ * @returns {Array<{ stamp: object }>}
+ */
+function idsToHops(ids) {
+    /** @type {Array<{ stamp: object }>} */
+    const hops = [];
+    for (const id of ids || []) {
+        const stamp = getStampById(id);
+        if (stamp) {
+            hops.push({ stamp });
+        }
+    }
+    return hops;
+}
+
+/**
+ * @param {Array<object>} hops
+ * @param {number} breakAfter
+ * @returns {{ hops: Array<object>, breakAfter: number, skip: object | null }}
+ */
+function trimHudHops(hops, breakAfter) {
+    if (hops.length <= NETWORK_TEST_HUD_MAX_TILES) {
+        return { hops, breakAfter, skip: null };
+    }
+    const skipped = hops.length - NETWORK_TEST_HUD_MAX_TILES;
+    const trimmed = hops.slice(0, 2).concat(hops.slice(hops.length - 3));
+    const spanLast = hops.length - 4;
+    if (breakAfter >= 1 && breakAfter <= spanLast) {
+        return {
+            hops: trimmed,
+            breakAfter: 1,
+            skip: { linkIndex: 1, count: skipped, isBreak: true },
+        };
+    }
+    const newBreak = breakAfter > spanLast ? breakAfter - skipped : breakAfter;
+    return {
+        hops: trimmed,
+        breakAfter: newBreak,
+        skip: { linkIndex: 1, count: skipped, isBreak: false },
+    };
+}
+
+/**
+ * @param {object} hop
+ * @returns {string}
+ */
+function hudHopId(hop) {
+    return hop?.stamp?.stampId || '';
+}
+
+/**
+ * @param {Map<string, Set<string>>} adj
+ * @param {object} left
+ * @param {object} right
+ * @returns {boolean}
+ */
+function hudLinkIsReal(adj, left, right) {
+    const a = hudHopId(left);
+    const b = hudHopId(right);
+    if (!a || !b) {
+        return false;
+    }
+    return Boolean(adj.get(a)?.has(b));
+}
+
+/**
+ * @param {Array<object>} hops
+ * @param {number} breakAfter
+ * @param {{ linkIndex: number, count: number, isBreak: boolean } | null} skip
+ * @param {Map<string, Set<string>>} adj
+ * @returns {Array<{ style: string, tip: string, kind: string }>}
+ */
+function buildHudLinks(hops, breakAfter, skip, adj) {
+    /** @type {Array<{ style: string, tip: string, kind: string }>} */
+    const links = [];
+    for (let i = 0; i < hops.length - 1; i += 1) {
+        const isSkip = Boolean(skip && i === skip.linkIndex);
+        const isBreak = i === breakAfter || (isSkip && skip.isBreak);
+        const real = hudLinkIsReal(adj, hops[i], hops[i + 1]);
+        const more = skip
+            ? `${skip.count} more hop${skip.count === 1 ? '' : 's'}`
+            : '';
+        let style = 'ok';
+        let tip = 'Cable';
+        if (isBreak) {
+            style = 'break';
+            tip = isSkip ? `Missing · ${more}` : 'Missing';
+        } else if (isSkip) {
+            style = 'skip';
+            tip = `Cable · ${more}`;
+        } else if (breakAfter >= 0 && i > breakAfter) {
+            style = real ? 'after' : 'after-missing';
+            tip = real ? 'Cable' : 'Missing';
+        } else if (!real) {
+            style = 'break';
+            tip = 'Missing';
+        }
+        links.push({ style, tip, kind: 'cable' });
+    }
+    return links;
+}
+
+/**
+ * @param {Array<object>} hops
+ * @param {number} breakAfter
+ * @param {Map<string, Set<string>>} adj
+ * @returns {{ hops: Array<object>, breakAfter: number, links: Array<object> }}
+ */
+function finalizeHudPath(hops, breakAfter, adj) {
+    const trimmed = trimHudHops(hops, breakAfter);
+    return {
+        hops: trimmed.hops,
+        breakAfter: trimmed.breakAfter,
+        links: buildHudLinks(trimmed.hops, trimmed.breakAfter, trimmed.skip, adj),
+    };
+}
+
+/**
+ * Path from the cupboard to one device, plus the first broken link.
+ * The break is the far end of a disconnected chain, not the hop nearest the device.
+ * @param {object} stamp
+ * @param {ReturnType<typeof evaluateNetworkTest>} result
+ * @param {Map<string, Set<string>>} adj
+ * @param {Map<string, number>} numbersById
+ * @returns {{ hops: Array<object>, breakAfter: number, links: Array<object> }}
+ */
+function buildHudPath(stamp, result, adj, numbersById) {
+    const start = result.startStamp;
+    if (!start || !stamp) {
+        return { hops: [], breakAfter: -1, links: [] };
+    }
+    const directIds = directPlayerRouterIds(start, adj);
+    const primaryId = pickLowestNumberId(directIds, numbersById);
+    const primaryHop = primaryId ? { stamp: getStampById(primaryId) } : routerStandIn(numbersById);
+    if (stamp.stampId === start.stampId) {
+        const breakAfter = result.hasDirectRouter && primaryId ? -1 : 0;
+        return finalizeHudPath([{ stamp: start }, primaryHop], breakAfter, adj);
+    }
+    const connectedIds = new Set((result.connected || []).map((item) => item.stampId));
+    if (connectedIds.has(stamp.stampId)) {
+        const live = liveNetworkIds(start, directIds, adj);
+        const ids = bfsPath(adj, start.stampId, stamp.stampId, live);
+        if (!ids) {
+            console.log(
+                `[partCables.js]: [N/A] - [buildHudPath] - missingConnectedPath has a value of ${stamp.stampId}.`
+            ); //This is logged when a connected device has no cable path inside the live network.
+        }
+        const hops = ids ? idsToHops(ids) : [{ stamp: start }, { stamp }];
+        return finalizeHudPath(hops, -1, adj);
+    }
+    if (!result.hasDirectRouter) {
+        const component = collectComponent(adj, stamp.stampId, null);
+        const routerIds = [...component].filter(
+            (id) => getStampById(id)?.partId === NETWORK_TEST_ROUTER_PART_ID
+        );
+        if (routerIds.length > 0) {
+            const farId = pickFarthest(adj, stamp.stampId, routerIds, component, (id, best) => {
+                return (numbersById.get(id) ?? 9999) < (numbersById.get(best) ?? 9999);
+            });
+            const ids = farId ? bfsPath(adj, farId, stamp.stampId, component) : null;
+            const tail = ids ? idsToHops(ids) : [{ stamp }];
+            return finalizeHudPath([{ stamp: start }, ...tail], 0, adj);
+        }
+        return finalizeHudPath(
+            [{ stamp: start }, routerStandIn(numbersById), { stamp }],
+            0,
+            adj
+        );
+    }
+    const live = liveNetworkIds(start, directIds, adj);
+    const island = collectComponent(adj, stamp.stampId, live);
+    const anchorIds = [...island].filter((id) => {
+        const partId = getStampById(id)?.partId;
+        return partId === NETWORK_TEST_ROUTER_PART_ID || partId === 'switch';
+    });
+    let anchorId = stamp.stampId;
+    if (anchorIds.length > 0) {
+        const far = pickFarthest(adj, stamp.stampId, anchorIds, island, (id, best) => {
+            return isBetterHudAnchor(id, best, numbersById);
+        });
+        if (far) {
+            anchorId = far;
+        }
+    }
+    const islandIds = bfsPath(adj, anchorId, stamp.stampId, island) || [stamp.stampId];
+    return finalizeHudPath(
+        [{ stamp: start }, primaryHop, ...idsToHops(islandIds)],
+        1,
+        adj
+    );
+}
+
+/**
+ * Camera home is 0. Cupboard is 1. Then map-placed required devices, then learner drops.
+ * The list stays in number order.
+ * @param {ReturnType<typeof evaluateNetworkTest>} result
+ * @returns {Array<object>}
+ */
+function buildHudNavigation(result) {
+    const home = {
+        kind: 'home',
+        number: 0,
+        connected: result?.passed === true,
+        stamp: null,
+        path: null,
+    };
+    if (!result?.startStamp) {
+        return [home];
+    }
+    const stamps = getAllStamps();
+    const required = stamps.filter((stamp) => {
+        if (isStartStamp(stamp)) {
+            return false;
+        }
+        return isWiredOrBothLink(getPartDef(stamp.partId));
+    });
+    const mapPlaced = required.filter((stamp) => stamp.playerDrop !== true);
+    const dropped = required.filter((stamp) => stamp.playerDrop === true);
+    /** @type {object[]} */
+    const numbered = [];
+    if (result.startStamp) {
+        numbered.push(result.startStamp);
+    }
+    numbered.push(...mapPlaced, ...dropped);
+    /** @type {Map<string, number>} */
+    const numbersById = new Map();
+    numbered.forEach((stamp, index) => numbersById.set(stamp.stampId, index + 1));
+    const adj = buildNetworkAdjacency(getAllCableLinks());
+    const connectedIds = new Set((result.connected || []).map((stamp) => stamp.stampId));
+    const entries = numbered.map((stamp) => {
+        const connected =
+            stamp.stampId === result.startStamp?.stampId
+                ? result.hasDirectRouter === true
+                : connectedIds.has(stamp.stampId);
+        return {
+            stamp,
+            number: numbersById.get(stamp.stampId),
+            connected,
+            path: buildHudPath(stamp, result, adj, numbersById),
+        };
+    });
+    entries.sort((a, b) => a.number - b.number);
+    return [home, ...entries];
+}
+
+/**
+ * @param {string} partId
+ * @returns {string}
+ */
+function hudPartIconName(partId) {
+    return NETWORK_TEST_HUD_PART_ICONS[partId] || 'icon_server';
+}
+
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+function hudIconHtml(name) {
+    const host = getNetworkTestHost();
+    return host.getIcon(name, '') || '';
+}
+
+/**
+ * @param {object} hop
+ * @returns {string}
+ */
+function hudHopLabel(hop) {
+    if (hop?.ghost) {
+        return hop.label || 'Router (not placed)';
+    }
+    return getStampLabel(hop?.stamp);
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {boolean} connected
+ */
+function setHudNumberFace(el, connected) {
+    el.classList.remove('bg-primary', 'text-primary-content', 'bg-error', 'text-error-content');
+    el.classList.add(
+        ...(connected
+            ? ['bg-primary', 'text-primary-content']
+            : ['bg-error', 'text-error-content'])
+    );
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {boolean} connected
+ */
+function setHudTypeFace(el, connected) {
+    el.classList.remove('bg-primary/15', 'text-primary', 'bg-error/15', 'text-error');
+    el.classList.add(
+        ...(connected ? ['bg-primary/15', 'text-primary'] : ['bg-error/15', 'text-error'])
+    );
+}
+
+function clearHudTip() {
+    testHudOpenTipEl?.classList.remove('tooltip-open');
+    testHudOpenTipEl = null;
+}
+
+/**
+ * @param {HTMLElement} el
+ */
+function toggleHudTip(el) {
+    if (testHudOpenTipEl === el) {
+        clearHudTip();
         return;
     }
+    clearHudTip();
+    el.classList.add('tooltip-open');
+    testHudOpenTipEl = el;
+}
 
-    if (!networkTestGoBackConfirmApi) {
-        networkTestGoBackConfirmApi = host.createGenericDialogPanel({
-            id: 'sim-network-test-go-back-confirm',
-            allowBackdropClose: true,
-            closeOnEscape: true,
-            hideCloseButton: false,
-            footerAlign: 'end',
-            nonBlocking: false,
-        });
-    }
-
-    networkTestGoBackConfirmOpen = true;
-    const dialogApi = networkTestGoBackConfirmApi;
-    const dialogEl = dialogApi.getDialogElement?.();
-    if (dialogEl) {
-        const onClose = () => {
-            networkTestGoBackConfirmOpen = false;
-            dialogEl.removeEventListener('close', onClose);
-        };
-        dialogEl.addEventListener('close', onClose);
-    }
-
-    dialogApi.open({
-        title: 'Leave this level?',
-        bodyHtml: '<p>Are you sure you want to go back?</p>',
-        footerHtml: '',
-        nonBlocking: false,
-        bind: ({ footerEl, close }) => {
-            const yesWrap = host.button(
-                'sim-network-test-go-back-yes',
-                'primary',
-                { iconName: '', iconOnly: false, iconPosition: 'before' },
-                { text: 'Yes', tooltipPosition: 'top' },
-                () => {
-                    console.log(
-                        `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmResponse has a value of YES.`
-                    ); //This is logged when the learner confirms Go Back to level-select after a pass.
-                    networkTestGoBackConfirmOpen = false;
-                    close();
-                    onYes();
-                }
-            );
-            const noWrap = host.button(
-                'sim-network-test-go-back-no',
-                'neutral',
-                { iconName: '', iconOnly: false, iconPosition: 'before' },
-                { text: 'No', tooltipPosition: 'top' },
-                () => {
-                    console.log(
-                        `[partCables.js]: [N/A] - [openNetworkTestGoBackConfirm] - confirmResponse has a value of NO.`
-                    ); //This is logged when the learner cancels Go Back and stays on the pass dialog.
-                    networkTestGoBackConfirmOpen = false;
-                    close();
-                }
-            );
-            footerEl.appendChild(yesWrap);
-            footerEl.appendChild(noWrap);
-        },
+/**
+ * @param {HTMLButtonElement} button
+ */
+function bindHudTipButton(button) {
+    button.addEventListener('pointerenter', () => playSfx('default-ui-hover'));
+    button.addEventListener('pointerleave', (event) => {
+        if (event.pointerType !== 'mouse') {
+            return;
+        }
+        if (testHudOpenTipEl === button) {
+            clearHudTip();
+        }
+    });
+    button.addEventListener('click', () => {
+        playSfx('default-ui-click');
+        toggleHudTip(button);
     });
 }
 
 /**
- * Pass footer: Retry + Continue + Go Back for both tutorial and level maps.
- * Flow decides whether Continue advances the track or returns to level select.
- * Built with host.button so default UI hover/click SFX apply.
  * @param {object} host
- * @param {{ footerEl: HTMLElement, close: () => void }} ctx
+ * @param {{ id: string, variant: string, iconName: string, iconOnly: boolean, iconPosition: string, text: string, onClick: () => void }} options
+ * @returns {{ wrap: HTMLElement, buttonEl: HTMLButtonElement | null }}
  */
-function mountNetworkTestPassFooter(host, ctx) {
-    const { footerEl, close } = ctx;
-    const retryWrap = host.button(
-        'sim-network-test-retry',
-        'neutral',
-        { iconName: '', iconOnly: false, iconPosition: 'before' },
-        { text: 'Retry', tooltipPosition: 'top' },
-        () => {
-            clearNetworkTestCableFlow();
-            clearNetworkTestFailHighlights();
-            resetNetworkTestControl();
-            close();
-            dispatchNetworkTestFlowAction('retry');
-        }
+function mountHudFactoryButton(host, options) {
+    const wrap = host.button(
+        options.id,
+        options.variant,
+        {
+            iconName: options.iconName,
+            iconOnly: options.iconOnly === true,
+            iconPosition: options.iconPosition || 'before',
+        },
+        { text: options.text, tooltipPosition: 'top' },
+        options.onClick
     );
-    const continueWrap = host.button(
-        'sim-network-test-continue',
-        'primary',
-        { iconName: '', iconOnly: false, iconPosition: 'before' },
-        { text: 'Continue', tooltipPosition: 'top' },
-        () => {
-            clearNetworkTestCableFlow();
-            clearNetworkTestFailHighlights();
-            resetNetworkTestControl();
-            close();
-            dispatchNetworkTestFlowAction('continue');
+    wrap.classList.add('inline-flex');
+    const buttonEl = wrap.querySelector('button');
+    if (buttonEl instanceof HTMLButtonElement) {
+        buttonEl.setAttribute('aria-label', options.text);
+        buttonEl.classList.remove('swap');
+        if (options.iconOnly) {
+            buttonEl.classList.add('btn-circle');
+        } else {
+            buttonEl.classList.add('sim-network-test-hud__action');
+            buttonEl.querySelector('span')?.classList.add('sim-network-test-hud__action-label');
         }
-    );
-    const goBackWrap = host.button(
-        'sim-network-test-go-back',
-        'neutral',
-        { iconName: '', iconOnly: false, iconPosition: 'before' },
-        { text: 'Go Back', tooltipPosition: 'top' },
-        () => {
-            openNetworkTestGoBackConfirm(host, () => {
-                clearNetworkTestCableFlow();
-                clearNetworkTestFailHighlights();
-                resetNetworkTestControl();
-                close();
-                dispatchNetworkTestFlowAction('go-back');
-            });
-        }
-    );
-    footerEl.appendChild(retryWrap);
-    footerEl.appendChild(continueWrap);
-    footerEl.appendChild(goBackWrap);
+    }
+    return { wrap, buttonEl: buttonEl instanceof HTMLButtonElement ? buttonEl : null };
 }
 
 /**
- * Fail footer: Try again (templates.button for default UI hover/click SFX).
- * @param {object} host
- * @param {{ footerEl: HTMLElement, close: () => void }} ctx
+ * @param {{ style: string, tip: string }} link
+ * @returns {HTMLLIElement}
  */
-function mountNetworkTestFailFooter(host, ctx) {
-    const { footerEl, close } = ctx;
-    const tryAgainWrap = host.button(
-        'sim-network-test-try-again',
-        'neutral',
-        { iconName: '', iconOnly: false, iconPosition: 'before' },
-        { text: 'Try again', tooltipPosition: 'top' },
-        () => {
-            clearNetworkTestCableFlow();
-            clearNetworkTestFailHighlights();
-            resetNetworkTestControl();
-            close();
-            notifyTutorialAction({ type: 'networkTestTryAgain' });
+function renderHudLink(link) {
+    const li = document.createElement('li');
+    li.className = 'sim-network-test-hud__link';
+    const left = document.createElement('span');
+    const right = document.createElement('span');
+    left.className = 'sim-network-test-hud__line';
+    right.className = 'sim-network-test-hud__line';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'sim-network-test-hud__link-icon tooltip tooltip-bottom';
+    button.setAttribute('data-tip', link.tip);
+    button.setAttribute('aria-label', `${link.tip} link`);
+    button.setAttribute('data-link-kind', link.kind || 'cable');
+    const icon = document.createElement('span');
+    if (link.style === 'break') {
+        left.classList.add('border-error', 'border-dashed');
+        right.classList.add('border-error', 'border-dashed');
+        icon.className = 'sim-network-test-hud__break bg-error text-error-content';
+        icon.innerHTML = hudIconHtml('icon_close');
+    } else if (link.style === 'skip') {
+        left.classList.add('border-primary', 'border-dotted');
+        right.classList.add('border-primary', 'border-dotted');
+        icon.className = 'text-primary';
+        icon.innerHTML = hudIconHtml('icon_cable');
+    } else if (link.style === 'after' || link.style === 'after-missing') {
+        const dashed = link.style === 'after-missing';
+        left.classList.add(dashed ? 'border-error' : 'border-base-content/20');
+        right.classList.add(dashed ? 'border-error' : 'border-base-content/20');
+        if (dashed) {
+            left.classList.add('border-dashed');
+            right.classList.add('border-dashed');
         }
+        icon.className = 'text-base-content/40';
+        icon.innerHTML = hudIconHtml('icon_cable');
+    } else {
+        left.classList.add('border-primary');
+        right.classList.add('border-primary');
+        icon.className = 'text-primary';
+        icon.innerHTML = hudIconHtml('icon_cable');
+    }
+    button.appendChild(icon);
+    bindHudTipButton(button);
+    li.appendChild(left);
+    li.appendChild(button);
+    li.appendChild(right);
+    return li;
+}
+
+/**
+ * @param {object} hop
+ * @param {number} index
+ * @param {number} breakAfter
+ * @returns {HTMLLIElement}
+ */
+function renderHudHop(hop, index, breakAfter) {
+    const li = document.createElement('li');
+    const button = document.createElement('button');
+    button.type = 'button';
+    const label = hudHopLabel(hop);
+    const faded = breakAfter >= 0 && index > breakAfter;
+    button.className = `sim-network-test-hud__hop bg-base-200 tooltip tooltip-bottom ${
+        faded ? 'text-base-content/40' : 'text-base-content'
+    }`;
+    button.setAttribute('data-tip', label);
+    button.setAttribute('aria-label', label);
+    const partId = hop?.ghost ? hop.partId : hop?.stamp?.partId;
+    button.innerHTML = hudIconHtml(hudPartIconName(partId));
+    bindHudTipButton(button);
+    li.appendChild(button);
+    return li;
+}
+
+/**
+ * @param {{ hops: Array<object>, breakAfter: number, links: Array<object> } | null} path
+ */
+function renderHudChain(path) {
+    if (!testHudChainEl) {
+        return;
+    }
+    testHudChainEl.replaceChildren();
+    const hops = path?.hops || [];
+    testHudChainEl.hidden = hops.length === 0;
+    hops.forEach((hop, index) => {
+        if (index > 0 && path.links[index - 1]) {
+            testHudChainEl.appendChild(renderHudLink(path.links[index - 1]));
+        }
+        testHudChainEl.appendChild(renderHudHop(hop, index, path.breakAfter));
+    });
+}
+
+/**
+ * @param {object | null} entry
+ * @param {boolean} open
+ * @returns {string}
+ */
+function hudToggleLabel(entry, open) {
+    const verb = open ? 'Hide' : 'Show';
+    if (!entry) {
+        return `${verb} device details`;
+    }
+    if (entry.kind === 'home') {
+        return `${verb} test overview`;
+    }
+    const state = entry.connected ? 'connected' : 'not connected';
+    return `${verb} device details, device ${entry.number}, ${state}`;
+}
+
+/**
+ * @param {object | null} entry
+ */
+function updateHudToggle(entry) {
+    if (!testHudToggleBtn) {
+        return;
+    }
+    const open = testHudPanelOpen && Boolean(entry);
+    testHudToggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    testHudToggleBtn.setAttribute('aria-label', hudToggleLabel(entry, open));
+    testHudToggleBtn.disabled = !entry;
+    if (testHudToggleNumEl) {
+        testHudToggleNumEl.hidden = !entry;
+        if (entry) {
+            setHudNumberFace(testHudToggleNumEl, entry.connected);
+        }
+    }
+    if (testHudToggleValueEl) {
+        if (entry?.kind === 'home') {
+            testHudToggleValueEl.classList.add('sim-network-test-hud__home-icon');
+            testHudToggleValueEl.innerHTML = hudIconHtml('icon_reset');
+        } else if (entry) {
+            testHudToggleValueEl.classList.remove('sim-network-test-hud__home-icon');
+            testHudToggleValueEl.textContent = String(entry.number);
+        }
+    }
+    if (testHudToggleIconEl) {
+        const iconName = open ? 'icon_chevron_up' : 'icon_chevron_down';
+        testHudToggleIconEl.innerHTML = hudIconHtml(iconName);
+    }
+}
+
+function clearHudHomeMode() {
+    if (testHudIdentityEl) {
+        testHudIdentityEl.hidden = false;
+    }
+    if (testHudHomeStatusEl) {
+        testHudHomeStatusEl.hidden = true;
+    }
+}
+
+/**
+ * Camera home card: the same result line as the bottom bar. No device, number, or cable chain.
+ * @param {object} entry
+ */
+function renderHudHome(entry) {
+    if (!entry || !testHudDeviceEl) {
+        return;
+    }
+    const statusText = testHudResultTextEl?.textContent || '';
+    const tallyText = testHudTallyEl?.textContent || '';
+    testHudDeviceEl.setAttribute('aria-label', `${statusText}, ${tallyText}`);
+    if (testHudIdentityEl) {
+        testHudIdentityEl.hidden = true;
+    }
+    if (testHudChainEl) {
+        testHudChainEl.hidden = true;
+    }
+    if (testHudHomeStatusEl) {
+        testHudHomeStatusEl.hidden = false;
+    }
+    if (testHudHomeTextEl) {
+        testHudHomeTextEl.textContent = statusText;
+    }
+    if (testHudHomeTallyEl) {
+        testHudHomeTallyEl.textContent = tallyText;
+    }
+    paintHudStatusIcon(testHudHomeDotEl, testHudResultTextEl?.textContent === 'TEST SUCCESS');
+    updateHudToggle(entry);
+    testHudDeviceEl.classList.toggle('hidden', !testHudPanelOpen);
+}
+
+/**
+ * @param {object} entry
+ */
+function renderHudFocus(entry) {
+    if (!entry || !testHudDeviceEl) {
+        return;
+    }
+    if (entry.kind === 'home') {
+        renderHudHome(entry);
+        return;
+    }
+    clearHudHomeMode();
+    const label = getStampLabel(entry.stamp);
+    const state = entry.connected ? 'connected' : 'not connected';
+    testHudDeviceEl.setAttribute(
+        'aria-label',
+        `Device ${entry.number}, ${label}, ${state}`
     );
-    footerEl.appendChild(tryAgainWrap);
+    if (testHudNameEl) {
+        testHudNameEl.textContent = label;
+    }
+    if (testHudNumEl) {
+        testHudNumEl.hidden = false;
+        testHudNumEl.textContent = String(entry.number);
+        setHudNumberFace(testHudNumEl, entry.connected);
+    }
+    if (testHudTypeEl) {
+        testHudTypeEl.hidden = false;
+        setHudTypeFace(testHudTypeEl, entry.connected);
+        testHudTypeEl.innerHTML = hudIconHtml(hudPartIconName(entry.stamp?.partId));
+    }
+    renderHudChain(entry.path);
+    updateHudToggle(entry);
+    testHudDeviceEl.classList.toggle('hidden', !testHudPanelOpen);
 }
 
 /**
  * @param {ReturnType<typeof evaluateNetworkTest>} result
  */
-function openNetworkTestResultDialog(result) {
-    ensureNetworkTestDialog();
+function renderHudEmpty(result) {
+    clearHudHomeMode();
+    const note = result.notes?.[0] || 'No Comms Cupboard found.';
+    testHudDeviceEl?.setAttribute('aria-label', note);
+    if (testHudNameEl) {
+        testHudNameEl.textContent = note;
+    }
+    if (testHudNumEl) {
+        testHudNumEl.hidden = true;
+    }
+    if (testHudTypeEl) {
+        testHudTypeEl.hidden = true;
+    }
+    if (testHudChainEl) {
+        testHudChainEl.replaceChildren();
+        testHudChainEl.hidden = true;
+    }
+    testHudPanelOpen = true;
+    testHudDeviceEl?.classList.remove('hidden', 'is-fading');
+    updateHudToggle(null);
+}
+
+/**
+ * @param {ReturnType<typeof evaluateNetworkTest>} result
+ * @param {{ ok: number, total: number }} tally
+ */
+function renderHudResult(result, tally) {
+    const passed = result.passed === true;
+    if (testHudResultTextEl) {
+        testHudResultTextEl.textContent = passed ? 'TEST SUCCESS' : 'TEST FAILED';
+    }
+    if (testHudTallyEl) {
+        testHudTallyEl.textContent = `${tally.ok}/${tally.total}`;
+    }
+    paintHudStatusIcon(testHudDotEl, passed);
+    paintHudStatusIcon(testHudHomeDotEl, passed);
+}
+
+/**
+ * Red warning when the test failed, blue success when it passed.
+ * @param {HTMLElement | null} el
+ * @param {boolean} passed
+ */
+function paintHudStatusIcon(el, passed) {
+    if (!el) {
+        return;
+    }
+    el.classList.remove('text-error', 'text-primary');
+    el.classList.add(passed ? 'text-primary' : 'text-error');
+    el.innerHTML = hudIconHtml(passed ? 'icon_success' : 'icon_triangle_warning');
+}
+
+/**
+ * @param {boolean} passed
+ */
+function mountHudActions(passed) {
     const host = getNetworkTestHost();
-    const title = result.passed ? 'Network test — success' : 'Network test — failed';
-    const statusLine = result.passed
-        ? '<h2>Well done!</h2><p class="sim-network-test-dialog__status sim-network-test-dialog__status--pass">All required devices can reach the internet from the Comms Cupboard.</p>'
-        : '<p class="sim-network-test-dialog__status sim-network-test-dialog__status--fail">Not all required devices can receive internet from the Comms Cupboard. Fix the layout and try again.</p>';
-    const notesHtml = result.notes.length
-        ? `<ul class="sim-network-test-dialog__notes">${result.notes
-              .map((note) => `<li>${escapeNetworkTestHtml(note)}</li>`)
-              .join('')}</ul>`
-        : '';
-    const routerLine = result.hasDirectRouter
-        ? '<p>Router link: <strong>OK</strong> (direct cable from Comms Cupboard to a player-placed Router).</p>'
-        : '<p>Router link: <strong>Missing</strong> (need a direct cable from Comms Cupboard to a player-placed Router).</p>';
+    testHudActionsEl?.replaceChildren();
+    const retry = mountHudFactoryButton(host, {
+        id: 'sim-network-test-hud-retry',
+        variant: passed ? 'ghost' : 'neutral',
+        iconName: 'icon_arrow_path',
+        iconOnly: false,
+        iconPosition: 'before',
+        text: 'Retry',
+        onClick: () => onHudRetry(passed),
+    });
+    testHudActionsEl?.appendChild(retry.wrap);
+    if (!passed) {
+        return;
+    }
+    const next = mountHudFactoryButton(host, {
+        id: 'sim-network-test-hud-next',
+        variant: 'primary',
+        iconName: 'icon_arrow_right',
+        iconOnly: false,
+        iconPosition: 'after',
+        text: 'Next',
+        onClick: () => onHudNext(),
+    });
+    testHudActionsEl?.appendChild(next.wrap);
+}
 
-    const bodyHtml = `
-        ${statusLine}
-        ${routerLine}
-        ${notesHtml}
-        <h3 class="sim-network-test-dialog__heading">Connected</h3>
-        ${networkTestStampListHtml(result.connected)}
-        <h3 class="sim-network-test-dialog__heading">Missing / unreachable</h3>
-        ${networkTestStampListHtml(result.missing)}
-    `;
+function concealPaletteForHud() {
+    hideDropPalette();
+    if (networkTestAlertEl) {
+        networkTestAlertEl.hidden = true;
+    }
+}
 
-    networkTestDialogApi.open({
-        title,
-        bodyHtml,
-        footerHtml: '',
-        nonBlocking: true,
-        position: 'right',
-        collapsible: true,
-        bind: ({ footerEl, close }) => {
-            if (result.passed) {
-                mountNetworkTestPassFooter(host, { footerEl, close });
-            } else {
-                mountNetworkTestFailFooter(host, { footerEl, close });
-            }
-            console.log(
-                `[partCables.js]: [N/A] - [openNetworkTestResultDialog] - footerButtonsAreTemplateButtons has a value of true, passed has a value of ${result.passed}.`
-            ); //This is logged when network-test result footer uses templates.button for default UI SFX.
-        },
+function revealDropPalette() {
+    showDropPalette();
+}
+
+function cancelHudFadeTimer() {
+    if (testHudFadeTimer != null) {
+        window.clearTimeout(testHudFadeTimer);
+        testHudFadeTimer = null;
+    }
+}
+
+/**
+ * @param {HTMLElement | null} el
+ */
+function fadeInHudPiece(el) {
+    if (!el) {
+        return;
+    }
+    el.classList.remove('hidden');
+    el.classList.add('is-fading');
+    window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+            el.classList.remove('is-fading');
+        });
     });
 }
 
 /**
- * Stop any in-flight progress animation.
+ * @param {() => void} [onDone]
  */
+function fadeOutHud(onDone) {
+    cancelHudFadeTimer();
+    for (const el of [testHudDeviceEl, testHudBarEl]) {
+        if (el && !el.classList.contains('hidden')) {
+            el.classList.add('is-fading');
+        }
+    }
+    testHudFadeTimer = window.setTimeout(() => {
+        testHudFadeTimer = null;
+        for (const el of [testHudDeviceEl, testHudBarEl]) {
+            el?.classList.add('hidden');
+            el?.classList.remove('is-fading');
+        }
+        onDone?.();
+    }, NETWORK_TEST_HUD_FADE_MS);
+}
+
+/**
+ * @param {boolean} passed
+ */
+function showNetworkTestHud(passed) {
+    cancelHudFadeTimer();
+    concealPaletteForHud();
+    fadeInHudPiece(testHudBarEl);
+    if (passed) {
+        testHudDeviceEl?.classList.add('hidden');
+        testHudDeviceEl?.classList.remove('is-fading');
+    } else {
+        fadeInHudPiece(testHudDeviceEl);
+    }
+    playSfx('default-ui-open');
+}
+
+function closeNetworkTestHud() {
+    clearNetworkTestNumberBadges();
+    playSfx('default-ui-close');
+    fadeOutHud(() => {
+        revealDropPalette();
+    });
+}
+
+function clearNetworkTestNumberBadges() {
+    for (const label of testHudNumberLabels) {
+        label.dispose();
+    }
+    testHudNumberLabels = [];
+}
+
+/**
+ * One billboard number per tested device, above the floating status icon.
+ * Built when the results open. Not an annotations-plugin entry.
+ * @param {Array<object>} entries
+ */
+function showNetworkTestNumberBadges(entries) {
+    clearNetworkTestNumberBadges();
+    if (!boundScene) {
+        return;
+    }
+    const layout = getActiveLayout();
+    if (!layout) {
+        return;
+    }
+    const host = getNetworkTestHost();
+    const cellSize = layout.cellSize ?? 1;
+    const half = host.layoutCellHalfOffset(cellSize);
+    for (const entry of entries) {
+        if (entry.kind === 'home' || !entry.stamp) {
+            continue;
+        }
+        const connected = entry.connected === true;
+        const fill = connected ? NETWORK_TEST_BADGE_CONNECTED_HEX : NETWORK_TEST_BADGE_FAIL_HEX;
+        const label = new SpatialLabel(
+            boundScene,
+            `simnetHudNum_${entry.stamp.stampId}`,
+            String(entry.number),
+            {
+                billboard: true,
+                planeHeightM: 0.38,
+                textureWidth: 512,
+                textureHeight: 512,
+                style: {
+                    frameBackgroundHex: fill,
+                    frameBorderHex: fill,
+                    textColorHex: '#ffffff',
+                    fontSizePx: 200,
+                    cornerRadiusPx: 180,
+                    paddingHorizontalPx: 48,
+                    paddingVerticalPx: 36,
+                    borderThicknessPx: 0,
+                },
+            }
+        );
+        label.faces.forEach((face) => {
+            face.frame.adaptWidthToChildren = false;
+            face.frame.adaptHeightToChildren = false;
+            face.frame.width = `${NETWORK_TEST_BADGE_FRAME_PX}px`;
+            face.frame.height = `${NETWORK_TEST_BADGE_FRAME_PX}px`;
+            face.frame.cornerRadius = NETWORK_TEST_BADGE_FRAME_PX / 2;
+            face.textBlock.resizeToFit = false;
+            face.textBlock.width = '100%';
+            face.textBlock.height = '100%';
+            face.textBlock.paddingLeftInPixels = 0;
+            face.textBlock.paddingRightInPixels = 0;
+            face.textBlock.paddingTopInPixels = 0;
+            face.textBlock.paddingBottomInPixels = 0;
+            face.frame.alpha = 1;
+            face.plane.renderingGroupId = 1;
+            face.plane.isPickable = false;
+        });
+        label.setLocalPosition([
+            entry.stamp.x * cellSize + half,
+            NETWORK_TEST_BADGE_Y,
+            entry.stamp.z * cellSize + half,
+        ]);
+        testHudNumberLabels.push(label);
+    }
+    console.log(
+        `[partCables.js]: [N/A] - [showNetworkTestNumberBadges] - badgeCount has a value of ${testHudNumberLabels.length}.`
+    ); //This is logged when the results HUD creates the runtime device numbers.
+}
+
+/**
+ * @param {boolean} passed
+ */
+function onHudRetry(passed) {
+    clearNetworkTestCableFlow();
+    clearNetworkTestFailHighlights();
+    if (!passed) {
+        setNetworkPaletteToolsEnabled(true);
+    }
+    resetNetworkTestControl();
+    closeNetworkTestHud();
+    const host = getNetworkTestHost();
+    if (host?.EVENTS?.RESET_3D_VIEW) {
+        host.dispatchAppEvent(host.EVENTS.RESET_3D_VIEW);
+    }
+    console.log(
+        `[partCables.js]: [N/A] - [onHudRetry] - cameraReset has a value of ${Boolean(host?.EVENTS?.RESET_3D_VIEW)}.`
+    ); //This is logged when Retry sends the same camera-home event as the Reset view button.
+    if (passed) {
+        dispatchNetworkTestFlowAction('retry');
+        return;
+    }
+    notifyTutorialAction({ type: 'networkTestTryAgain' });
+    console.log(
+        `[partCables.js]: [N/A] - [onHudRetry] - retryKind has a value of try-again.`
+    ); //This is logged when a failed test returns to editing without restarting the map.
+}
+
+function onHudNext() {
+    clearNetworkTestCableFlow();
+    clearNetworkTestFailHighlights();
+    resetNetworkTestControl();
+    closeNetworkTestHud();
+    dispatchNetworkTestFlowAction('continue');
+}
+
+/**
+ * @param {number} delta
+ */
+function stepNetworkTestHud(delta) {
+    if (testHudEntries.length === 0) {
+        return;
+    }
+    clearHudTip();
+    const count = testHudEntries.length;
+    testHudIndex = (testHudIndex + delta + count) % count;
+    const entry = testHudEntries[testHudIndex];
+    renderHudFocus(entry);
+    if (entry.kind === 'home') {
+        focusSimNetworkOverview();
+    } else {
+        focusSimNetworkCell({ x: entry.stamp.x, z: entry.stamp.z });
+    }
+    console.log(
+        `[partCables.js]: [N/A] - [stepNetworkTestHud] - index has a value of ${testHudIndex}, kind has a value of ${entry.kind || 'device'}, stampId has a value of ${entry.stamp?.stampId || 'none'}, connected has a value of ${entry.connected}.`
+    ); //This is logged when the learner steps to another item in the results HUD.
+}
+
+/**
+ * @param {boolean} open
+ */
+function setHudPanelOpen(open) {
+    testHudPanelOpen = open;
+    clearHudTip();
+    const entry = testHudEntries[testHudIndex] || null;
+    if (testHudDeviceEl) {
+        testHudDeviceEl.classList.toggle('hidden', !open);
+        testHudDeviceEl.classList.remove('is-fading');
+    }
+    updateHudToggle(entry);
+}
+
+function ensureNetworkTestHud() {
+    if (testHudBarEl && testHudDeviceEl) {
+        return;
+    }
+    const host = getNetworkTestHost();
+    testHudDeviceEl = document.createElement('div');
+    testHudDeviceEl.className =
+        'sim-network-test-hud__device hidden is-fading rounded-box bg-base-100/95 border border-base-content/10 shadow-lg text-base-content';
+    testHudDeviceEl.setAttribute('role', 'region');
+    testHudDeviceEl.setAttribute('aria-label', 'Device details');
+
+    const identity = document.createElement('div');
+    identity.className = 'sim-network-test-hud__identity';
+    testHudIdentityEl = identity;
+    testHudNumEl = document.createElement('span');
+    testHudNumEl.className = 'sim-network-test-hud__num';
+    testHudNumEl.setAttribute('aria-hidden', 'true');
+    testHudTypeEl = document.createElement('span');
+    testHudTypeEl.className = 'sim-network-test-hud__type';
+    testHudTypeEl.setAttribute('aria-hidden', 'true');
+    testHudNameEl = document.createElement('span');
+    testHudNameEl.className = 'sim-network-test-hud__name';
+    identity.appendChild(testHudNumEl);
+    identity.appendChild(testHudTypeEl);
+    identity.appendChild(testHudNameEl);
+
+    testHudChainEl = document.createElement('ol');
+    testHudChainEl.className = 'sim-network-test-hud__chain';
+    testHudChainEl.setAttribute('aria-label', 'Connection path');
+    testHudDeviceEl.appendChild(identity);
+    testHudDeviceEl.appendChild(testHudChainEl);
+
+    testHudHomeStatusEl = document.createElement('p');
+    testHudHomeStatusEl.className = 'sim-network-test-hud__home-status';
+    testHudHomeStatusEl.hidden = true;
+    testHudHomeDotEl = document.createElement('span');
+    testHudHomeDotEl.className = 'sim-network-test-hud__status-icon text-error';
+    testHudHomeDotEl.setAttribute('aria-hidden', 'true');
+    testHudHomeDotEl.innerHTML = hudIconHtml('icon_triangle_warning');
+    testHudHomeTextEl = document.createElement('span');
+    testHudHomeTallyEl = document.createElement('span');
+    const homeSep = document.createElement('span');
+    homeSep.className = 'sim-network-test-hud__sep';
+    homeSep.textContent = '·';
+    testHudHomeStatusEl.appendChild(testHudHomeDotEl);
+    testHudHomeStatusEl.appendChild(testHudHomeTextEl);
+    testHudHomeStatusEl.appendChild(homeSep);
+    testHudHomeStatusEl.appendChild(testHudHomeTallyEl);
+    testHudDeviceEl.appendChild(testHudHomeStatusEl);
+
+    testHudBarEl = document.createElement('div');
+    testHudBarEl.className = 'sim-network-test-hud__bar hidden is-fading';
+    const resultLine = document.createElement('p');
+    resultLine.className = 'sim-network-test-hud__result';
+    resultLine.setAttribute('role', 'status');
+    testHudDotEl = document.createElement('span');
+    testHudDotEl.className = 'sim-network-test-hud__status-icon text-error';
+    testHudDotEl.setAttribute('aria-hidden', 'true');
+    testHudDotEl.innerHTML = hudIconHtml('icon_triangle_warning');
+    testHudResultTextEl = document.createElement('span');
+    testHudResultTextEl.textContent = 'TEST FAILED';
+    const sep = document.createElement('span');
+    sep.className = 'sim-network-test-hud__sep';
+    sep.textContent = '·';
+    testHudTallyEl = document.createElement('span');
+    testHudTallyEl.textContent = '0/0';
+    resultLine.appendChild(testHudDotEl);
+    resultLine.appendChild(testHudResultTextEl);
+    resultLine.appendChild(sep);
+    resultLine.appendChild(testHudTallyEl);
+    // Kept off screen. The top card reads these nodes. The footer does not show them.
+
+    const controls = document.createElement('div');
+    controls.className = 'sim-network-test-hud__controls';
+    const panel = document.createElement('div');
+    panel.className =
+        'sim-network-test-hud__group bg-base-100/95 border border-base-content/10 shadow-lg text-base-content';
+    const navGroup = document.createElement('div');
+    navGroup.className = 'sim-network-test-hud__nav';
+    const prev = mountHudFactoryButton(host, {
+        id: 'sim-network-test-hud-prev',
+        variant: 'neutral',
+        iconName: 'icon_chevron_left',
+        iconOnly: true,
+        iconPosition: 'before',
+        text: 'Previous device',
+        onClick: () => stepNetworkTestHud(-1),
+    });
+    testHudPrevBtn = prev.buttonEl;
+    testHudToggleBtn = document.createElement('button');
+    testHudToggleBtn.type = 'button';
+    testHudToggleBtn.className = 'btn btn-neutral sim-network-test-hud__toggle';
+    testHudToggleBtn.setAttribute('aria-expanded', 'true');
+    testHudToggleNumEl = document.createElement('span');
+    testHudToggleNumEl.className = 'sim-network-test-hud__num sim-network-test-hud__num--sm';
+    testHudToggleValueEl = document.createElement('span');
+    testHudToggleValueEl.className = 'sim-network-test-hud__toggle-value';
+    testHudToggleIconEl = document.createElement('span');
+    testHudToggleIconEl.className = 'sim-network-test-hud__toggle-chevron';
+    testHudToggleIconEl.setAttribute('aria-hidden', 'true');
+    testHudToggleNumEl.appendChild(testHudToggleValueEl);
+    testHudToggleBtn.appendChild(testHudToggleNumEl);
+    testHudToggleBtn.appendChild(testHudToggleIconEl);
+    testHudToggleBtn.addEventListener('pointerenter', () => playSfx('default-ui-hover'));
+    testHudToggleBtn.addEventListener('click', () => {
+        playSfx('default-ui-click');
+        setHudPanelOpen(!testHudPanelOpen);
+    });
+    const next = mountHudFactoryButton(host, {
+        id: 'sim-network-test-hud-next',
+        variant: 'neutral',
+        iconName: 'icon_chevron_right',
+        iconOnly: true,
+        iconPosition: 'before',
+        text: 'Next device',
+        onClick: () => stepNetworkTestHud(1),
+    });
+    testHudNextBtn = next.buttonEl;
+    navGroup.appendChild(prev.wrap);
+    navGroup.appendChild(testHudToggleBtn);
+    navGroup.appendChild(next.wrap);
+
+    const split = document.createElement('span');
+    split.className = 'sim-network-test-hud__split';
+    split.setAttribute('aria-hidden', 'true');
+    testHudActionsEl = document.createElement('div');
+    testHudActionsEl.className = 'sim-network-test-hud__actions';
+    panel.appendChild(navGroup);
+    panel.appendChild(split);
+    panel.appendChild(testHudActionsEl);
+    controls.appendChild(panel);
+    testHudBarEl.appendChild(controls);
+
+    host.getUIContainerSlot('header-center').appendChild(testHudDeviceEl);
+    host.getUIContainerSlot('footer-center').appendChild(testHudBarEl);
+}
+
+/**
+ * @param {ReturnType<typeof evaluateNetworkTest>} result
+ */
+function openNetworkTestHud(result) {
+    ensureNetworkTestHud();
+    clearHudTip();
+    testHudEntries = buildHudNavigation(result);
+    testHudIndex = 0;
+    testHudPanelOpen = result.passed !== true;
+    const tally = networkTestHudTally(result);
+    renderHudResult(result, tally);
+    mountHudActions(result.passed === true);
+    const entry = testHudEntries[0] || null;
+    if (testHudPrevBtn) {
+        testHudPrevBtn.disabled = testHudEntries.length === 0;
+    }
+    if (testHudNextBtn) {
+        testHudNextBtn.disabled = testHudEntries.length === 0;
+    }
+    if (!entry) {
+        renderHudEmpty(result);
+    } else if (entry.kind === 'home') {
+        renderHudHome(entry);
+        focusSimNetworkOverview();
+    } else {
+        renderHudFocus(entry);
+        if (!result.passed) {
+            focusSimNetworkCell({ x: entry.stamp.x, z: entry.stamp.z });
+        }
+    }
+    showNetworkTestNumberBadges(testHudEntries);
+    showNetworkTestHud(result.passed === true);
+    console.log(
+        `[partCables.js]: [N/A] - [openNetworkTestHud] - passed has a value of ${result.passed}, tally has a value of ${tally.ok}/${tally.total}, focus has a value of ${entry?.kind === 'home' ? 'overview' : entry?.stamp?.stampId || 'none'}.`
+    ); //This is logged when the results HUD opens after the progress alert.
+}
+
+function destroyNetworkTestHud() {
+    cancelHudFadeTimer();
+    clearHudTip();
+    clearNetworkTestNumberBadges();
+    testHudDeviceEl?.remove();
+    testHudBarEl?.remove();
+    testHudDeviceEl = null;
+    testHudBarEl = null;
+    testHudChainEl = null;
+    testHudIdentityEl = null;
+    testHudHomeStatusEl = null;
+    testHudHomeTextEl = null;
+    testHudHomeTallyEl = null;
+    testHudHomeDotEl = null;
+    testHudNameEl = null;
+    testHudNumEl = null;
+    testHudTypeEl = null;
+    testHudResultTextEl = null;
+    testHudDotEl = null;
+    testHudTallyEl = null;
+    testHudToggleBtn = null;
+    testHudToggleNumEl = null;
+    testHudToggleValueEl = null;
+    testHudToggleIconEl = null;
+    testHudActionsEl = null;
+    testHudPrevBtn = null;
+    testHudNextBtn = null;
+    testHudEntries = [];
+    testHudIndex = 0;
+    revealDropPalette();
+}
+
 function cancelNetworkTestProgressAnimation() {
     if (networkTestProgressRafId != null) {
         window.cancelAnimationFrame(networkTestProgressRafId);
@@ -3223,7 +4349,7 @@ function cancelNetworkTestProgressAnimation() {
 }
 
 /**
- * Fail progress stops at connected / required devices (e.g. 3 of 4 → 75%).
+ * Fail progress uses the same fraction as the HUD tally, cupboard included.
  * Pass always targets 100%.
  * @param {ReturnType<typeof evaluateNetworkTest>} result
  * @returns {number}
@@ -3232,13 +4358,11 @@ function getNetworkTestProgressTargetPercent(result) {
     if (result?.passed) {
         return 100;
     }
-    const connectedCount = Array.isArray(result?.connected) ? result.connected.length : 0;
-    const missingCount = Array.isArray(result?.missing) ? result.missing.length : 0;
-    const total = connectedCount + missingCount;
-    if (total <= 0) {
+    const tally = networkTestHudTally(result);
+    if (tally.total <= 0) {
         return 0;
     }
-    return Math.round((connectedCount / total) * 100);
+    return Math.round((tally.ok / tally.total) * 100);
 }
 
 /**
@@ -3255,18 +4379,6 @@ function setNetworkTestAlertTone(tone) {
         // Fill colour is forced black in CSS so it suits alert-info and alert-error.
         networkTestProgressEl.className = NETWORK_TEST_PROGRESS_BASE_CLASSES;
     }
-}
-
-/**
- * Widen the left palette so the 300px alert can sit anchored there.
- * @param {boolean} wide
- */
-function setNetworkTestPaletteWide(wide) {
-    const palette = getDropPaletteElement();
-    if (!palette) {
-        return;
-    }
-    palette.classList.toggle(PALETTE_WIDE_TEST_CLASS, wide === true);
 }
 
 /**
@@ -3306,7 +4418,6 @@ function resetNetworkTestControl() {
     networkTestPendingResult = null;
     networkTestUiState = 'idle';
     notifyNetworkTestUiChanged();
-    setNetworkTestPaletteWide(false);
     if (networkTestAlertEl) {
         networkTestAlertEl.hidden = true;
     }
@@ -3314,7 +4425,10 @@ function resetNetworkTestControl() {
     if (networkTestBtn) {
         networkTestBtn.hidden = false;
         networkTestBtn.disabled = false;
+        networkTestBtn.classList.remove('btn-active');
+        networkTestBtn.setAttribute('aria-pressed', 'false');
     }
+    refreshPaletteTrigger();
     if (networkTestProgressEl) {
         networkTestProgressEl.hidden = false;
     }
@@ -3352,7 +4466,7 @@ function finishNetworkTestAfterProgress(result) {
     applyNetworkTestResultOverlays(result);
     notifyNetworkEditsLockChanged();
     // Cable-flow particles already started with the progress bar; keep looping.
-    openNetworkTestResultDialog(result);
+    openNetworkTestHud(result);
     if (result.passed) {
         dispatchNetworkTestFlowAction('map-passed');
     }
@@ -3362,7 +4476,7 @@ function finishNetworkTestAfterProgress(result) {
 }
 
 /**
- * Hide the button, show the Daisy alert + progress, count toward the result target.
+ * Hide the toolbar, show the Daisy alert + progress, count toward the result target.
  * Pass → 100%. Fail → connected/required % (e.g. 3/4 → 75%).
  * @param {ReturnType<typeof evaluateNetworkTest>} result
  */
@@ -3373,10 +4487,9 @@ function startNetworkTestProgressMorph(result) {
     notifyNetworkTestUiChanged();
     const targetPercent = getNetworkTestProgressTargetPercent(result);
     if (networkTestBtn) {
-        networkTestBtn.hidden = true;
         networkTestBtn.disabled = true;
     }
-    setNetworkTestPaletteWide(true);
+    hideDropPalette();
     setNetworkTestAlertTone('info');
     if (networkTestAlertEl) {
         networkTestAlertEl.hidden = false;
@@ -3431,41 +4544,33 @@ function runNetworkTest() {
 function mountNetworkTestButton() {
     const host = getNetworkTestHost();
     const palette = getDropPaletteElement();
-    const parent = palette || host.getPlayerUiRoot();
 
-    networkTestControlEl = document.createElement('div');
-    networkTestControlEl.className = 'sim-network-test-control w-full mt-4';
-
-    networkTestBtn = document.createElement('button');
-    networkTestBtn.type = 'button';
-    networkTestBtn.className = `${NETWORK_TEST_BTN_LAYOUT_CLASSES} btn-primary sim-network-drop-palette__btn sim-network-test-control__btn`;
-    networkTestBtn.replaceChildren();
-
-    const testLabelEl = document.createElement('span');
-    testLabelEl.className = 'sim-network-drop-palette__btn-label';
-    testLabelEl.textContent = NETWORK_TEST_LABEL_IDLE;
-    networkTestBtn.appendChild(testLabelEl);
-
-    const testIconHtml =
-        typeof host.getIcon === 'function'
-            ? host.getIcon('icon_circle_help', 'size-5 shrink-0')
-            : '';
-    if (testIconHtml) {
-        const iconWrap = document.createElement('span');
-        iconWrap.className = 'sim-network-drop-palette__btn-icon';
-        iconWrap.setAttribute('aria-hidden', 'true');
-        iconWrap.innerHTML = testIconHtml;
-        networkTestBtn.appendChild(iconWrap);
-    }
-
+    networkTestBtn = createToolbarFactoryButton(
+        'sim-network-toolbar-test',
+        'info',
+        'icon_play',
+        'Test',
+        () => {
+            runNetworkTest();
+        }
+    );
+    networkTestBtn.className = 'btn btn-info sim-network-toolbar__test sim-network-test-control__btn';
+    networkTestBtn.setAttribute('aria-label', 'Test connection');
+    const icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = host.getIcon('icon_play', 'h-5 w-5');
+    const label = document.createElement('span');
+    label.textContent = 'Test';
+    networkTestBtn.replaceChildren(icon, label);
     applyPaletteButtonTooltip(
         networkTestBtn,
         PALETTE_BUTTON_TOOLTIPS.testConnection
     );
-    networkTestBtn.setAttribute('aria-label', 'Test network connections');
-    networkTestBtn.addEventListener('click', () => {
-        runNetworkTest();
-    });
+    if (palette) {
+        palette.appendChild(networkTestBtn);
+    } else {
+        host.getPlayerUiRoot().appendChild(networkTestBtn);
+    }
 
     networkTestAlertEl = document.createElement('div');
     networkTestAlertEl.className = `${NETWORK_TEST_ALERT_BASE_CLASSES} alert-info`;
@@ -3498,14 +4603,13 @@ function mountNetworkTestButton() {
 
     networkTestAlertEl.appendChild(textCol);
 
-    networkTestControlEl.appendChild(networkTestBtn);
-    networkTestControlEl.appendChild(networkTestAlertEl);
-    parent.appendChild(networkTestControlEl);
+    host.getPlayerUiRoot().appendChild(networkTestAlertEl);
+    networkTestControlEl = networkTestAlertEl;
     networkTestUiState = 'idle';
 }
 
 /**
- * Mount the left-palette Test Connection control and result dialog.
+ * Mount the Test Connection circle and the progress alert.
  * @param {import('@babylonjs/core').Scene} _scene
  * @param {{ stageRole?: 'tutorial' | 'level' | 'office' }} [options]
  */
@@ -3513,7 +4617,7 @@ export function initializePartNetworkTest(_scene, options = {}) {
     disposePartNetworkTest();
     networkTestStageRole =
         options.stageRole === 'tutorial' ? 'tutorial' : 'level';
-    ensureNetworkTestDialog();
+    ensureNetworkTestHud();
     mountNetworkTestButton();
     console.log(
         `[partCables.js]: [N/A] - [initializePartNetworkTest] - ready has a value of true, stageRole has a value of ${networkTestStageRole}.`
@@ -3521,7 +4625,7 @@ export function initializePartNetworkTest(_scene, options = {}) {
 }
 
 /**
- * Tear down Test UI, dialog, and fail highlights.
+ * Tear down Test UI, results HUD, and fail highlights.
  */
 export function disposePartNetworkTest() {
     clearNetworkTestCableFlow();
@@ -3530,9 +4634,9 @@ export function disposePartNetworkTest() {
     cancelNetworkTestProgressAnimation();
     networkTestPendingResult = null;
     networkTestUiState = 'idle';
-    setNetworkTestPaletteWide(false);
-    if (networkTestControlEl?.parentNode) {
-        networkTestControlEl.parentNode.removeChild(networkTestControlEl);
+    networkTestBtn?.remove();
+    if (networkTestAlertEl?.parentNode) {
+        networkTestAlertEl.parentNode.removeChild(networkTestAlertEl);
     }
     networkTestControlEl = null;
     networkTestBtn = null;
@@ -3540,17 +4644,7 @@ export function disposePartNetworkTest() {
     networkTestTitleEl = null;
     networkTestDescEl = null;
     networkTestProgressEl = null;
-
-    const dialogEl = networkTestDialogApi?.getDialogElement?.();
-    if (dialogEl && networkTestDialogCloseHandler) {
-        dialogEl.removeEventListener('close', networkTestDialogCloseHandler);
-    }
-    networkTestDialogCloseHandler = null;
-    networkTestDialogApi?.dispose();
-    networkTestDialogApi = null;
-    networkTestGoBackConfirmOpen = false;
-    networkTestGoBackConfirmApi?.dispose();
-    networkTestGoBackConfirmApi = null;
+    destroyNetworkTestHud();
     lastNetworkTestPassed = false;
     networkEditsLockedAfterPass = false;
     networkTestStageRole = 'level';

@@ -6,18 +6,29 @@
  */
 
 import {
+    advanceActiveTutorialDialogue,
     disposeTutorialDialogue,
     initTutorialDialogue,
 } from './sim-network-tutorial-dialogue.js';
+import {
+    disposeCompleteFireworks,
+    mountCompleteFireworks,
+    startCompleteFireworks,
+} from './sim-network-complete-fireworks.js';
 
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 const OVERLAY_ID = 'sim-network-complete-overlay';
 const ENTER_SEQUENCE_FILE = 'complete-enter-placeholder-sequence.json';
+const SHOW_DIALOGUE_EVENT = 'event:start-celebration';
+const CEO_FANFARE_KEY = 'start-everything';
 
 /** @type {HTMLElement | null} */
 let backdropEl = null;
 /** @type {HTMLElement | null} */
 let sectionEl = null;
+/** HUD buttons in `#uiContainer-footer-center` (removed on dispose). */
+/** @type {HTMLElement | null} */
+let footerCenterBtnEl = null;
 
 /**
  * @returns {{
@@ -72,16 +83,17 @@ export async function createScene(scene, sceneId) {
     backdropEl.className = 'sim-network-flow-overlay__backdrop';
     backdropEl.setAttribute('aria-hidden', 'true');
     rootSlot.appendChild(backdropEl);
+    mountCompleteFireworks(backdropEl);
+    window.addEventListener(SHOW_DIALOGUE_EVENT, onShowDialogueForFanfare);
 
     centerSlot.innerHTML = `
         <div id="uiSection" class="ui-section ${OVERLAY_ID}">
             <div id="uiSection-header" class="ui-section-cell"></div>
             <div id="uiSection-center" class="ui-section-cell">
-                <div class="sim-network-flow-overlay__panel sim-network-flow-overlay__panel--complete">
+                <div class="sim-network-flow-overlay__panel sim-network-flow-overlay__panel--complete invisible">
                     <h1 class="sim-network-flow-overlay__title">Congratulations!</h1>
-                    <p class="sim-network-flow-overlay__lead">You completed every level.</p>
-                    <p class="sim-network-flow-overlay__lead">Check back soon to see what new levels are available.</p><br>
-                    <button type="button" class="btn btn-primary btn-lg sim-network-flow-overlay__cta" data-action="play-again">Play again</button>
+                    <p class="sim-network-flow-overlay__lead">You completed every level for the <strong>LAN</strong> track.</p>
+                    <p class="sim-network-flow-overlay__lead">WIFI and HYBRID levels <strong>coming soon!</strong></p>
                 </div>
             </div>
             <div id="uiSection-footer" class="ui-section-cell"></div>
@@ -96,7 +108,30 @@ export async function createScene(scene, sceneId) {
         );
     }
 
-    const playAgainBtn = contentEl.querySelector('[data-action="play-again"]');
+    // HUD footer-center buttons (not inside the congratulations card). Build DOM first, then wire clicks.
+    const footerCenter = host.getUIContainerSlot('footer-center');
+    footerCenterBtnEl = document.createElement('div');
+    footerCenterBtnEl.id = 'complete-footer-center-actions';
+    footerCenterBtnEl.innerHTML = `
+        <button type="button" id="complete-skip-dialogue" class="btn btn-neutral btn-lg lg:btn-xl btn-ping invisible" data-action="skip-dialogue">Next</button>
+        <button type="button" id="complete-play-again" class="btn btn-neutral btn-lg lg:btn-xl btn-ping invisible hidden" data-action="play-again">Play again</button>
+    `;
+    footerCenter.appendChild(footerCenterBtnEl);
+
+    const skipDialogueBtn = footerCenterBtnEl.querySelector('[data-action="skip-dialogue"]');
+    skipDialogueBtn?.addEventListener('click', () => {
+        const advanced = advanceActiveTutorialDialogue();
+        console.log(
+            `[sim-network-complete.js]: [N/A] - [skipDialogue] - advanced has a value of ${advanced}.`
+        ); //This is logged when the HUD Next asks the open dialogue line to finish.
+        playSfx(host, 'default-ui-click');
+        playSfx(host, 'default-sys-next');
+    });
+    skipDialogueBtn?.addEventListener('pointerenter', () => {
+        playSfx(host, 'default-ui-hover');
+    });
+
+    const playAgainBtn = footerCenterBtnEl.querySelector('[data-action="play-again"]');
     playAgainBtn?.addEventListener('click', () => {
         console.log(
             `[sim-network-complete.js]: [N/A] - [createScene] - playAgainClicked has a value of true, targetSceneId has a value of 03-level-select, progressKept has a value of true.`
@@ -108,6 +143,9 @@ export async function createScene(scene, sceneId) {
     playAgainBtn?.addEventListener('pointerenter', () => {
         playSfx(host, 'default-ui-hover');
     });
+    console.log(
+        `[sim-network-complete.js]: [N/A] - [createScene] - footerCenterActionsMounted has a value of true, skipWired has a value of ${Boolean(skipDialogueBtn)}, playAgainWired has a value of ${Boolean(playAgainBtn)}.`
+    ); //This is logged when footer-center actions exist in the DOM and both buttons are wired.
 
     console.log(
         `[sim-network-complete.js]: [N/A] - [createScene] - sceneId has a value of ${sceneId}, overlayMounted has a value of true.`
@@ -131,12 +169,32 @@ export async function createScene(scene, sceneId) {
     }
 }
 
+/**
+ * @param {Event} event
+ */
+function onShowDialogueForFanfare(event) {
+    const detail = /** @type {CustomEvent} */ (event).detail ?? {};
+    const contentKey = typeof detail.contentKey === 'string' ? detail.contentKey.trim() : '';
+    console.log(
+        `[sim-network-complete.js]: [N/A] - [onShowDialogueForFanfare] - contentKey has a value of ${contentKey}.`
+    ); //This is logged when a dialogue line opens, so we can see the CEO line start the fanfare.
+    if (contentKey === CEO_FANFARE_KEY) {
+        startCompleteFireworks();
+    }
+}
+
 export function dispose() {
+    window.removeEventListener(SHOW_DIALOGUE_EVENT, onShowDialogueForFanfare);
+    disposeCompleteFireworks();
     const host = globalThis[HOST_KEY];
     if (host && typeof host.disposeActiveSequence === 'function') {
         host.disposeActiveSequence();
     }
     disposeTutorialDialogue();
+    if (footerCenterBtnEl) {
+        footerCenterBtnEl.remove();
+        footerCenterBtnEl = null;
+    }
     if (backdropEl) {
         backdropEl.remove();
         backdropEl = null;

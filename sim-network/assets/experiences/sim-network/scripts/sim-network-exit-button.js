@@ -8,13 +8,23 @@ import { clearCurrentTrackSelection } from './simNetworkSession.js';
 const HOST_KEY = '__XRS_EXPERIENCE_HOST__';
 const EXIT_BUTTON_ID = 'sim-network-exit-button';
 const EXIT_DIALOG_ID = 'sim-network-exit-confirm-dialog';
+/** Narrow width (phone portrait) or short height (phone landscape). Same idea as dialogue compact. */
+const PHONE_SIZE_MQ = '(max-width: 767px), (max-height: 500px)';
+/** Matches EVENTS.DEVICE_BODY_CLASSES_SYNCED in src/utils/eventConstants.js. */
+const DEVICE_BODY_CLASSES_SYNCED = 'deviceBodyClassesSynced';
+const COMPACT_BUTTON_CLASS = 'sim-network-exit-button__btn--compact';
+/** Width, height, padding, and gap the shared button helper adds so the label fits. */
+const LABEL_LAYOUT_CLASSES = ['h-10', 'w-fit', 'min-w-24', 'px-4', 'gap-2'];
 
-/** Default mount: leave in-game map back to level-select. */
+/** Default mount: leave in-game map back to level-select. Callers pass label and icon. */
 const DEFAULT_OPTIONS = {
     targetSceneId: '03-level-select',
     title: 'Leave this level?',
-    message: 'Are you sure you want to go back?',
+    message: 'Progress in this level will not be saved if you leave now. Are you sure? ',
     clearCurrentTrack: true,
+    label: 'EXIT',
+    iconName: '',
+    iconPosition: 'before',
 };
 
 /** @type {HTMLElement | null} */
@@ -25,7 +35,13 @@ let exitDialogApi = null;
 let confirmOpen = false;
 /** @type {(() => void) | null} */
 let removeDialogCloseListener = null;
-/** @type {{ targetSceneId: string, title: string, message: string, clearCurrentTrack: boolean }} */
+/** @type {MediaQueryList | null} */
+let phoneSizeMql = null;
+/** @type {(() => void) | null} */
+let onExitButtonLayoutChange = null;
+/** @type {boolean | null} */
+let exitButtonCompact = null;
+/** @type {{ targetSceneId: string, title: string, message: string, clearCurrentTrack: boolean, label: string, iconName: string, iconPosition: string }} */
 let activeOptions = { ...DEFAULT_OPTIONS };
 
 /**
@@ -52,7 +68,7 @@ function getHost() {
 
 /**
  * @param {object} [options]
- * @returns {{ targetSceneId: string, title: string, message: string, clearCurrentTrack: boolean }}
+ * @returns {{ targetSceneId: string, title: string, message: string, clearCurrentTrack: boolean, label: string, iconName: string, iconPosition: string }}
  */
 function resolveOptions(options = {}) {
     const targetSceneId =
@@ -71,7 +87,16 @@ function resolveOptions(options = {}) {
         options.clearCurrentTrack !== undefined
             ? !!options.clearCurrentTrack
             : DEFAULT_OPTIONS.clearCurrentTrack;
-    return { targetSceneId, title, message, clearCurrentTrack };
+    const label =
+        typeof options.label === 'string' && options.label.trim()
+            ? options.label.trim()
+            : DEFAULT_OPTIONS.label;
+    const iconName =
+        typeof options.iconName === 'string' && options.iconName.trim()
+            ? options.iconName.trim()
+            : DEFAULT_OPTIONS.iconName;
+    const iconPosition = options.iconPosition === 'after' ? 'after' : 'before';
+    return { targetSceneId, title, message, clearCurrentTrack, label, iconName, iconPosition };
 }
 
 function detachDialogCloseListener() {
@@ -177,12 +202,88 @@ function openLeaveConfirmDialog() {
 }
 
 /**
+ * Phone, or a window that is phone-sized. A tablet keeps the words.
+ * @returns {boolean}
+ */
+function shouldUseCompactExitButton() {
+    const body = document.body;
+    if (!(body instanceof HTMLElement)) {
+        return false;
+    }
+    if (body.classList.contains('device-info-type-tablet')) {
+        return false;
+    }
+    if (body.classList.contains('device-info-type-mobile')) {
+        return true;
+    }
+    return Boolean(phoneSizeMql && phoneSizeMql.matches);
+}
+
+/**
+ * Swap btn-lg for btn-md and drop the label padding when the screen is phone-sized.
+ */
+function applyExitButtonLayout() {
+    const innerBtn = exitButtonWrap?.querySelector('button');
+    if (!(innerBtn instanceof HTMLButtonElement)) {
+        return;
+    }
+    const compact = shouldUseCompactExitButton();
+    if (exitButtonCompact === compact) {
+        return;
+    }
+    exitButtonCompact = compact;
+    innerBtn.classList.toggle('btn-lg', !compact);
+    innerBtn.classList.toggle('btn-md', compact);
+    innerBtn.classList.toggle('btn-square', compact);
+    innerBtn.classList.toggle(COMPACT_BUTTON_CLASS, compact);
+    LABEL_LAYOUT_CLASSES.forEach((className) => {
+        innerBtn.classList.toggle(className, !compact);
+    });
+    if (compact) {
+        innerBtn.setAttribute('aria-label', activeOptions.label);
+    } else {
+        innerBtn.removeAttribute('aria-label');
+    }
+    console.log(
+        `[sim-network-exit-button.js]: [N/A] - [applyExitButtonLayout] - compact has a value of ${compact}, sizeClass has a value of ${compact ? 'btn-md' : 'btn-lg'}.`
+    ); //This is logged when the EXIT button switches between the word label and the phone icon-only size.
+}
+
+function bindExitButtonLayout() {
+    phoneSizeMql = window.matchMedia(PHONE_SIZE_MQ);
+    onExitButtonLayoutChange = () => {
+        applyExitButtonLayout();
+    };
+    if (typeof phoneSizeMql.addEventListener === 'function') {
+        phoneSizeMql.addEventListener('change', onExitButtonLayoutChange);
+    }
+    window.addEventListener(DEVICE_BODY_CLASSES_SYNCED, onExitButtonLayoutChange);
+    exitButtonCompact = null;
+    applyExitButtonLayout();
+}
+
+function unbindExitButtonLayout() {
+    if (phoneSizeMql && onExitButtonLayoutChange && typeof phoneSizeMql.removeEventListener === 'function') {
+        phoneSizeMql.removeEventListener('change', onExitButtonLayoutChange);
+    }
+    if (onExitButtonLayoutChange) {
+        window.removeEventListener(DEVICE_BODY_CLASSES_SYNCED, onExitButtonLayoutChange);
+    }
+    phoneSizeMql = null;
+    onExitButtonLayoutChange = null;
+    exitButtonCompact = null;
+}
+
+/**
  * Mount the EXIT button in the top-right header.
  * @param {object} [options]
  * @param {string} [options.targetSceneId='03-level-select'] Scene to open on Yes.
  * @param {string} [options.title='Leave this level?'] Confirm dialog title.
- * @param {string} [options.message='Are you sure you want to go back?'] Confirm dialog body.
+ * @param {string} [options.message] Confirm dialog body. Falls back to the default leave message.
  * @param {boolean} [options.clearCurrentTrack=true] Clear in-progress track before switch (in-game).
+ * @param {string} [options.label='EXIT'] Words on the button.
+ * @param {string} [options.iconName=''] Icon name from icons.js. Empty means no icon.
+ * @param {'before'|'after'} [options.iconPosition='before'] Icon left of the label, or right of it.
  */
 export function initExitButton(options = {}) {
     disposeExitButton();
@@ -200,8 +301,8 @@ export function initExitButton(options = {}) {
     exitButtonWrap = host.button(
         EXIT_BUTTON_ID,
         'neutral',
-        { iconName: '', iconOnly: false, iconPosition: 'before' },
-        { text: 'EXIT', tooltipPosition: 'left' },
+        { iconName: activeOptions.iconName, iconOnly: false, iconPosition: activeOptions.iconPosition },
+        { text: activeOptions.label, tooltipPosition: 'left' },
         () => {
             console.log(
                 `[sim-network-exit-button.js]: [N/A] - [initExitButton] - exitClicked has a value of true, targetSceneId has a value of ${activeOptions.targetSceneId}.`
@@ -215,10 +316,11 @@ export function initExitButton(options = {}) {
         innerBtn.classList.add('sim-network-exit-button__btn');
     }
     headerEnd.appendChild(exitButtonWrap);
+    bindExitButtonLayout();
     ensureExitDialog();
 
     console.log(
-        `[sim-network-exit-button.js]: [N/A] - [initExitButton] - exitButtonMounted has a value of true, targetSceneId has a value of ${activeOptions.targetSceneId}.`
+        `[sim-network-exit-button.js]: [N/A] - [initExitButton] - exitButtonMounted has a value of true, label has a value of ${activeOptions.label}, iconName has a value of ${activeOptions.iconName}, iconPosition has a value of ${activeOptions.iconPosition}, title has a value of ${activeOptions.title}.`
     ); //This is logged when the EXIT button is mounted in the top-right header.
 }
 
@@ -226,6 +328,7 @@ export function initExitButton(options = {}) {
  * Remove EXIT button and confirm dialog (scene / map teardown).
  */
 export function disposeExitButton() {
+    unbindExitButtonLayout();
     detachDialogCloseListener();
     confirmOpen = false;
     activeOptions = { ...DEFAULT_OPTIONS };

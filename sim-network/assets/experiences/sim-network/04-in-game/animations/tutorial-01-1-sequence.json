@@ -1447,6 +1447,13 @@
       "color": "#f5a623",
       "startTime": 40,
       "endTime": 41
+    },
+    {
+      "id": "chapter-6",
+      "label": "Now entering...",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 5
     }
   ],
   "regions": [
@@ -1484,6 +1491,13 @@
       "color": "#4a90d9",
       "startTime": 40,
       "endTime": 41
+    },
+    {
+      "id": "region-6",
+      "label": "LAN: 1-1",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 5
     }
   ]
 }

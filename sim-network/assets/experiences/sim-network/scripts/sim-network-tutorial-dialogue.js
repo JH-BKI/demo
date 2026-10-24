@@ -47,8 +47,8 @@ const EVENT_HIDE_DIALOGUE = 'event:hide-dialogue';
 const DEFAULT_STEP_TYPEWRITER = {
     enabled: true,
     targets: ['body'],
-    charDelayMs: { min: 15, max: 35 },
-    punctuationPauseMs: 40,
+    charDelayMs: { min: 10, max: 30 },
+    punctuationPauseMs: 30,
     startOn: 'open',
     skipOnPanelClick: true,
     skipOnSpace: false,
@@ -87,7 +87,7 @@ const AVATAR_CLIENT_FULL =
 const STEP_CONTENT = {
     'instructions-01': {
         title: 'Trainer:',
-        body: 'Hi! Welcome to sim-network! I\'ll be your trainer today. Let\'s go through what you need to know.',
+        body: 'Hi! Welcome to sim-network! I\'m one of our senior network engineers and also your trainer. Let\'s go through what you need to know.',
         position: 'center',
         look: 'full',
         showActionButton: false,
@@ -100,7 +100,7 @@ const STEP_CONTENT = {
     },
     'instructions-02': {
         title: 'Trainer:',
-        body: 'Read the brief below and click "Next" to continue the orientation.',
+        body: 'Read the brief below and select "Continue" to get started on your first job.',
         position: 'top-center',
         look: 'compact',
         showActionButton: false,
@@ -120,18 +120,6 @@ const STEP_CONTENT = {
         avatarAlt: 'Trainer',
         typewriter: { ...DEFAULT_STEP_TYPEWRITER },
     },
-    'complete-01': {
-        title: 'Trainer:',
-        body: 'Well done! The client just called and they are very happy with the work you have done. You\'re well on your way to becoming a network engineer!',
-        position: 'center',
-        look: 'full',
-        avatar: AVATAR_TRAINER,
-        avatarFull: AVATAR_TRAINER_FULL,
-        avatarAlt: 'Trainer',
-        positionFull: 'top-center',
-        onCompleteEvent: 'event:dialogue-complete-complete-01',
-        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
-    },    
     'level-01-tutorial-01-1': {
         title: 'Trainer:',
         body: 'Time for your first task. Select the router on the left and drop it somewhere in the office.',
@@ -178,8 +166,8 @@ const STEP_CONTENT = {
     },  
     'level-01-tutorial-02-try-again': {
         title: 'Trainer:',
-        body: 'Look\'s like we forgot to connect something, investigate and try again!',
-        position: 'top-center',
+        body: 'Look\'s like we forgot to connect something. The job is not done unless the network is reachable by the internet. Investigate and try again!',
+        position: 'center-left',
         look: 'compact',
         showActionButton: false,
         avatar: AVATAR_TRAINER,
@@ -211,7 +199,7 @@ const STEP_CONTENT = {
     },
     'level-01-tutorial-02-3': {
         title: 'Trainer:',
-        body: 'Great! That device is now connected. Did you notice that the floating connection status has changed?',
+        body: 'Great! That device is now connected. Did you notice that the floating connection status of the router and PC has changed? That means a connection has been made.',
         position: 'top-center',
         look: 'compact',
         showActionButton: false,
@@ -241,24 +229,58 @@ const STEP_CONTENT = {
         avatarFull: AVATAR_TRAINER,
         avatarAlt: 'Trainer',
         typewriter: { ...DEFAULT_STEP_TYPEWRITER },
-    },    
-    'level-01-level-03': {
+    },
+    'level-01-tutorial-03-1': {
         title: 'Trainer:',
-        body: 'Select the ethernet cables on the left. Let\'s connect the comms box and the router by clicking and dragging to lay the ethernet cable.',
-        position: 'center',
+        body: 'Quick recap. Place a router, run ethernet cables, then press Test Connection. Same moves as the last two jobs.',
+        position: 'top-center',
         look: 'compact',
+        showActionButton: false,
         avatar: AVATAR_TRAINER,
-        avatarFull: AVATAR_MANAGER_FULL,
+        avatarFull: AVATAR_TRAINER_FULL,
         avatarAlt: 'Trainer',
         typewriter: { ...DEFAULT_STEP_TYPEWRITER },
     },
-    'level-01-tutorial-04': {
+    'level-01-tutorial-03-2': {
         title: 'Trainer:',
-        body: 'Great work, now let\'s move on to the next task.',
+        body: 'Place a router in this office first. Same as last time.',
+        position: 'top-center',
+        look: 'compact',
+        showActionButton: false,
+        avatar: AVATAR_TRAINER,
+        avatarFull: AVATAR_TRAINER_FULL,
+        avatarAlt: 'Trainer',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },
+    'level-01-tutorial-03-3': {
+        title: 'Trainer:',
+        body: 'This office has more wired devices than one router can hold. A router has 4 ports. A switch has 8. Select the switch and drop it in the office.',
+        position: 'top-center',
+        look: 'compact',
+        showActionButton: false,
+        avatar: AVATAR_TRAINER,
+        avatarFull: AVATAR_TRAINER_FULL,
+        avatarAlt: 'Trainer',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },
+    'level-01-tutorial-03-4': {
+        title: 'Trainer:',
+        body: 'A switch does not replace the router. Run an ethernet cable from the switch to the router, so the extra devices can reach the internet.',
+        position: 'top-center',
+        look: 'compact',
+        showActionButton: false,
+        avatar: AVATAR_TRAINER,
+        avatarFull: AVATAR_TRAINER_FULL,
+        avatarAlt: 'Trainer',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },
+    'level-01-level-04': {
+        title: 'Trainer:',
+        body: 'Okay! For this job, we have many wired devices that need a connection.  You know what to do, go for it!',
         position: 'center',
         look: 'compact',
         avatar: AVATAR_TRAINER,
-        avatarFull: AVATAR_MANAGER_FULL,
+        avatarFull: AVATAR_TRAINER_FULL,
         avatarAlt: 'Trainer',
         typewriter: { ...DEFAULT_STEP_TYPEWRITER },
     },
@@ -296,6 +318,58 @@ const STEP_CONTENT = {
         avatarAlt: 'Trainer',
         typewriter: { ...DEFAULT_STEP_TYPEWRITER },
     },
+    'complete-01': {
+        title: 'Trainer:',
+        body: 'That\'s all jobs successfullly completed! All eNetworks\' office sites are connected and working well. Time to review your work with the CEO.',
+        position: 'center',
+        look: 'full',
+        showActionButton: false,
+        avatar: AVATAR_TRAINER,
+        avatarFull: AVATAR_TRAINER_FULL,
+        avatarAlt: 'Trainer',
+        positionFull: 'top-center',
+        onCompleteEvent: 'event:dialogue-complete-complete-01',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },    
+    'complete-02': {
+        title: 'CEO:',
+        body: 'Hello! I\'m the CEO of Sim-Network. The client just called and they are very happy with the work. I wanted to congratulate you personally on a job well done. YOU\'RE HIRED!',
+        position: 'center',
+        look: 'full',
+        showActionButton: false,
+        avatar: AVATAR_CLIENT,
+        avatarFull: AVATAR_CLIENT_FULL,
+        avatarAlt: 'CEO',
+        positionFull: 'top-center',
+        onCompleteEvent: 'event:dialogue-complete-complete-02',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },
+    'complete-03': {
+        title: 'Trainer:',
+        body: 'Welcome to the team! I\'m looking forward to working with you.',
+        position: 'top-center',
+        look: 'compact',
+        showActionButton: false,
+        avatar: AVATAR_TRAINER,
+        avatarFull: AVATAR_TRAINER_FULL,
+        avatarAlt: 'Trainer',
+        positionFull: 'top-center',
+        onCompleteEvent: 'event:dialogue-complete-complete-03',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    },    
+    'complete-04': {
+        title: 'CEO:',
+        body: 'You\'re going to be a great asset to Sim-Network. Keep up the good work and you\'ll be a senior network engineer in no time!',
+        position: 'top-center',
+        look: 'compact',
+        showActionButton: false,
+        avatar: AVATAR_CLIENT,
+        avatarFull: AVATAR_CLIENT_FULL,
+        avatarAlt: 'CEO',
+        positionFull: 'top-center',
+        onCompleteEvent: 'event:dialogue-complete-complete-04',
+        typewriter: { ...DEFAULT_STEP_TYPEWRITER },
+    }       
 };
 
 /**
@@ -544,6 +618,23 @@ export async function showTutorialDialogue(contentKey) {
  */
 export async function hideTutorialDialogue() {
     await hideDialoguePanel();
+}
+
+/**
+ * Finish the open line and fire that line's own completion event.
+ * One footer Next button can advance the trainer line, then the CEO line.
+ * @returns {boolean}
+ */
+export function advanceActiveTutorialDialogue() {
+    const ready = Boolean(dialogue?.isOpen() && typeof dialogue.advance === 'function');
+    console.log(
+        `[sim-network-tutorial-dialogue.js]: [N/A] - [advanceActiveTutorialDialogue] - ready has a value of ${ready}, activeContentKey has a value of ${activeContentKey}.`
+    ); //This is logged when a footer Next click asks the open dialogue line to finish.
+    if (!ready) {
+        return false;
+    }
+    dialogue.advance();
+    return true;
 }
 
 /**

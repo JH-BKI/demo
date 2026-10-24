@@ -1784,6 +1784,13 @@
       "color": "#f5a623",
       "startTime": 45,
       "endTime": 54.5
+    },
+    {
+      "id": "chapter-7",
+      "label": "Now entering...",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 5
     }
   ],
   "regions": [
@@ -1828,6 +1835,13 @@
       "color": "#4a90d9",
       "startTime": 45,
       "endTime": 54.5
+    },
+    {
+      "id": "region-7",
+      "label": "LAN: 1-2",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 5
     }
   ],
   "rowOrder": [
