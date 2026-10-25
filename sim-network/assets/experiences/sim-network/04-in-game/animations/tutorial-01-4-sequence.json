@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "framePerSecond": 60,
+  "experience": "cyber-c2",
+  "scene": "sim-network",
+  "autoPlay": false,
+  "items": [
+    {
+      "type": "emit",
+      "id": "emit-1",
+      "time": 1,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-level-04",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-level-04"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-2",
+      "time": 11.5,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "wait",
+      "id": "gate-1",
+      "time": 40,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "Wait for network test pass",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-3",
+      "time": 40.1,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-4",
+      "time": 40.1,
+      "event": "hudControl",
+      "label": "hide test ping",
+      "subLane": 1,
+      "detail": {
+        "action": "hidePing",
+        "selector": ".sim-network-test-control__btn"
+      }
+    },
+    {
+      "type": "wait",
+      "id": "gate-2",
+      "time": 43.4,
+      "trigger": {
+        "kind": "event",
+        "name": "event:continue-animation"
+      },
+      "label": "End of timeline",
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-5",
+      "time": 45,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-6",
+      "time": 46,
+      "event": "event:show-dialogue",
+      "label": "show-step-level-01-tutorial-02-try-again",
+      "subLane": 0,
+      "detail": {
+        "contentKey": "level-01-tutorial-02-try-again"
+      }
+    },
+    {
+      "type": "emit",
+      "id": "emit-7",
+      "time": 54.5,
+      "event": "event:replay-from-seconds",
+      "label": "jump back to network test",
+      "detail": {
+        "seconds": 30.9
+      },
+      "subLane": 1
+    },
+    {
+      "type": "emit",
+      "id": "emit-8",
+      "time": 54,
+      "event": "event:hide-dialogue",
+      "label": "hide-dialogue",
+      "subLane": 0,
+      "detail": {}
+    },
+    {
+      "type": "emit",
+      "id": "emit-9",
+      "time": 0.5,
+      "event": "event:tutorial-arm-goal",
+      "label": "arm-network-test-pass-fail",
+      "subLane": 1,
+      "detail": {
+        "type": "networkTest",
+        "outcomes": [
+          {
+            "result": "pass",
+            "timeSkip": 40
+          },
+          {
+            "result": "fail",
+            "timeSkip": 45
+          }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "label": "Go for it!",
+      "color": "#f5a623",
+      "endTime": 15,
+      "id": "chapter-1",
+      "startTime": 12
+    },
+    {
+      "label": "Job Completed!",
+      "color": "#f5a623",
+      "endTime": 43.5,
+      "id": "chapter-2",
+      "startTime": 40
+    },
+    {
+      "id": "chapter-3",
+      "label": "Testing for connectivity",
+      "color": "#f5a623",
+      "startTime": 45,
+      "endTime": 54.5
+    },
+    {
+      "id": "chapter-4",
+      "label": "Now entering...",
+      "color": "#f5a623",
+      "startTime": 0,
+      "endTime": 5
+    }
+  ],
+  "regions": [
+    {
+      "label": "Connect all devices correctly.",
+      "color": "#4a90d9",
+      "endTime": 15,
+      "id": "region-1",
+      "startTime": 12
+    },
+    {
+      "label": "Let's continue...",
+      "color": "#4a90d9",
+      "endTime": 43.5,
+      "id": "region-2",
+      "startTime": 40
+    },
+    {
+      "id": "region-3",
+      "label": "Try again...",
+      "color": "#4a90d9",
+      "startTime": 45,
+      "endTime": 54.5
+    },
+    {
+      "id": "region-4",
+      "label": "LAN: 1-4",
+      "color": "#4a90d9",
+      "startTime": 0,
+      "endTime": 5
+    }
+  ],
+  "rowOrder": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
+}

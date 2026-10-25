@@ -35,7 +35,7 @@
           "kind": "level",
           "title": "1-4",
           "url": "./assets/experiences/sim-network/layouts/1-4-level.json",
-          "sequenceFileName": "level-01-4-sequence.json"
+          "sequenceFileName": "tutorial-01-4-sequence.json"
         }
       ]
     },

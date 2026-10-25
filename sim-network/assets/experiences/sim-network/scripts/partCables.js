@@ -35,7 +35,6 @@ import {
     unlockSimNetworkCamera,
     TOOL_CAMERA_DRAG_SLOP_PX,
 } from './partCamera.js';
-import { SpatialLabel } from '../../../../../src/core/spatial/spatialLabel.js';
 import { notifyTutorialAction } from './sim-network-tutorial-coach.js';
 import {
     disposeCableFlowFx,
@@ -2576,8 +2575,8 @@ let testHudHomeTextEl = null;
 let testHudHomeTallyEl = null;
 /** @type {HTMLElement | null} */
 let testHudHomeDotEl = null;
-/** Runtime number badges. Not scene-JSON annotations. */
-/** @type {SpatialLabel[]} */
+/** Runtime number badges from host.SpatialLabel. Not scene-JSON annotations. */
+/** @type {object[]} */
 let testHudNumberLabels = [];
 /**
  * Meshes tinted for the open Test result (fail red / connected blue).
@@ -2605,6 +2604,7 @@ function getNetworkTestHost() {
         typeof host.Color3 !== 'function' ||
         typeof host.dispatchAppEvent !== 'function' ||
         typeof host.button !== 'function' ||
+        typeof host.SpatialLabel !== 'function' ||
         !host.EVENTS?.RESET_3D_VIEW
     ) {
         throw new Error(
@@ -4012,7 +4012,7 @@ function showNetworkTestNumberBadges(entries) {
         }
         const connected = entry.connected === true;
         const fill = connected ? NETWORK_TEST_BADGE_CONNECTED_HEX : NETWORK_TEST_BADGE_FAIL_HEX;
-        const label = new SpatialLabel(
+        const label = new host.SpatialLabel(
             boundScene,
             `simnetHudNum_${entry.stamp.stampId}`,
             String(entry.number),
